@@ -34,6 +34,7 @@ export const CardLogin: React.FC<CardLoginProps> = ({ onLogin }) => {
                         name: 'username',
                         label: 'Nombre de Usuario',
                         bclass:'form-control',
+                        placeholder:'Nombre de usuario',
                         value: formData.username, // Establece el valor de username desde el estado formData
                         onChange: (value) => handleInputChange('username', value), // Maneja los cambios en el username
                     },
@@ -41,6 +42,7 @@ export const CardLogin: React.FC<CardLoginProps> = ({ onLogin }) => {
                         name: 'password',
                         label: 'Contraseña',
                         bclass:'form-control',
+                        placeholder:'Contraseña',
                         type:'password',
                         value: formData.password, // Establece el valor de password desde el estado formData
                         onChange: (value) => handleInputChange('password', value), // Maneja los cambios en el password

@@ -6,6 +6,7 @@ interface FormField<T> {
     label?: string; // Hacemos el label opcional
     type?: string;
     bclass?: string;
+    placeholder?:string;
     value: T;
     onChange: (value: T) => void;
 }
@@ -25,7 +26,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ fields, onSubmit }) =>
         <form onSubmit={handleSubmit}>
             <div className='mb-3'>
                 {fields.map((field) => (
-                    <Input key={field.name} {...field} bclass={field.bclass} label={field.label} type={field.type} />
+                    <Input key={field.name} {...field} bclass={field.bclass} label={field.label} type={field.type} placeholder={field.placeholder} />
                 ))}
             </div>
 
