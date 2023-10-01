@@ -4,7 +4,7 @@ import { CardLogin } from "../components/CardLogin";
 export const Register = () => {
   return (
     <div>
-      <CardLogin></CardLogin>
+      <h1>cdd</h1>
     </div>
   );
 }
