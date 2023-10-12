@@ -1,22 +1,22 @@
-import { useContext } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AlertContext } from '../context/AlertContext';
 import { useLoader } from './../hooks/useLoader';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { ApiErrorResponse } from './../interfaces/AuthInterface';
+import { ApiErrorResponse, AuthInterface } from './../interfaces/AuthInterface';
 import { useAuth } from './../context/AuthContext';
 import { Endpoints } from './routes';
 
 export const useRequest = () => {
-  const { addAlert } = useContext(AlertContext);
-  const { isLoading, showLoader, hideLoader } = useLoader();
+  //const { addAlert } = useContext(AlertContext);
+  const {  showLoader, hideLoader } = useLoader();
 
   //#region AxiosConfig
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isAuthenticated, login, logout, token } = useAuth();
   // Create an axios instance for the token endpoint
   const ApiTokenRequest = axios.create({
-    baseURL: Endpoints.BaseURL + Endpoints.Api,
+    baseURL: Endpoints.BaseURL + Endpoints.Api+Endpoints.login,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -73,6 +73,7 @@ export const useRequest = () => {
     data?: object,
     params?: object
   ): Promise<T> => {
+    console.log('post??')
     showLoader()
     return await ApiRequest.post(endpoint, data, { params })
       .then(({ data }: AxiosResponse<T>) => data)
@@ -86,15 +87,17 @@ export const useRequest = () => {
   };
 
   const postRequestToken = async <T extends unknown>(
-    data: string
+    data: AuthInterface
   ): Promise<T> => {
     showLoader();
-    return await ApiTokenRequest.request({
+    return await ApiTokenRequest.request({ 
       data,
     })
-      .then(({ data }: AxiosResponse<T>) => data)
+      .then(({ data }: AxiosResponse<T>) => {
+        console.log(data);
+        return data;
+      })
       .catch((error: AxiosError<ApiErrorResponse>) => {
-        //ShowAlertApiError(error);
         console.log(JSON.stringify(error, null, 3));
         throw error;
       })

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Input } from './InputCustom';
 import { Card } from './Card';
 import { GenericForm } from './Form';
 

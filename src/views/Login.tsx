@@ -5,20 +5,24 @@ import { AlertContext, AlertType } from '../context/AlertContext';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Alert  } from '../context/Alerts/AlertComponent';
 import { useLoader } from '../hooks/useLoader';
+import { useRequest } from '../api/UseRequest';
+import { TokenResponse } from '../interfaces/AuthInterface';
 
 export const Login = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { addAlert } = useContext(AlertContext); // Accede al contexto de alertas
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isLoading, showLoader, hideLoader } = useLoader();
-  const handleLogin = (username: string, password: string) => {
-    // Realiza la lógica de autenticación aquí, por ejemplo:
-    if (username === 'admin' && password === '123') {
-      /* addAlert(AlertType.SUCCESS, 'Inicio de sesión exitoso'); */
-      //alert('Inicio de sesión exitoso');
+  const { postRequestToken } = useRequest();
+  const handleLogin = async (username: string, password: string) => {
+    try {
+      const response = await postRequestToken<TokenResponse>({ username, password });
+      console.log(response.access_token);
+      // addAlert(AlertType.SUCCESS, 'Inicio de sesión exitoso');
       showLoader();
-    } else {
-      alert('Nombre de usuario o contraseña incorrectos');
+    } catch (error) {
+      console.error(error);
+      alert(error);
     }
   };
   return (

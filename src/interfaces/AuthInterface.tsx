@@ -1,6 +1,6 @@
 export interface AuthInterface {
-    Username: string;
-    Password: string
+    username: string;
+    password: string
 }
 export interface TokenResponse {
     access_token: string;

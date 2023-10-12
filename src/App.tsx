@@ -10,7 +10,6 @@ import { Register } from './views/Register';
 const App: React.FC = () => {
   return (
     <Router>
-      <h1>Menu  component</h1>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/auth/login" element={<Login />} />

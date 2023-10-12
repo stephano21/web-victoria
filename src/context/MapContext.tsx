@@ -47,12 +47,13 @@ export const GoogleMapsProvider: React.FC<GoogleMapsProviderProps> = ({
             setMap(googleMap);
         }
     };
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
     useEffect(() => {
         document.addEventListener('DOMContentLoaded', initMap);
         return () => {
             document.removeEventListener('DOMContentLoaded', initMap);
         };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     }, []);
 
     return (
