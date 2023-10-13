@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { AuthProvider } from './context/AuthContext';
-import { GoogleMapsProvider } from './context/MapContext';
-import { LoaderProvider } from './context/LoaderContext';
-import { AlertProvider } from './context/Alerts/AlertProvider';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
+import { GoogleMapsProvider } from "./context/MapContext";
+import { LoaderProvider } from "./context/LoaderContext";
+import { AlertProvider } from "./context/Alerts/AlertProvider";
 ReactDOM.render(
   <React.StrictMode>
     <LoaderProvider>
@@ -13,13 +13,13 @@ ReactDOM.render(
           <GoogleMapsProvider
             containerId="map-container"
             initialCoordinates={{ lat: 0, lng: 0 }}
-            initialZoom={8}>
+            initialZoom={8}
+          >
             <App />
           </GoogleMapsProvider>
         </AuthProvider>
       </AlertProvider>
     </LoaderProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-

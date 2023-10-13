@@ -1,33 +1,39 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 // Definir la forma del contexto
-interface AuthContextType {
+interface AuthContextProps {
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
-  token: string|null;
+  token: string;
 }
 
 // Crear el contexto de autenticación
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext({} as AuthContextProps);
 
 // Hook personalizado para acceder al contexto
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth debe usarse dentro de un AuthProvider');
+    throw new Error("useAuth debe usarse dentro de un AuthProvider");
   }
   return context;
 };
 
 // Componente proveedor del contexto
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>("");
 
   // Almacenar y verificar el token en el estado local
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
       setIsAuthenticated(true);
@@ -35,14 +41,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = (newToken: string) => {
-    localStorage.setItem('token', newToken);
+    localStorage.setItem("token", newToken);
     setToken(newToken);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
+    localStorage.removeItem("token");
+    setToken("");
     setIsAuthenticated(false);
   };
 

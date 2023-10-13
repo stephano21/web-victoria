@@ -1,7 +1,7 @@
-import React from 'react';
-import BaseLayout from '../components/BaseLayout';
+import React from "react";
+import BaseLayout from "../components/BaseLayout";
 
-export const Home: React.FC = () => {
+export const Home = () => {
   return (
     <BaseLayout>
       <div>

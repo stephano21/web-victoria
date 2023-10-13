@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import { CardLogin } from "../components/CardLogin";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AlertContext, AlertType } from '../context/AlertContext';
+import { AlertContext, AlertType } from "../context/AlertContext";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Alert  } from '../context/Alerts/AlertComponent';
-import { useLoader } from '../hooks/useLoader';
-import { useRequest } from '../api/UseRequest';
-import { TokenResponse } from '../interfaces/AuthInterface';
+import { Alert } from "../context/Alerts/AlertComponent";
+import { useLoader } from "../hooks/useLoader";
+import { useRequest } from "../api/UseRequest";
+import { TokenResponse } from "../interfaces/AuthInterface";
 
 export const Login = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,7 +16,10 @@ export const Login = () => {
   const { postRequestToken } = useRequest();
   const handleLogin = async (username: string, password: string) => {
     try {
-      const response = await postRequestToken<TokenResponse>({ username, password });
+      const response = await postRequestToken<TokenResponse>({
+        username,
+        password,
+      });
       console.log(response.access_token);
       // addAlert(AlertType.SUCCESS, 'Inicio de sesión exitoso');
       showLoader();
@@ -30,4 +33,4 @@ export const Login = () => {
       <CardLogin onLogin={handleLogin}></CardLogin>
     </div>
   );
-}
+};

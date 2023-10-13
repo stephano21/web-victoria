@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { Login } from './views/Login';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { Login } from "./views/Login";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import PolygonCreator from './components/PoligonCreator';
-import { Register } from './views/Register';
-import { useAuth } from './context/AuthContext';
-import { Home } from './views/Home';
+import { PolygonCreator } from "./components/PoligonCreator";
+import { Register } from "./views/Register";
+import { useAuth } from "./context/AuthContext";
+import { Home } from "./views/Home";
 
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
