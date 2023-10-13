@@ -4,7 +4,7 @@ interface CardProps {
   children: JSX.Element | JSX.Element[];
   footer: string | JSX.Element | JSX.Element[] | null;
 }
-export const Card: React.FC<CardProps> = ({ title, children, footer }) => {
+export const Card = ({ title, children, footer }: CardProps) => {
   return (
     <div className="card">
       {title && (
