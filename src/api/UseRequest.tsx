@@ -3,7 +3,7 @@ import { AlertContext } from '../context/AlertContext';
 import { useLoader } from './../hooks/useLoader';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { ApiErrorResponse, AuthInterface } from './../interfaces/AuthInterface';
+import { ApiErrorResponse, AuthInterface, TokenResponse } from './../interfaces/AuthInterface';
 import { useAuth } from './../context/AuthContext';
 import { Endpoints } from './routes';
 
@@ -86,7 +86,7 @@ export const useRequest = () => {
       });
   };
 
-  const postRequestToken = async <T extends unknown>(
+  const postRequestToken = async <T extends TokenResponse>(
     data: AuthInterface
   ): Promise<T> => {
     showLoader();
@@ -94,6 +94,7 @@ export const useRequest = () => {
       data,
     })
       .then(({ data }: AxiosResponse<T>) => {
+        login(data.access_token);
         console.log(data);
         return data;
       })
