@@ -26,7 +26,7 @@ const App: React.FC = () => {
   if (!isReady) {
     return null;
   }
-
+  console.log(isAuthenticated)
   return (
     <>
       <Router>
@@ -35,17 +35,18 @@ const App: React.FC = () => {
             <>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/cat/lotes" element={<PolygonCreator />} />
-              <Route path="/auth/login" element={<Login />} />
-              <Route path="/auth/register" element={<Register />} />
+              <Route path="/catalogos/lotes" element={<PolygonCreator />} />
+              <Route path="*" element={<Navigate to="/home" />} />
             </>
           ) : (
             <>
               <Route path="/" element={<Navigate to="/auth/login" />} />
               <Route path="/auth/login" element={<Login />} />
-              <Route path="*" element={<p>Not found</p>} />
+            <Route path="/auth/register" element={<Register />} />
+              <Route path="*" element={<Navigate to="/auth/login" />} />
             </>
           )}
+          <Route path="*" element={<p>La ruta no existe</p>} />
         </Routes>
       </Router>
     </>

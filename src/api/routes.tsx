@@ -1,6 +1,6 @@
 export const Endpoints = {
-  BaseURL: "https://victoria-api.up.railway.app",
-  //BaseURL: 'https://c97c-157-100-158-182.ngrok-free.app',
+  //BaseURL: "https://victoria-api.up.railway.app",
+  BaseURL: 'https://c97c-157-100-158-182.ngrok-free.app',
   //BaseURL:'https://conautec.conauto.com.ec:444',
   Api: "/api",
   login: "/auth/login/",

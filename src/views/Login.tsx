@@ -21,15 +21,15 @@ export const Login = () => {
         password,
       });
       console.log(response.access_token);
-      // addAlert(AlertType.SUCCESS, 'Inicio de sesión exitoso');
-      showLoader();
+      hideLoader();
+      window.location.href = '/home';
     } catch (error) {
       console.error(error);
       alert(error);
     }
   };
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       <CardLogin onLogin={handleLogin}></CardLogin>
     </div>
   );

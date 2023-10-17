@@ -34,11 +34,13 @@ export const GenericForm = ({ fields, onSubmit }: GenericFormProps) => {
           />
         ))}
       </div>
+      <div className="row">
 
-      <button type="submit" className="btn btn-primary">
-        {" "}
-        <i className="bi bi-send"> </i>Enviar
-      </button>
+        <button type="submit" className="btn btn-primary">
+          {" "}
+          <i className="bi bi-send"> </i>Enviar
+        </button>
+      </div>
     </form>
   );
 };
