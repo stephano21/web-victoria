@@ -24,7 +24,7 @@ export const PolygonCreator = () => {
         google.maps.event.clearInstanceListeners(map);
       }
     };
-  }, []); // Replace YOUR_GOOGLE_MAPS_API_KEY with your actual API key
+  });
 
   const initMap = () => {
     const point = { lat: -2.3300533218811643, lng: -80.20984100719394 };
@@ -36,11 +36,11 @@ export const PolygonCreator = () => {
       })
     );
 
-    const marker = new google.maps.Marker({
-      position: point,
-      map: map ? map : undefined, // Use conditional check for map
-      title: "¡Aquí estoy!",
-    });
+    // const marker = new google.maps.Marker({
+    //   position: point,
+    //   map: map ? map : undefined, // Use conditional check for map
+    //   title: "¡Aquí estoy!",
+    // });
 
     drawingManagerRef.current = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.POLYGON,

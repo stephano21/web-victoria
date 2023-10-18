@@ -1,4 +1,4 @@
-import React , { ChangeEvent, ReactNode } from "react"; 
+import React, { ChangeEvent, ReactNode } from "react";
 interface InputProps<T extends string | number> {
   type?: string;
   bclass?: string;

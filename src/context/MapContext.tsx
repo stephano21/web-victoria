@@ -1,4 +1,3 @@
-// GoogleMapsContext.tsx
 import React, {
   ReactNode,
   createContext,
@@ -7,13 +6,11 @@ import React, {
   useState,
 } from "react";
 
-// Definir la forma del contexto
 interface MapContextProps {
   map: google.maps.Map | null;
   initMap: () => void;
 }
 
-// Crear el contexto de Google Maps
 export const MapContext = createContext({} as MapContextProps);
 
 // Hook personalizado para acceder al contexto
@@ -63,7 +60,7 @@ export const GoogleMapsProvider: React.FC<GoogleMapsProviderProps> = ({
       document.removeEventListener("DOMContentLoaded", initMap);
     };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  }, []);
+  });
 
   return (
     <MapContext.Provider value={{ map, initMap }}>
