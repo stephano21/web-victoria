@@ -1,36 +1,50 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CardLogin } from "../components/CardLogin";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AlertContext, AlertType } from "../context/AlertContext";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Alert } from "../context/Alerts/AlertComponent";
-import { useLoader } from "../hooks/useLoader";
 import { useRequest } from "../api/UseRequest";
-import { TokenResponse } from "../interfaces/AuthInterface";
+import {  TokenResponse } from "../interfaces/AuthInterface";
+import { Endpoints } from "../api/routes";
+import { useAuth } from "./../context/AuthContext";
+
+
+
 
 export const Login = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { addAlert } = useContext(AlertContext); // Accede al contexto de alertas
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { isLoading, showLoader, hideLoader } = useLoader();
-  const { postRequestToken } = useRequest();
-  const handleLogin = async (username: string, password: string) => {
-    try {
-      const response = await postRequestToken<TokenResponse>({
+  const {  postRequest } = useRequest();
+  const { login } = useAuth();
+
+
+  const Login = async (username: string, password: string) => {
+    await postRequest<TokenResponse>(Endpoints.login, {
         username,
         password,
-      });
-      console.log(response.access_token);
-      hideLoader();
-      window.location.href = '/home';
-    } catch (error) {
-      console.error(error);
-      alert(error);
-    }
+      }).then((e) => {
+        login(e.access_token);
+        console.log(e)}).catch((error) => console.log(error))
   };
+
+  const isLogin = (username: string, password: string) => {
+    Login(username, password).then(() => 
+      window.location.href = '/home', 
+   )
+  }
+
+
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <CardLogin onLogin={handleLogin}></CardLogin>
+    <div style={{ 
+        display: "flex", 
+        flex: 1,
+        justifyContent: "center", 
+        alignItems: "center", 
+        height: "100vh",
+        backgroundImage: "conic-gradient(at center top, rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237))" 
+        //"linear-gradient(to right, rgb(16, 185, 129), rgb(101, 163, 13))"
+        //"linear-gradient(to right, #92fe9d, #00c9ff)"
+      }}>
+      <CardLogin onLogin={isLogin}></CardLogin>
     </div>
   );
-};
+
+}
+

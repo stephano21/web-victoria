@@ -19,7 +19,7 @@ export const useRequest = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-  const { isAuthenticated, login, logout, token } = useAuth();
+  const {  login,  token } = useAuth();
   // Create an axios instance for the token endpoint
   const ApiTokenRequest = axios.create({
     baseURL: Endpoints.BaseURL + Endpoints.Api + Endpoints.login,

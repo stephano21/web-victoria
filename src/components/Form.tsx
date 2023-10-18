@@ -38,7 +38,7 @@ export const GenericForm = ({ fields, onSubmit }: GenericFormProps) => {
 
         <button type="submit" className="btn btn-primary">
           {" "}
-          <i className="bi bi-send"> </i>Enviar
+          <i className="bi bi-rocket-takeoff"></i> Enviar
         </button>
       </div>
     </form>
