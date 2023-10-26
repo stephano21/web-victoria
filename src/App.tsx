@@ -14,6 +14,7 @@ import { PolygonCreator } from "./components/PoligonCreator";
 import { Register } from "./views/Register";
 import { useAuth } from "./context/AuthContext";
 import { Home } from "./views/Home";
+import { Likes } from "./views/Likes";
 
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -42,8 +43,10 @@ const App: React.FC = () => {
             <>
               <Route path="/" element={<Navigate to="/auth/login" />} />
               <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/register" element={<Register />} />
+              <Route path="/auth/register" element={<Register />} />
+              <Route path="/uae/likes" element={<Likes/>} />
               <Route path="*" element={<Navigate to="/auth/login" />} />
+              
             </>
           )}
           <Route path="*" element={<p>La ruta no existe</p>} />
