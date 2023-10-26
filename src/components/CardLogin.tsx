@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card } from "./Card";
 import { GenericForm } from "./Form";
+import logo from './../assets/logo.png';
 
 interface CardLoginProps {
   onLogin: (username: string, password: string) => void;
@@ -23,7 +24,7 @@ export const CardLogin = ({ onLogin }: CardLoginProps) => {
     });
   };
   return (
-    <Card title="Iniciar Sesión" footer={null}>
+    <Card title="Iniciar Sesión" footer={null} image={logo}>
       <GenericForm
         fields={[
           {
