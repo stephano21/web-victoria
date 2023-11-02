@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { VideoLikes } from "../components/youtube";
 import { Card } from '../components/Card';
 import Container from 'react-bootstrap/Container';
 import { Col, Row } from "react-bootstrap";
 
-//envv config
 
 export const Likes = () => {
-  const apiKey = process.env.GOOGLE_API; //|| 'AIzaSyA0Ux4xHHWnNE0AcXXsmb1y-nzzoF4OMNY'; //process.env.GOOGLE_API ||"";
+  const apiKey = process.env.GOOGLE_API;
   interface Video{
     videoId:string ;
     Nombre:string ;
@@ -25,16 +24,13 @@ export const Likes = () => {
     { videoId: "T2aRn-PdL4A", Nombre:"Grupo 9", Enlace:"https://www.youtube.com/watch?v=T2aRn-PdL4A"},
     { videoId: 'wZ52KRH9vy8&t=11s', Nombre: "Grupo 10", Enlace: "https://www.youtube.com/watch?v=wZ52KRH9vy8&t=11s" },
   ];
-
- 
-
   return (
       <Container>
         <Row>
           {Videos.map((video) => (
             <Col>
               <Card title={video.Nombre}
-                footer={<a className="btn-primary" href={video.Enlace} target="_blank">Ver video</a>}
+                footer={<a className="btn-primary" href={video.Enlace} target="_blank" rel="noreferrer" >Ver video</a>}
                 image={null} key={video.videoId}>
                 <VideoLikes videoId={video.videoId} apiKey={apiKey} />
               </Card>

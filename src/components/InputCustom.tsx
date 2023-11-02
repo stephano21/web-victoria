@@ -38,23 +38,55 @@ export function Input<T>({
 
   return (
     <div>
-      {label && <label className="form-label">{label}</label>}
-      <input
-        className={bclass || ""}
-        type={type === "password" && showPassword ? "text" : type || ""}
-        placeholder={placeholder || ""}
-        value={value === undefined ? "" : value}
-        onChange={handleChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-      />
-      {type === "password" && (
-        <div className="password-toggle" onClick={handleTogglePassword}>
-          {showPassword ? <i className="bi bi-eye-slash"></i>: <i className="bi bi-eye-fill"></i>}
+      {type === "checkbox" ? (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <input
+            id="checkbox"
+            className={bclass || ""}
+            type="checkbox"
+            placeholder={placeholder || ""}
+            value={value === undefined ? "" : value}
+            onChange={handleChange}
+            onBlur={onBlur}
+            onFocus={onFocus}
+          />
+          {label && <label style={{ marginLeft: "5px" }} htmlFor="checkbox">{label}</label>}
         </div>
+      ) : (
+        <>
+          {label && <label className="form-label">{label}</label>}
+          {type === "password" ? (
+            <div style={{ display: "flex" }}>
+              <input
+                className={bclass || ""}
+                type={showPassword ? "text" : "password"}
+                placeholder={placeholder || ""}
+                value={value === undefined ? "" : value}
+                onChange={handleChange}
+                onBlur={onBlur}
+                onFocus={onFocus}
+              />
+              <div className="password-toggle" onClick={handleTogglePassword}>
+                {showPassword ? (
+                  <i className="bi bi-eye-slash"></i>
+                ) : (
+                  <i className="bi bi-eye-fill"></i>
+                )}
+              </div>
+            </div>
+          ) : (
+            <input
+              className={bclass || ""}
+              type={type || ""}
+              placeholder={placeholder || ""}
+              value={value === undefined ? "" : value}
+              onChange={handleChange}
+              onBlur={onBlur}
+              onFocus={onFocus}
+            />
+          )}
+        </>
       )}
     </div>
   );
 }
-
-//export default Input;

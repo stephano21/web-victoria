@@ -6,6 +6,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import Accordion from 'react-bootstrap/Accordion';
+import ListGroup from 'react-bootstrap/ListGroup';
 //Auth
 import { useAuth } from "./../context/AuthContext";
 interface BaseLayoutProps {
@@ -60,22 +62,63 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 Link
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+
             <Offcanvas show={show} onHide={handleClose}>
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Title>Plant Trace</Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                Some text as placeholder. In real life you can have the elements
-                you have chosen. Like, text, images, lists, etc.
+                <Accordion>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header><i className="bi bi-cloud-lightning-rain"></i> &nbsp; Clima</Accordion.Header>
+                    <Accordion.Body>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>
+                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/catalogos/lotes"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Cultivo</Accordion.Header>
+                    <Accordion.Body>
+                      <ListGroup variant="flush">
+                        <ListGroup.Item>
+                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/catalogos/lotes"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="2">
+                    <Accordion.Header><i className="bi bi-graph-up-arrow"></i> &nbsp;Estimaciones</Accordion.Header>
+                    <Accordion.Body>
+                    <ListGroup variant="flush">
+                    <ListGroup.Item>
+                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="3">
+                    <Accordion.Header><i className="bi bi-person-gear"></i> &nbsp;Administrador</Accordion.Header>
+                    <Accordion.Body>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>
+                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
               </Offcanvas.Body>
             </Offcanvas>
           </Navbar.Collapse>

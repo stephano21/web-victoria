@@ -8,7 +8,7 @@ interface CardProps {
 }
 export const Card = ({ title, children, footer, image }: CardProps) => {
   return (
-    <div className="card" style={{ width: "20rem" }}>
+    <div className="card" style={{ width: "28rem" }}>
       {title && (
         <div className="card-header d-flex flex-column justify-content-center align-items-center">
           <h5 className="card-title text-center">{title}</h5>
