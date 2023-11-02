@@ -3,7 +3,7 @@ import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 interface VideoLikesProps {
   videoId: string;
-  apiKey: string;
+  apiKey?: string|null;
 }
 
 export const VideoLikes: React.FC<VideoLikesProps> = ({ videoId, apiKey }) => {

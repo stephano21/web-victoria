@@ -7,7 +7,7 @@ import { Col, Row } from "react-bootstrap";
 //envv config
 
 export const Likes = () => {
-  const apiKey = process.env.GOOGLE_API || 'AIzaSyA0Ux4xHHWnNE0AcXXsmb1y-nzzoF4OMNY'; //process.env.GOOGLE_API ||"";
+  const apiKey = process.env.GOOGLE_API; //|| 'AIzaSyA0Ux4xHHWnNE0AcXXsmb1y-nzzoF4OMNY'; //process.env.GOOGLE_API ||"";
   interface Video{
     videoId:string ;
     Nombre:string ;
