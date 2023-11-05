@@ -202,6 +202,10 @@ export const PolygonCreator = () => {
     }
   };
 
+  const handleError = (error: ErrorEvent) => {
+    console.error("Script error:", error);
+  };
+
   return (
     <div>
       <div className="color-picker">

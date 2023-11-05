@@ -3,10 +3,9 @@ import { VideoLikes } from "../components/youtube";
 import { Card } from '../components/Card';
 import Container from 'react-bootstrap/Container';
 import { Col, Row } from "react-bootstrap";
-
-
 export const Likes = () => {
-  const apiKey = process.env.GOOGLE_API;
+
+  const apiKey = process.env.REACT_APP_GOOGLE_API;
   interface Video{
     videoId:string ;
     Nombre:string ;

@@ -1,7 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -65,7 +63,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
 
             <Offcanvas show={show} onHide={handleClose}>
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Plant Trace</Offcanvas.Title>
+                <Offcanvas.Title>Jazz App</Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Accordion>
@@ -74,11 +72,9 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     <Accordion.Body>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
+                          <Nav.Link href="/clima/sincronizar"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
                         </ListGroup.Item>
-                        <ListGroup.Item>
-                          <Nav.Link href="/catalogos/lotes"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
-                        </ListGroup.Item>
+                       
                       </ListGroup>
                     </Accordion.Body>
                   </Accordion.Item>

@@ -12,12 +12,7 @@ import { useAuth } from "./../context/AuthContext";
 import { Endpoints } from "./routes";
 
 export const useRequest = () => {
-  //const { addAlert } = useContext(AlertContext);
   const { showLoader, hideLoader } = useLoader();
-
-  //#region AxiosConfig
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const {  login,  token, isAuthenticated } = useAuth();
   // Create an axios instance for the token endpoint
@@ -38,14 +33,7 @@ export const useRequest = () => {
     },
   });
 
-  // // Interceptar las solicitudes para agregar el token si el usuario está autenticado
- /*   ApiRequest.interceptors.request.use((config) => {
-     if (isAuthenticated && token) {
-       config.headers["Authorization"] = `Bearer ${token}`;
-      }
-      //console.log(config)
-      return config;
-   }); */
+ 
   const ApiPostFileRequest = axios.create({
     baseURL: Endpoints.BaseURL + Endpoints.Api,
     headers: {
@@ -55,20 +43,15 @@ export const useRequest = () => {
     },
   });
 
-  //#endregion
-
-  //#region RequestConfig
 
   const getRequest = async <T extends unknown>(
     endpoint: string,
     params?: object,
   ): Promise<T> => {
     showLoader();
-    console.log("Get..........")
-    console.log("request:", endpoint);
-    console.log("API request:", ApiPostFileRequest.get(endpoint, { params }));
+    console.log(ApiRequest)
     return await ApiRequest.get(endpoint, { params })
-      .then(({ data }: AxiosResponse<T>) =>( data))
+      .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
         //ShowAlertApiError(error);
         throw error;
@@ -134,9 +117,5 @@ export const useRequest = () => {
         hideLoader();
       });
   };
-  //getRequest.method = "GET";
-
-  //#endregion
-
   return { getRequest, postRequestToken, postRequest, postFileRequest };
 };

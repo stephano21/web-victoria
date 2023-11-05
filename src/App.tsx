@@ -15,6 +15,9 @@ import { Register } from "./views/Register";
 import { useAuth } from "./context/AuthContext";
 import { Home } from "./views/Home";
 import { Likes } from "./views/Likes";
+import { Lotes } from "./views/Lotes";
+import { Plantas } from "./views/Plantas";
+import { Sincronizaciones } from "./views/Sincronizaciones";
 
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -36,7 +39,9 @@ const App: React.FC = () => {
             <>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/catalogos/lotes" element={<PolygonCreator />} />
+              <Route path="/catalogos/lotes" element={<Lotes />} />
+              <Route path="/catalogos/plantas" element={<Plantas />} />
+              <Route path="/clima/sincronizar" element={<Sincronizaciones/>} />
               <Route path="*" element={<Navigate to="/home" />} />
             </>
           ) : (
