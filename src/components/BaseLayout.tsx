@@ -63,7 +63,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
 
             <Offcanvas show={show} onHide={handleClose}>
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Jazz App</Offcanvas.Title>
+                <Offcanvas.Title>Plant Trace</Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Accordion>
