@@ -35,7 +35,7 @@ export const Sincronizaciones = () => {
           setData(e)
           console.log(e);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error));6
     }, []);
     return (
         <BaseLayout>
