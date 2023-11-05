@@ -9,4 +9,5 @@ export const Endpoints = {
   perfil: "/auth/porfile/",
   Lectura: "/lecturas/",
   Plantas: "/plantas/",
+  WeatherData:'/weather/data/'
 };
