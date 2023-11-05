@@ -1,9 +1,7 @@
 export const Endpoints = {
-  BaseURL: process.env.REACT_APP_API,
+  BaseURL: "https://victoria-api.up.railway.app",
   Api: "/api",
   login: "/auth/login/",
-  //login: '/cuentas/login/',
-
   register: "/auth/register/",
   lotes: "/lotes/",
   Token: "/auth/refresh/",
@@ -11,5 +9,4 @@ export const Endpoints = {
   perfil: "/auth/porfile/",
   Lectura: "/lecturas/",
   Plantas: "/plantas/",
-  WeatherData: "/weather/data/"
 };
