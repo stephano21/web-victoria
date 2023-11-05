@@ -17,17 +17,19 @@ const columns = [
     // Agrega más columnas según sea necesario
   ];
 export const Plantas = ()=>{
-  const { getRequest } = useRequest();
+  const { getRequest, postRequest } = useRequest();
   const [data, setData] = useState<IPlantas[]>([]);
-
+  const GetData = async () => {
+    await  getRequest<IPlantas[]>(Endpoints.Plantas)
+    .then((e) => {
+      setData(e)
+      console.log(e);
+    })
+    .catch((error) => console.log(error));
+  };
   useEffect(() => {
     // Realiza una solicitud a la API para obtener los datos
-      getRequest<IPlantas[]>(Endpoints.Plantas)
-      .then((e) => {
-        setData(e)
-        console.log(e);
-      })
-      .catch((error) => console.log(error));
+    GetData();
   }, []);
 return(
     <BaseLayout>
