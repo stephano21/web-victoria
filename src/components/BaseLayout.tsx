@@ -6,6 +6,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
+import banner from './../assets/brand.png'
 //Auth
 import { useAuth } from "./../context/AuthContext";
 interface BaseLayoutProps {
@@ -38,7 +39,16 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
+              <Navbar.Brand href="/">
+                <img
+                  src={banner}
+                  width="100"
+                  height="100%"
+                  className="d-inline-block align-top"
+                  alt="React Bootstrap logo"
+                />
+              </Navbar.Brand>
+
               <Nav.Link href="#action2">Link</Nav.Link>
               <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
@@ -59,6 +69,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               <Nav.Link href="#" disabled>
                 Link
               </Nav.Link>
+
             </Nav>
 
             <Offcanvas show={show} onHide={handleClose}>
@@ -70,11 +81,11 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   <Accordion.Item eventKey="0">
                     <Accordion.Header><i className="bi bi-cloud-lightning-rain"></i> &nbsp; Clima</Accordion.Header>
                     <Accordion.Body>
-                    <ListGroup variant="flush">
+                      <ListGroup variant="flush">
                         <ListGroup.Item>
                           <Nav.Link href="/clima/sincronizar"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
                         </ListGroup.Item>
-                       
+
                       </ListGroup>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -94,8 +105,8 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   <Accordion.Item eventKey="2">
                     <Accordion.Header><i className="bi bi-graph-up-arrow"></i> &nbsp;Estimaciones</Accordion.Header>
                     <Accordion.Body>
-                    <ListGroup variant="flush">
-                    <ListGroup.Item>
+                      <ListGroup variant="flush">
+                        <ListGroup.Item>
                           <Nav.Link href="/catalogos/plantas"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
                         </ListGroup.Item>
                         <ListGroup.Item>
@@ -107,7 +118,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   <Accordion.Item eventKey="3">
                     <Accordion.Header><i className="bi bi-person-gear"></i> &nbsp;Administrador</Accordion.Header>
                     <Accordion.Body>
-                    <ListGroup variant="flush">
+                      <ListGroup variant="flush">
                         <ListGroup.Item>
                           <Nav.Link href="/catalogos/plantas"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
                         </ListGroup.Item>

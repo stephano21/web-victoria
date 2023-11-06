@@ -40,14 +40,14 @@ export const CardLogin = ({ onLogin }: CardLoginProps) => {
             label: "Contraseña",
             bclass: "form-control",
             placeholder: "Contraseña",
-            type: "password",
+            inputType: "password",
             value: formData.password, // Establece el valor de password desde el estado formData
             onChange: (value) => handleInputChange("password", value), // Maneja los cambios en el password
           },
           {
             name: "remenber",
             bclass: "form-check-input",
-            type: "checkbox",
+            inputType: "checkbox",
             label: "Recordarme?",
             value: formData.password, // Establece el valor de password desde el estado formData
             onChange: (value) => handleInputChange("password", value), // Maneja los cambios en el password
