@@ -120,7 +120,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     <Accordion.Body>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
-                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
+                          <Nav.Link href="/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
                         </ListGroup.Item>
                       </ListGroup>
                     </Accordion.Body>

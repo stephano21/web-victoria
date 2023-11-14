@@ -5,10 +5,11 @@ interface CardProps {
   image: string | null;
   children: JSX.Element | JSX.Element[];
   footer: string | JSX.Element | JSX.Element[] | null;
+  w?: string;
 }
-export const Card = ({ title, children, footer, image }: CardProps) => {
+export const Card = ({ title, children, footer, image, w="28rem"}: CardProps) => {
   return (
-    <div className="card" style={{ width: "28rem" }}>
+    <div className="card" style={{ width: w }}>
       {title && (
         <div className="card-header d-flex flex-column justify-content-center align-items-center">
           <h5 className="card-title text-center">{title}</h5>

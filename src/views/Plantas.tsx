@@ -109,6 +109,16 @@ export const Plantas = () => {
                   options:options,
                   value: Planta.Id_Lote_id, // Establece el valor de password desde el estado formData
                   onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
+                },
+                {
+                  name: "Id_Lote_id",
+                  label: "Lote",
+                  bclass: "form-control",
+                  placeholder: "Ingrese el código",
+                  inputType:"file",
+                  options:options,
+                  value: Planta.Id_Lote_id, // Establece el valor de password desde el estado formData
+                  onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
                 }
               ]}
               onSubmit={SavePlanta}

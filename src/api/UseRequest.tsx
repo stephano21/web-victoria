@@ -44,7 +44,6 @@ export const useRequest = () => {
     headers: {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
-      otherHeader: "foo",
     },
   });
 
@@ -113,7 +112,7 @@ export const useRequest = () => {
     return await ApiPostFileRequest.post(endpoint, data, { params })
       .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
-        console.error(JSON.stringify(error, null, 3));
+        //console.error(JSON.stringify(error, null, 3));
         //ShowAlertApiError(error);
         throw error;
       })

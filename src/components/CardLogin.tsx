@@ -24,7 +24,7 @@ export const CardLogin = ({ onLogin }: CardLoginProps) => {
     });
   };
   return (
-    <Card title="Iniciar Sesión" footer={null} image={logo}>
+    <Card title="Iniciar Sesión" footer={null} image={logo} w={"20rem"}>
       <GenericForm
         fields={[
           {

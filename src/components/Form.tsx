@@ -4,7 +4,7 @@ import { SelectSearch } from "./SelectSearch";
 interface FormField<T> {
   name: string;
   label?: string;
-  inputType?: "text" | "select" | "checkbox"| "password"; // Agregar más tipos si es necesario
+  inputType?: "text" | "select" | "checkbox"| "password"|"file"; // Agregar más tipos si es necesario
   bclass?: string;
   placeholder?: string;
   value: T;
@@ -16,9 +16,10 @@ interface GenericFormProps {
   fields: FormField<any>[];
   showSubmit?: boolean;
   onSubmit: () => void;
+  accept?: string;
 }
 
-export const GenericForm = ({ fields, onSubmit, showSubmit = true }: GenericFormProps) => {
+export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }: GenericFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
@@ -60,6 +61,17 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true }: GenericForm
               <Input
               {...field}
               label={field.label}
+              type={field.inputType}
+              bclass={field.bclass}
+              placeholder={field.placeholder}
+              value={field.value}
+              onChange={field.onChange}
+            />
+            ): field.inputType==='file'?(
+              <Input
+              {...field}
+              label={field.label}
+              accept={accept}
               type={field.inputType}
               bclass={field.bclass}
               placeholder={field.placeholder}
