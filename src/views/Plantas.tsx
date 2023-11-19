@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
@@ -7,6 +7,7 @@ import { IPlantas } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
+import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
 
   {
@@ -37,6 +38,7 @@ export const Plantas = () => {
     Id_Lote_id: 0,
   });
   const [show, setShow] = useState(false);
+  const { alerts, addAlert } = useContext(AlertContext);
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -58,16 +60,15 @@ export const Plantas = () => {
         setData(e)
         console.log(e);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => addAlert(AlertType.ERROR,error));
   };
   useEffect(() => {
     // Realiza una solicitud a la API para obtener los datos
     GetData();
   }, []);
   return (
-    <BaseLayout>
+    <BaseLayout PageName='Plantas'>
       <div className='container'>
-        <h1>Plantas</h1>
         <Button variant="success" onClick={handleShow}>
           <i className="bi bi-plus-circle"></i>&nbsp; Crear
         </Button>

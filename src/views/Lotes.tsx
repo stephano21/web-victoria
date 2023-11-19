@@ -25,8 +25,7 @@ export const Lotes: React.FC = () => {
   ];
 
   return (
-    <BaseLayout>
-      <h1>Mapa con Polígonos</h1>
+    <BaseLayout PageName='Lotes'>
       <MapContainer initialCenter={center} polygons={polygons} />
     </BaseLayout>
   );

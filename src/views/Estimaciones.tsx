@@ -3,49 +3,29 @@ import { BaseLayout } from '../components/BaseLayout';
 import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { IPlantas, IUser } from '../interfaces/AuthInterface';
+import { IPlantas } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { usePlantaState } from '../states/PlantaState';
 const columns = [
   {
-    dataField: 'cedula',
-    text: 'Cédula',
+    dataField: 'Codigo_Planta',
+    text: 'Código',
   },
   {
-    dataField: 'first_name',
+    dataField: 'Nombre',
     text: 'Nombre',
-  },
-  {
-    dataField: 'last_name',
-    text: 'Aplellido',
-  },
-  {
-    dataField: 'email',
-    text: 'Correo',
-  },
-  {
-    dataField: 'cedula',
-    text: 'Cédula',
-  },
-  {
-    dataField: 'username',
-    text: 'Usuario',
-  },
-  {
-    dataField: 'is_active',
-    text: 'Estado',
   },
   
 ];
 
 
-export const Usuarios = () => {
+export const Estimaciones = () => {
   //const
   const { getRequest, postFileRequest } = useRequest();
   const { Planta,  } = usePlantaState();
-  const [data, setData] = useState<IUser[]>([]);
+  const [data, setData] = useState<IPlantas[]>([]);
   const [show, setShow] = useState(false);
   const [file, setFile] = useState<File | null>(null)   
   //functions
@@ -56,7 +36,7 @@ export const Usuarios = () => {
     const formData = new FormData()
         formData.append('usuarios', file as any)
 
-    postFileRequest(Endpoints.Users, formData)
+    postFileRequest(Endpoints.ImportUsers, formData)
     .then((e) => {
         console.log(e, formData);
       })
@@ -65,7 +45,7 @@ export const Usuarios = () => {
   };
   //call api
   const GetData = async () => {
-    await getRequest<IUser[]>(Endpoints.Users)
+    await getRequest<IPlantas[]>(Endpoints.Plantas)
       .then((e) => {
         setData(e)
         //console.log(e);
@@ -87,7 +67,7 @@ export const Usuarios = () => {
   }
 
   return (
-    <BaseLayout PageName='Usuarios'>
+    <BaseLayout PageName='Estimaciones'>
       <div className='container'>
         <Button variant="success" onClick={handleShow}>
           <i className="bi bi-plus-circle"></i>&nbsp; Crear

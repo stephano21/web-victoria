@@ -15,7 +15,10 @@ ReactDOM.render(
             initialCoordinates={{ lat: 0, lng: 0 }}
             initialZoom={8}
           >
-            <App />
+            <AlertProvider>
+              <App />
+
+            </AlertProvider>
           </GoogleMapsProvider>
         </AuthProvider>
       </AlertProvider>

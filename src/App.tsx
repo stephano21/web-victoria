@@ -19,6 +19,8 @@ import { Lotes } from "./views/Lotes";
 import { Plantas } from "./views/Plantas";
 import { Sincronizaciones } from "./views/Sincronizaciones";
 import { Usuarios } from "./views/Usuarios";
+import { Estimaciones } from "./views/Estimaciones";
+import { Estadisticas } from "./views/Estadisticas";
 
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -40,10 +42,12 @@ const App: React.FC = () => {
             <>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/catalogos/lotes" element={<Lotes />} />
-              <Route path="/catalogos/plantas" element={<Plantas />} />
-              <Route path="/clima/sincronizar" element={<Sincronizaciones/>} />
+              <Route path="/crop/lots" element={<Lotes />} />
+              <Route path="/crop/trees" element={<Plantas />} />
+              <Route path="/weather/sync" element={<Sincronizaciones/>} />
               <Route path="/auth/users" element={<Usuarios/>} />
+              <Route path="/pred/averange" element={<Estimaciones/>} />
+              <Route path="/pred/analytics" element={<Estadisticas/>} />
               <Route path="*" element={<Navigate to="/home" />} />
             </>
           ) : (

@@ -29,3 +29,17 @@ export interface ILote {
   Id_Proyecto: number;
   Activo: boolean;
 }
+export interface IUser {
+  id:               number;
+  is_superuser:     boolean;
+  username:         string;
+  first_name:       string;
+  last_name:        string;
+  email:            string;
+  is_staff:         boolean;
+  is_active:        boolean;
+  groups:           number[];
+  user_permissions: any[];
+  cedula:           string;
+  user:             number;
+}

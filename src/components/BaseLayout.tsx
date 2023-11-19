@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,18 +9,22 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import banner from './../assets/brand.png'
 //Auth
 import { useAuth } from "./../context/AuthContext";
+import { useOutletContext } from "react-router-dom";
+import { AlertContext } from "../context/AlertContext";
 interface BaseLayoutProps {
+  PageName?: string;
   children: ReactNode;
 }
 
 export const BaseLayout: React.FC<BaseLayoutProps> = (
   props: BaseLayoutProps
 ) => {
-  const { children } = props;
+  const { children, PageName } = props;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleLinkClick = () => setShow(true);
+  const { alerts } = useContext(AlertContext);
   const { logout } = useAuth();
   return (
     <>
@@ -40,35 +44,43 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               navbarScroll
             >
               <Navbar.Brand href="/">
-                <img
+                {!PageName ? <img
                   src={banner}
                   width="100"
                   height="100%"
                   className="d-inline-block align-top"
                   alt="React Bootstrap logo"
-                />
-              </Navbar.Brand>
+                /> : <h5>{PageName}</h5>}
 
-              <Nav.Link href="#action2">Link</Nav.Link>
-              <NavDropdown title="Link" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item
-                  href="#action5"
-                  onClick={() => {
-                    logout();
-                    handleLinkClick();
-                  }}
-                >
-                  Cerrar sesión
-                </NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href="#" disabled>
-                Link
-              </Nav.Link>
+
+              </Navbar.Brand>
+              {alerts.map((alert) => (
+                <div key={alert.id} className={`alert-${alert.type}`}>
+                  {alert.message}
+                </div>
+              ))}
+              <Navbar.Toggle />
+              <Navbar.Collapse className="justify-content-end">
+                <NavDropdown title={<i className="bi bi-person-circle text-danger icon-username"></i>} id="navbarScrollingDropdown">
+                  <NavDropdown.Item href="#action3">Perfil</NavDropdown.Item>
+                  <NavDropdown.Item href="#action4">
+                    Admin
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item
+                    href="#action5"
+                    onClick={() => {
+                      logout();
+                      handleLinkClick();
+                    }}
+                  >
+                    Cerrar sesión
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link disabled>
+                  Producción
+                </Nav.Link>
+              </Navbar.Collapse>
 
             </Nav>
 
@@ -83,7 +95,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     <Accordion.Body>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
-                          <Nav.Link href="/clima/sincronizar"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
+                          <Nav.Link href="/weather/sync"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
                         </ListGroup.Item>
 
                       </ListGroup>
@@ -94,10 +106,10 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     <Accordion.Body>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
-                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
+                          <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          <Nav.Link href="/catalogos/lotes"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                          <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
                         </ListGroup.Item>
                       </ListGroup>
                     </Accordion.Body>
@@ -107,10 +119,10 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     <Accordion.Body>
                       <ListGroup variant="flush">
                         <ListGroup.Item>
-                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
+                          <Nav.Link href="/pred/analytics"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          <Nav.Link href="/catalogos/plantas"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
+                          <Nav.Link href="/pred/averange"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
                         </ListGroup.Item>
                       </ListGroup>
                     </Accordion.Body>

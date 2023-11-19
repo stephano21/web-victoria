@@ -1,5 +1,5 @@
 export const Endpoints = {
-  BaseURL: 'https://9171-157-100-158-182.ngrok-free.app',
+  BaseURL: 'https://b706-157-100-158-182.ngrok-free.app',
   //BaseURL: 'http://localhost:8000',
   //BaseURL:'https://victoria-api.up.railway.app',
   //BaseURL:'http://127.0.0.1:8000',
@@ -13,5 +13,7 @@ export const Endpoints = {
   Lectura: "/lecturas/",
   Plantas: "/plantas/",
   WeatherData:'/weather/data/',
-  ImportUsers:'/auth/register/import'
+  ImportUsers:'/auth/register/import',
+  Users:'/auth/users',
+  Roles:'/auth/roles',
 };

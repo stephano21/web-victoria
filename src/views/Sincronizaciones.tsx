@@ -38,11 +38,10 @@ export const Sincronizaciones = () => {
         .catch((error) => console.log(error));
     }, []);
     return (
-        <BaseLayout>
-    <div className='container'>
-    <h1>Clima</h1>
-    <CustomTable columns={columns} data={data}></CustomTable>
-    </div>
+      <BaseLayout PageName="Clima">
+        <div className='container'>
+        <CustomTable columns={columns} data={data}></CustomTable>
+        </div>
     
     </BaseLayout>
     )
