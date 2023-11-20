@@ -56,11 +56,11 @@ export const Usuarios = () => {
     const formData = new FormData()
         formData.append('usuarios', file as any)
 
-    postFileRequest(Endpoints.Users, formData)
+    postFileRequest(Endpoints.ImportUsers, formData)
     .then((e) => {
         console.log(e, formData);
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => alert(error.response.data));
     console.log(JSON.stringify( formData, null, 3))
   };
   //call api

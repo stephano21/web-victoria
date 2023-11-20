@@ -7,7 +7,7 @@ import { IPlantas } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
-import { AlertContext, AlertType } from '../context/AlertContext';
+//import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
 
   {
@@ -30,7 +30,7 @@ const options = [
 
 export const Plantas = () => {
   //const
-  const { getRequest, postRequest } = useRequest();
+  const { getRequest } = useRequest();
   const [data, setData] = useState<IPlantas[]>([]);
   const [Planta, setPLanta] = useState({
     Nombre: "",
@@ -38,7 +38,7 @@ export const Plantas = () => {
     Id_Lote_id: 0,
   });
   const [show, setShow] = useState(false);
-  const { alerts, addAlert } = useContext(AlertContext);
+  //const {  addAlert } = useContext(AlertContext);
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -60,7 +60,7 @@ export const Plantas = () => {
         setData(e)
         console.log(e);
       })
-      .catch((error) => addAlert(AlertType.ERROR,error));
+      .catch((error) => alert(error));
   };
   useEffect(() => {
     // Realiza una solicitud a la API para obtener los datos
