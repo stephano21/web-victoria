@@ -8,8 +8,9 @@ export const Porfile: React.FC = () => {
 
   return (
     <BaseLayout PageName='Perfil'>
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
+      <div className="container">
+        <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src="https://placehold.co/600x400" />
         <Card.Body>
           <Placeholder as={Card.Title} animation="glow">
             <Placeholder xs={6} />
@@ -21,6 +22,8 @@ export const Porfile: React.FC = () => {
           <Placeholder.Button variant="primary" xs={6} />
         </Card.Body>
       </Card>
+      </div>
+      
     </BaseLayout>
   );
 };
