@@ -62,7 +62,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               <Navbar.Toggle />
               <Navbar.Collapse className="justify-content-end">
                 <NavDropdown title={<i className="bi bi-person-circle text-danger icon-username"></i>} id="navbarScrollingDropdown">
-                  <NavDropdown.Item href="#action3">Perfil</NavDropdown.Item>
+                  <NavDropdown.Item href="/auth/porfile">Perfil</NavDropdown.Item>
                   <NavDropdown.Item href="#action4">
                     Admin
                   </NavDropdown.Item>
