@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "./InputCustom";
 import { SelectSearch } from "./SelectSearch";
+import Select from 'react-select'
 interface FormField<T> {
   name: string;
   label?: string;
@@ -40,13 +41,14 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
                 value={field.value}
                 onChange={field.onChange}
               />
-            ) : field.inputType === "select" ? (
+            ) : field.inputType === "select" && field.options ? (
               <SelectSearch
+              label={field.label}
               bclass={field.bclass}
               options={field.options}
               value={field.value}
-              onChange={(value) => field.onChange(value)}
             />
+            
             ) : field.inputType==='password'?(
               <Input
               {...field}

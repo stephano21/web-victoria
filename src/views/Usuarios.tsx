@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent  } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
@@ -12,6 +12,7 @@ const columns = [
   {
     dataField: 'cedula',
     text: 'Cédula',
+    headerStyle: { backgroundColor: '#B7E47A' },
   },
   {
     dataField: 'first_name',
@@ -37,31 +38,41 @@ const columns = [
     dataField: 'is_active',
     text: 'Estado',
   },
-  
+  {
+    dataField: 'acciones',
+    text: 'Acciones',
+    style: { textAlign: 'center', magin: 5 },
+    formatter: (cell, row) => (
+      <div>
+        <button className="btn btn-sm btn-primary"><i className="bi bi-pencil-square"></i></button>
+        <button className="btn btn-sm btn-danger"><i className="bi bi-trash"></i></button>
+      </div>
+    ),
+  },
 ];
 
 
 export const Usuarios = () => {
   //const
   const { getRequest, postFileRequest } = useRequest();
-  const { Planta,  } = usePlantaState();
+  const { Planta, } = usePlantaState();
   const [data, setData] = useState<IUser[]>([]);
   const [show, setShow] = useState(false);
-  const [file, setFile] = useState<File | null>(null)   
+  const [file, setFile] = useState<File | null>(null)
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const SavePlanta = () => {
     const formData = new FormData()
-        formData.append('usuarios', file as any)
+    formData.append('usuarios', file as any)
 
     postFileRequest(Endpoints.ImportUsers, formData)
-    .then((e) => {
+      .then((e) => {
         console.log(e, formData);
       })
       .catch((error) => alert(error.response.data));
-    console.log(JSON.stringify( formData, null, 3))
+    console.log(JSON.stringify(formData, null, 3))
   };
   //call api
   const GetData = async () => {
@@ -77,26 +88,38 @@ export const Usuarios = () => {
     GetData();
   }, []);
 
-  const SetearFile = ( e: ChangeEvent<HTMLInputElement> ) => {
-      console.log('archivo xd',e[0])
-      const archivo = e[0]
-      console.log('archivo xd',archivo)
-        if(archivo){
-        setFile(archivo)
+  const SetearFile = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('archivo xd', e[0])
+    const archivo = e[0]
+    console.log('archivo xd', archivo)
+    if (archivo) {
+      setFile(archivo)
     }
   }
 
   return (
     <BaseLayout PageName='Usuarios'>
       <div className='container'>
-        <Button variant="success" onClick={handleShow}>
-          <i className="bi bi-plus-circle"></i>&nbsp; Crear
-        </Button>
-        <Button variant="primary" onClick={handleShow}>
-          <i className="bi bi-upload"></i>&nbsp;  Cargar
-        </Button>
-       
-        <CustomTable columns={columns} data={data}></CustomTable>
+        <div className="row">
+          <div className="col-sm-2">
+            <Button variant="success">
+              <i className="bi bi-plus-circle"></i>&nbsp;
+            </Button>
+            <Button variant="primary" onClick={handleShow}>
+              <i className="bi bi-upload"></i>&nbsp;
+            </Button>
+          </div>
+          <div className="col-sm-2">
+          </div>
+        </div>
+        <br />
+        <div className="row">
+          <div className="col-sm-12">
+            <CustomTable columns={columns} data={data}></CustomTable>
+
+          </div>
+        </div>
+
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Cargar usuarios</Modal.Title>
@@ -109,16 +132,16 @@ export const Usuarios = () => {
                   name: "usuarios",
                   label: "Archivo",
                   bclass: "form-control",
-                  inputType:"file",
+                  inputType: "file",
                   value: Planta.usuarios, // Establece el valor de password desde el estado formData
                   onChange: (value) => {
                     //handleInputChange("usuarios", value)
                     SetearFile(value)
                     console.log(value)
-                }, // Maneja los cambios en el password
+                  }, // Maneja los cambios en el password
                 }
               ]}
-              onSubmit={() => {}}
+              onSubmit={() => { }}
             />
           </Modal.Body>
           <Modal.Footer>

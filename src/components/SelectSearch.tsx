@@ -1,99 +1,42 @@
 import React, { useState, useEffect } from "react";
-
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
+const animatedComponents = makeAnimated();
 interface Option {
     value: string;
     label: string;
+    
 }
 
-interface SelectSearchProps {
-    options: Option[] | undefined;
+interface SelectSearchProps<T> {
     value: string;
-    onChange: (value: string) => void;
+    label? : string;
     placeholder?: string;
     bclass?: string;
+    options: { value: T; label: string }[];
+    multiOptions?: boolean;
 }
 
 export const SelectSearch = ({
     options,
     value,
-    onChange,
+    label,
     placeholder,
     bclass,
-}: SelectSearchProps) => {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-    const [hasFocus, setHasFocus] = useState(false);
-    const [selectedLabel, setSelectedLabel] = useState<string | undefined>(""); // Estado para mostrar el label
-
-    useEffect(() => {
-        if (!value) {
-            setSelectedLabel(""); // Restablecer el label cuando no hay valor seleccionado
-        }
-    }, [value]);
-
-    const filteredOptions = options
-        ? options.filter((option) =>
-            option.label.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        : [];
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value;
-        setSearchTerm(inputValue);
-        setIsDropdownVisible(true);
-    };
-
-    const handleOptionClick = (selectedValue: string) => {
-        if (selectedValue !== undefined) {
-            setSelectedLabel(
-                options ? options.find((option) => option.value === selectedValue)?.label : ""
-            );
-            onChange(selectedValue);
-            setSearchTerm(selectedValue);
-            setIsDropdownVisible(false);
-        }
-    };
-
-    const handleInputFocus = () => {
-        setIsDropdownVisible(true);
-        setHasFocus(true);
-    };
-
-    const handleInputBlur = () => {
-        setHasFocus(false);
-        // Cerrar la lista desplegable al perder el foco solo si no hay una selección
-        if (!value) {
-            setIsDropdownVisible(false);
-        }
-    };
+    multiOptions=false,
+}: SelectSearchProps<any>) => {
+    
 
     return (
-        <div className="row">
-            <div className="mt-10">
-                <input
-                    className={`form-control ${bclass}`}
-                    type="text"
-                    placeholder={placeholder || "Seleccione"}
-                    value={hasFocus ? searchTerm : selectedLabel || value} // Mostrar el label o el valor
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                    onBlur={handleInputBlur}
-                />
-                {isDropdownVisible && (
-                    <div className="dropdown">
-                        {filteredOptions.map((option) => (
-                            <div
-                                key={option.value}
-                                className="dropdown-item"
-                                onClick={() => handleOptionClick(option.value)}
-                            >
-                                {option.label}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        </div>
+        <>
+        {label && <label className="form-label">{label}</label>}
+        <Select
+      closeMenuOnSelect={!multiOptions}
+      components={animatedComponents}
+      isMulti={multiOptions}
+      options={options}
+    />
+        </>
 
     );
 };
