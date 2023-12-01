@@ -43,3 +43,21 @@ export interface IUser {
   cedula:           string;
   user:             number;
 }
+export interface ILectura {
+  id: number | null;
+  E1: number | null;
+  E2: number | null;
+  E3: number | null;
+  E4: number | null;
+  E5: number | null;
+  GR1: number | null;
+  GR2: number | null;
+  GR3: number | null;
+  GR4: number | null;
+  GR5: number | null;
+  Cherelles: null | number;
+  Observacion: string;
+  FechaVisita: Date;
+  Activo: boolean;
+  Id_Planta: number;
+}

@@ -111,6 +111,12 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                         <ListGroup.Item>
                           <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
                         </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/crop/readings"><i className="bi bi-list-check"></i>&nbsp;&nbsp;Lecturas</Nav.Link>
+                        </ListGroup.Item>
                       </ListGroup>
                     </Accordion.Body>
                   </Accordion.Item>
