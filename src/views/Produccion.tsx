@@ -7,16 +7,21 @@ import { ILectura } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
+import Download from '../components/Download';
 //import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
 
   {
-    dataField: 'Codigo_Planta',
-    text: 'Código',
+    dataField: 'Victoria',
+    text: 'Victoria',
   },
   {
-    dataField: 'Nombre',
-    text: 'Nombre',
+    dataField: 'Qq',
+    text: 'Quintales',
+  },
+  {
+    dataField: 'Fecha',
+    text: 'Fecha',
   },
   // Agrega más columnas según sea necesario
 ];
@@ -38,10 +43,13 @@ export const Produccion = () => {
     Id_Lote_id: 0,
   });
   const [show, setShow] = useState(false);
+  const [showImport, setshowImport] = useState(false);
   //const {  addAlert } = useContext(AlertContext);
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handImportleClose = () => setshowImport(false);
+  const handImportleShow = () => setshowImport(true);
   const handleInputChange = (name: string, value: string) => {
     setLectura({
       ...Lectura,
@@ -72,7 +80,7 @@ export const Produccion = () => {
         <Button variant="success" onClick={handleShow}>
           <i className="bi bi-plus-circle"></i>&nbsp; Crear
         </Button>
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="primary" onClick={handImportleShow}>
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
        
@@ -110,7 +118,30 @@ export const Produccion = () => {
                   options:options,
                   value: Lectura.Id_Lote_id, // Establece el valor de password desde el estado formData
                   onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
-                },
+                }
+              ]}
+              onSubmit={ImportProduccion}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={ImportProduccion}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showImport} onHide={handImportleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Importar Producción</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <GenericForm
+              showSubmit={false}
+              fields={[
+               
                 {
                   name: "Id_Lote_id",
                   label: "Lote",
@@ -126,7 +157,8 @@ export const Produccion = () => {
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+          <Download fileName="FormatoProduccion.xlsx" Name='Formato de Lecturas'/>
+            <Button variant="secondary" onClick={handImportleClose}>
               Close
             </Button>
             <Button variant="primary" onClick={ImportProduccion}>

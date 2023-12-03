@@ -3,6 +3,8 @@ export interface AuthInterface {
   password: string;
 }
 export interface TokenResponse {
+  user: string;
+  rol:string;
   access_token: string;
   refresh_token: string;
 }

@@ -19,8 +19,8 @@ export const useRequest = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-  const {  login,  token, isAuthenticated } = useAuth();
-  // Create an axios instance for the token endpoint
+  const {  login,  UserData, isAuthenticated } = useAuth();
+  // Create an axios instance for the UserData endpoint
   const ApiTokenRequest = axios.create({
     baseURL: Endpoints.BaseURL + Endpoints.Api + Endpoints.login,
     headers: {
@@ -34,7 +34,7 @@ export const useRequest = () => {
     baseURL: Endpoints.BaseURL + Endpoints.Api,
     headers: {
       "Content-Type": "application/json",
-      ...(token !== "" ? { Authorization: `Bearer ${token}` } : {}),
+      ...(UserData?.access_token !== ""  && UserData?.access_token !==undefined? { Authorization: `Bearer ${UserData?.access_token}` } : {}),
     },
   });
 
@@ -43,7 +43,7 @@ export const useRequest = () => {
     baseURL: Endpoints.BaseURL + Endpoints.Api,
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${UserData?.access_token}`,
     },
   });
 
@@ -90,7 +90,7 @@ export const useRequest = () => {
       data,
     })
       .then(({ data }: AxiosResponse<T>) => {
-        login(data.access_token);
+        login(data);
         console.log(data);
         return data;
       })

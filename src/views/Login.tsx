@@ -21,7 +21,8 @@ export const Login = () => {
       password,
     })
       .then((e) => {
-        login(e.access_token);
+        e.user=username;
+        login(e);
         console.log(e);
       })
       .catch((error) => console.log(error));

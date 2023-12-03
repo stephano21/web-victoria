@@ -7,6 +7,7 @@ import { ILectura } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
+import Download from '../components/Download';
 //import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
   {
@@ -122,7 +123,7 @@ export const Lecturas = () => {
         
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Registar Lectura</Modal.Title>
+            <Modal.Title>Importar Lecturas</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <GenericForm
@@ -130,7 +131,7 @@ export const Lecturas = () => {
               fields={[
                 {
                   name: "Lecturas",
-                  label: "Lecturas",
+                  label: "Cargar Archivo",
                   bclass: "form-control",
                   inputType: "file",
                   value: Lectura.Id_Lote_id, // Establece el valor de password desde el estado formData
@@ -145,6 +146,8 @@ export const Lecturas = () => {
             />
           </Modal.Body>
           <Modal.Footer>
+          <Download fileName="FormatoLecturas.xlsx" Name='Formato de Lecturas'/>
+
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>

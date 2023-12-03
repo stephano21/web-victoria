@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { TokenResponse } from "../interfaces/AuthInterface";
 
 // Definir la forma del contexto
 interface AuthContextProps {
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  login: (token: TokenResponse) => void;
   logout: () => void;
-  token: string;
+  UserData: TokenResponse | undefined;
 }
 
 // Crear el contexto de autenticación
@@ -23,31 +24,36 @@ export const useAuth = () => {
 // Componente proveedor del contexto
 export const AuthProvider = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState<string>("");
+  const [UserData, setUserData] = useState<TokenResponse | undefined>();
 
   // Almacenar y verificar el token en el estado local
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
-      setToken(storedToken);
-      setIsAuthenticated(true);
+      try {
+        setUserData(JSON.parse(storedToken));
+        setIsAuthenticated(true);
+      } catch (error) {
+        logout()
+        console.error("Error al analizar el token almacenado:", error);
+      }
     }
   }, []);
 
-  const login = (newToken: string) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
+  const login = (newToken: TokenResponse) => {
+    localStorage.setItem("token", JSON.stringify(newToken));
+    setUserData(newToken);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    setUserData(undefined);
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, token }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, UserData }}>
       {children}
     </AuthContext.Provider>
   );
