@@ -1,7 +1,6 @@
 import React from "react";
 import { BaseLayout } from "../components/BaseLayout";
 import { Card, Placeholder } from "react-bootstrap";
-
 export const Home = () => {
   return (
     <BaseLayout>

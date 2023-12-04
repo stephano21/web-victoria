@@ -8,11 +8,11 @@ import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { usePlantaState } from '../states/PlantaState';
+import Download from '../components/Download';
 const columns = [
   {
     dataField: 'cedula',
     text: 'Cédula',
-    headerStyle: { backgroundColor: '#B7E47A' },
   },
   {
     dataField: 'first_name',
@@ -25,10 +25,6 @@ const columns = [
   {
     dataField: 'email',
     text: 'Correo',
-  },
-  {
-    dataField: 'cedula',
-    text: 'Cédula',
   },
   {
     dataField: 'username',
@@ -145,6 +141,7 @@ export const Usuarios = () => {
             />
           </Modal.Body>
           <Modal.Footer>
+          <Download fileName="FormatoUsuarios.xlsx" Name='Formato de Lecturas'/>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
