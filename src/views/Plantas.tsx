@@ -21,11 +21,11 @@ const columns = [
   // Agrega más columnas según sea necesario
 ];
 const options = [
-  { value: "option1", label: "Opción 1" },
+  /* { value: "option1", label: "Opción 1" },
   { value: "option2", label: "Opción 2" },
   { value: "option3", label: "Opción 3" },
   { value: "option4", label: "Opción 4" },
-  { value: "option5", label: "Opción 5" },
+  { value: "option5", label: "Opción 5" }, */
 ];
 
 export const Plantas = () => {

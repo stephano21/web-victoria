@@ -82,7 +82,7 @@ export const Lotes: React.FC = () => {
           <h1>Pantalla en progreso...<Spinner animation="border" variant='success' /></h1>
         </div>
       </div>
-      <MapContainer initialCenter={center} polygons={polygons} />
+      {/* <MapContainer initialCenter={center} polygons={polygons} /> */}
       <div className="container">
         <div className="row">
         <CustomTable columns={columns} data={data}></CustomTable>

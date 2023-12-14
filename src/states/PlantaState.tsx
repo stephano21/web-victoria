@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { IRol } from '../interfaces/AuthInterface';
 export const usePlantaState = () => {
   const [Planta, setPlanta] = useState({
     usuarios: "",
@@ -19,4 +19,21 @@ export const usePlantaState = () => {
   };
 
   return { Planta, handleInputChange, resetPlanta };
+};
+
+export const useRolState = () => {
+  const [Rol, setRol] = useState<IRol|null>(null);
+
+  const handleInputChange = (name: string, value: string) => {
+    setRol({
+      ...Rol!,
+      [name]: value,
+    });
+  };
+
+  const resetRol = () => {
+    setRol(null);
+  };
+
+  return { Rol, handleInputChange, resetRol };
 };

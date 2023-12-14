@@ -45,6 +45,19 @@ export interface IUser {
   cedula:           string;
   user:             number;
 }
+export interface IRol{
+  id?: number;
+  name: string,
+  permissions?: number[]
+}
+
+export interface IPermissions {
+  id:           number;
+  name:         string;
+  codename:     string;
+  content_type: number;
+}
+
 export interface ILectura {
   id: number | null;
   E1: number | null;

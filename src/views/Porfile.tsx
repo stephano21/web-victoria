@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import MapContainer from '../components/Map'; // Asegúrate de importar el componente MapContainer desde el lugar correcto
 import { BaseLayout } from '../components/BaseLayout';
-import { Card, Placeholder, Spinner } from 'react-bootstrap';
+import { Card, Placeholder } from 'react-bootstrap';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
 import { IUser } from '../interfaces/AuthInterface';
@@ -31,7 +30,7 @@ export const Porfile: React.FC = () => {
             {data ? (
               <div className="mt-1 row justify-content-center">
 
-                <AvatarGenerator initials={data ? data?.first_name.slice(0, 1) + data?.last_name.slice(0, 1) : "UN"} />
+                <AvatarGenerator initials={data ? data?.first_name.slice(0, 1).toUpperCase() + data?.last_name.slice(0, 1).toUpperCase() : "UN"} />
               </div>
             ) : (
               <Card.Img variant="top" src="https://placehold.co/600x400" />

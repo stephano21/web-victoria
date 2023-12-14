@@ -15,4 +15,5 @@ export const Endpoints = {
   Roles:'/auth/roles',
   Produccion: "/produccion/",
   Upload:"upload",
+  Permissions:"/auth/permissions"
 };
