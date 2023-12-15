@@ -77,9 +77,9 @@ export const Produccion = () => {
   return (
     <BaseLayout PageName='Produccion'>
       <div className='container'>
-        <Button variant="success" onClick={handleShow}>
+       {/*  <Button variant="success" onClick={handleShow}>
           <i className="bi bi-plus-circle"></i>&nbsp; Crear
-        </Button>
+        </Button> */}
         <Button variant="primary" onClick={handImportleShow}>
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>

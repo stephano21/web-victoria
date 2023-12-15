@@ -10,27 +10,27 @@ const columns = [
   {
     dataField: 'Codigo_Lote',
     text: 'Codigo',
-    headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
+    //headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
   },
   {
     dataField: 'Nombre',
     text: 'Nombre',
-    headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
+    //headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
   },
   {
     dataField: 'Hectareas',
     text: 'Hectareas',
-    headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
+    //headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
   },
   {
     dataField: 'Variedad',
     text: 'Variedad',
-    headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
-  },
+    //headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
+  }/* ,
   {
     dataField: 'acciones',
     text: 'Acciones',
-    headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
+    //headerStyle: { backgroundColor: '#00553c',color:'#ffffff', },
     style: { textAlign: 'center', magin: 5, },
     formatter: (cell, row) => (
       <div>
@@ -38,7 +38,7 @@ const columns = [
         <button className="btn btn-sm btn-danger"><i className="bi bi-trash"></i></button>
       </div>
     ),
-  },
+  }, */
 ];
 export const Lotes: React.FC = () => {
   const { getRequest } = useRequest();
@@ -78,9 +78,9 @@ export const Lotes: React.FC = () => {
   return (
     <BaseLayout PageName='Lotes'>
       <div className="row">
-        <div className="col-md-12 text-center">
+       {/*  <div className="col-md-12 text-center">
           <h1>Pantalla en progreso...<Spinner animation="border" variant='success' /></h1>
-        </div>
+        </div> */}
       </div>
       {/* <MapContainer initialCenter={center} polygons={polygons} /> */}
       <div className="container">

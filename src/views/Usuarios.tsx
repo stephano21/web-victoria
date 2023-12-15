@@ -33,7 +33,7 @@ const columns = [
   {
     dataField: 'is_active',
     text: 'Estado',
-  },
+  }/* ,
   {
     dataField: 'acciones',
     text: 'Acciones',
@@ -44,7 +44,7 @@ const columns = [
         <button className="btn btn-sm btn-danger"><i className="bi bi-trash"></i></button>
       </div>
     ),
-  },
+  }, */
 ];
 
 
@@ -98,9 +98,9 @@ export const Usuarios = () => {
       <div className='container'>
         <div className="row">
           <div className="col-sm-2">
-            <Button variant="success">
+           {/*  <Button variant="success">
               <i className="bi bi-plus-circle"></i>&nbsp;
-            </Button>
+            </Button> */}
             <Button variant="primary" onClick={handleShow}>
               <i className="bi bi-upload"></i>&nbsp;
             </Button>
