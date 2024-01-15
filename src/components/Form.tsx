@@ -9,6 +9,7 @@ interface FormField<T> {
   bclass?: string;
   placeholder?: string;
   value: T;
+  multiple?: boolean;
   onChange: (value: T) => void;
   options?: { value: T; label: string }[]; // Opciones para selects
 }
@@ -47,6 +48,7 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
               bclass={field.bclass}
               options={field.options}
               value={field.value}
+              multiOptions={ field.multiple}
             />
             
             ) : field.inputType==='password'?(

@@ -3,7 +3,7 @@ import { BaseLayout } from '../components/BaseLayout';
 import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { IRol, IUser } from '../interfaces/AuthInterface';
+import { IPermissions, IRol, ISelectListItem, IUser } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
@@ -22,12 +22,14 @@ const columns = [
 
 export const Roles = () => {
   //const
-  const { getRequest, postFileRequest } = useRequest();
+  const { getRequest, postRequest } = useRequest();
   const { Rol, handleInputChange } = useRolState();
   const [data, setData] = useState<IRol[]>([]);
+  const [permissionsdata, setPermissionsData] = useState<IPermissions[]>([]);
+
   const [show, setShow] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
-  const [file, setFile] = useState<File | null>(null)
+  const [RoleForm, setRoleForm] = useState<IRol>()
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -35,16 +37,14 @@ export const Roles = () => {
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
 
-  const SavePlanta = () => {
-    const formData = new FormData()
-    formData.append('usuarios', file as any)
-
-    postFileRequest(Endpoints.ImportUsers, formData)
+  const SaveRole = () => {
+    postRequest(Endpoints.Roles, Rol!)
       .then((e) => {
-        console.log(e, formData);
+        console.log(e, Rol);
+        GetData()
       })
       .catch((error) => alert(error.response.data));
-    console.log(JSON.stringify(formData, null, 3))
+    console.log(JSON.stringify(Rol, null, 3))
   };
   //call api
   const GetData = async () => {
@@ -53,21 +53,32 @@ export const Roles = () => {
         setData(e)
         //console.log(e);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.warn(error));
+
+    await getRequest<IPermissions[]>(Endpoints.Permissions)
+      .then((e) => {
+        setPermissionsData(e)
+      })
+      .catch((error) => console.warn(error));
   };
   useEffect(() => {
+
     // Realiza una solicitud a la API para obtener los datos
     GetData();
+
   }, []);
 
-  const SetearFile = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('archivo xd', e[0])
-    const archivo = e[0]
-    console.log('archivo xd', archivo)
-    if (archivo) {
-      setFile(archivo)
+  const xdd: ISelectListItem[] = permissionsdata.map((data) => {
+    return {
+      value: data.id.toString(),
+      label: data.codename
     }
   }
+  )
+
+
+
+
 
   return (
     <BaseLayout PageName='Usuarios'>
@@ -77,9 +88,7 @@ export const Roles = () => {
             <Button variant="success">
               <i className="bi bi-plus-circle" onClick={handleShowCreate}></i>&nbsp;
             </Button>
-            <Button variant="primary" onClick={handleShow}>
-              <i className="bi bi-upload"></i>&nbsp;
-            </Button>
+
           </div>
           <div className="col-sm-2">
           </div>
@@ -91,41 +100,6 @@ export const Roles = () => {
 
           </div>
         </div>
-
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Cargar usuarios</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <GenericForm
-              showSubmit={false}
-              fields={[
-                {
-                  name: "usuarios",
-                  label: "Archivo",
-                  bclass: "form-control",
-                  inputType: "file",
-                  value: Rol?.name, // Establece el valor de password desde el estado formData
-                  onChange: (value) => {
-                    //handleInputChange("usuarios", value)
-                    SetearFile(value)
-                    console.log(value)
-                  }, // Maneja los cambios en el password
-                }
-              ]}
-              onSubmit={() => { }}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-          <Download fileName="FormatoUsuarios.xlsx" Name='Formato de Lecturas'/>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={SavePlanta}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
         <Modal show={showCreate} onHide={handleCloseCreate}>
           <Modal.Header closeButton>
             <Modal.Title>Crear rol</Modal.Title>
@@ -139,8 +113,23 @@ export const Roles = () => {
                   label: "Nombre",
                   bclass: "form-control",
                   value: Rol?.name, // Establece el valor de password desde el estado formData
-                  
+
                   onChange: (value) => handleInputChange("name", value),
+                },
+                {
+                  name: "permissions",
+                  label: "Permisos",
+                  bclass: "form-control",
+                  placeholder: "Ingrese el código",
+                  inputType: "select",
+                  options: xdd,
+                  multiple: true,
+                  value: Rol?.permissions, // Establece el valor de password desde el estado formData
+                  onChange: (event) => {
+                    const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
+                    console.log(selectedValues);
+                  }
+                  
                 }
               ]}
               onSubmit={() => { }}
@@ -150,8 +139,8 @@ export const Roles = () => {
             <Button variant="secondary" onClick={handleCloseCreate}>
               Cancelar
             </Button>
-            <Button variant="primary" onClick={SavePlanta}>
-            <i className="bi bi-rocket-takeoff"></i> Enviar
+            <Button variant="primary" onClick={SaveRole}>
+              <i className="bi bi-rocket-takeoff"></i> Enviar
             </Button>
           </Modal.Footer>
         </Modal>

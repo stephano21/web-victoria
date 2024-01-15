@@ -84,6 +84,9 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   <ListGroup.Item>
                     <Nav.Link href="/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
                   </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Nav.Link href="/auth/role"><i className="bi bi-person-fill-lock"></i>&nbsp;&nbsp;Roles</Nav.Link>
+                  </ListGroup.Item>
                 </ListGroup>
               </Accordion.Body>
             </Accordion.Item>

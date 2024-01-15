@@ -25,6 +25,8 @@ export const useRolState = () => {
   const [Rol, setRol] = useState<IRol|null>(null);
 
   const handleInputChange = (name: string, value: string) => {
+    console.log(value)
+    console.log(name)
     setRol({
       ...Rol!,
       [name]: value,

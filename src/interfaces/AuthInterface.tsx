@@ -48,7 +48,7 @@ export interface IUser {
 export interface IRol{
   id?: number;
   name: string,
-  permissions?: number[]
+  permissions?: IPermissions[]
 }
 
 export interface IPermissions {
@@ -75,4 +75,9 @@ export interface ILectura {
   FechaVisita: Date;
   Activo: boolean;
   Id_Planta: number;
+}
+
+export interface ISelectListItem {
+  value: string,
+  label: string,
 }
