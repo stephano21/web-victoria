@@ -10,6 +10,8 @@ export const Endpoints = {
   Lectura: "/lecturas/",
   Plantas: "/plantas/",
   WeatherData:'/weather/data/',
+  WeatherSync:'/weather/sync/',
+  WeatherUpload:'/weather/upload/',
   ImportUsers:'/auth/register/import',
   Users:'/auth/users',
   Roles:'/auth/roles',
