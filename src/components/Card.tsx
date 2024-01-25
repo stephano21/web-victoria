@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "react-bootstrap/Image";
+/* import Image from "react-bootstrap/Image"; */
 interface CardProps {
   title: string | null;
   image: string | null;
@@ -14,9 +14,9 @@ export const Card = ({ title, children, footer, image, w="28rem"}: CardProps) =>
         <div className="card-header d-flex flex-column justify-content-center align-items-center">
           <h5 className="card-title text-center">{title}</h5>
           <div className="d-flex justify-content-center align-items-center">
-            {image && (
+            {/* {image && (
               <Image src={image} roundedCircle alt="Logo" onError={(e: any) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150'; }} className="ml-auto mr-auto" width={150} height={150} />
-            )}
+            )} */}
           </div>
         </div>
       )}
