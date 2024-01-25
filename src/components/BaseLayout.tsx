@@ -46,7 +46,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
-              <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Cultivo</Accordion.Header>
+              <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Parametrizaciones</Accordion.Header>
               <Accordion.Body>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
