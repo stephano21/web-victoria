@@ -15,3 +15,36 @@
     text-align: left;
   }
   
+
+  /* Estilos para DataTable.css */
+.datatable-container {
+  overflow-x: auto;
+}
+
+.datatable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.datatable th, .datatable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.datatable th {
+  background-color: #C3D7A7;
+  border-bottom: 2px #000;
+  
+}
+.datatable-container {
+  position: relative;
+}
+
+.filter-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
