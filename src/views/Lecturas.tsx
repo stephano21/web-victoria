@@ -8,6 +8,7 @@ import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import Download from '../components/Download';
+import { DataTable } from '../components/DataTable';
 //import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
   {
@@ -119,8 +120,8 @@ export const Lecturas = () => {
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
 
-        <CustomTable columns={columns} data={data}></CustomTable>
-        
+       {/*  <CustomTable columns={columns} data={data}></CustomTable> */}
+        <DataTable data={data} columnNames={columns} actionsColumn={<button/>}></DataTable>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Importar Lecturas</Modal.Title>

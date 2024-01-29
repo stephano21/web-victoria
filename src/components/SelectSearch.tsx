@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,ChangeEvent } from "react";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
@@ -9,14 +9,14 @@ interface Option {
 }
 
 interface SelectSearchProps<T> {
-    value: string;
+    value?: string;
     label? : string;
     placeholder?: string;
     bclass?: string;
-    options: { value: T; label: string }[];
+    options: Option[];
     multiOptions?: boolean;
+    onChange?: (selectedOption: any) => void;
 }
-
 export const SelectSearch = ({
     options,
     value,
@@ -24,8 +24,15 @@ export const SelectSearch = ({
     placeholder,
     bclass,
     multiOptions=false,
-}: SelectSearchProps<any>) => {
+    onChange,
     
+}: SelectSearchProps<any>) => {
+    const handleChange = (selectedOption: any) => {
+        // Llama a la función de devolución de llamada si está presente
+        if (onChange) {
+          onChange(selectedOption);
+        }
+      };
 
     return (
         <>
@@ -35,6 +42,8 @@ export const SelectSearch = ({
       components={animatedComponents}
       isMulti={multiOptions}
       options={options}
+      onChange={handleChange}
+      defaultValue={value}
     />
         </>
 

@@ -5,11 +5,7 @@ import { DataTable } from "../components/DataTable";
 export const Home = () => {
   const columnNames = ['ID', 'First Name', 'Last Name', 'Age', 'Email'];
 
-  const data = [
-    { id: 1, first_name: 'John', last_name: 'Doe', age: 25, email: 'john.doe@example.com' },
-    { id: 2, first_name: 'Jane', last_name: 'Doe', age: 30, email: 'jane.doe@example.com' },
-    // ...more rows
-  ];
+
 
   return (
     <BaseLayout>
@@ -47,10 +43,7 @@ export const Home = () => {
           ))}
           <br />
         </div>
-        <div>
-      <h1>Custom DataTable</h1>
-      <DataTable columnNames={columnNames} data={data} />
-    </div>
+       
       </div>
     </BaseLayout>
   );
