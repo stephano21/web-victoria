@@ -1,6 +1,7 @@
 export const Endpoints = {
   BaseURL: process.env.REACT_APP_API,
   Api: "/api",
+  Analitics: "/analytics/",
   login: "/auth/login/",
   register: "/auth/register/",
   Token: "/auth/refresh/",

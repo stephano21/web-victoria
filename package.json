@@ -70,5 +70,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

@@ -29,7 +29,9 @@ export const Login = () => {
   };
 
   const isLogin = (username: string, password: string) => {
-    Login(username, password).then(() => (window.location.href = "/home"));
+    Login(username, password).then(() => {}
+    //(window.location.href = "/home")
+    );
   };
 
   return (

@@ -1,6 +1,18 @@
 #  Deploy 
-si tinenes warnings en dobugg y quieres hacer deploy una solucion rapida es modificar el package.json el comoando build
-`"build": "CI=false react-scripts build",`
+si tinenes warnings en dobugg y quieres hacer deploy una solución rapida es modificar el package.json el comando build
+### `"build": "CI=false react-scripts build",`
+
+# Change Port
+
+Actualiza el secript de inicio
+<pre>
+{
+    "scripts": {
+    "start": "set PORT=5000 && react-scripts start",
+    "build": "CI=false react-scripts build",
+    }
+  }
+  </pre>
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
