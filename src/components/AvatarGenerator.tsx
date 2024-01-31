@@ -27,9 +27,10 @@ export const AvatarGenerator: React.FC<AvatarGeneratorProps> = ({ initials }) =>
     textAlign: 'center',
     fontSize: '80px', // Tamaño de fuente más grande
     fontWeight: 'bold',
+    fontFamily: 'sans-serif',
     lineHeight: '50px', // Ajusta según sea necesario para centrar verticalmente
-    width: '200px', // Hacer el círculo más grande
-    height: '200px', // Hacer el círculo más grande
+    width: '150px', // Hacer el círculo más grande
+    height: '150px', // Hacer el círculo más grande
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
@@ -38,7 +39,7 @@ export const AvatarGenerator: React.FC<AvatarGeneratorProps> = ({ initials }) =>
 
   return (
     <Button variant="light" style={avatarStyle}>
-      {initials}
+      {initials.toLocaleUpperCase()}
     </Button>
   );
 };
