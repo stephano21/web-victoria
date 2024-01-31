@@ -5,7 +5,7 @@ import Select from 'react-select'
 interface FormField<T> {
   name: string;
   label?: string;
-  inputType?: "text" | "select" | "checkbox"| "password"|"file"; // Agregar más tipos si es necesario
+  inputType?: "text" | "select" | "checkbox"| "password"|"file"|"email"|"number"; // Agregar más tipos si es necesario
   bclass?: string;
   placeholder?: string;
   value: T;
@@ -32,7 +32,7 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
       <div className="mb-3">
         {fields.map((field) => (
           <div key={field.name}>
-            {field.inputType === "text" || !field.inputType ? ( // Usar "text" por defecto
+            {field.inputType === "text" || !field.inputType || field.inputType === "email"? ( // Usar "text" por defecto
               <Input
                 {...field}
                 label={field.label}

@@ -6,6 +6,7 @@ import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { ILote } from '../interfaces/AuthInterface';
 import { useRequest } from '../api/UseRequest';
+import { DataTable } from '../components/DataTable';
 const columns = [
   {
     dataField: 'Codigo_Lote',
@@ -85,7 +86,7 @@ export const Lotes: React.FC = () => {
       {/* <MapContainer initialCenter={center} polygons={polygons} /> */}
       <div className="container">
         <div className="row">
-        <CustomTable columns={columns} data={data}></CustomTable>
+        <DataTable columnNames={columns} data={data}></DataTable>
       </div>
       </div>
       

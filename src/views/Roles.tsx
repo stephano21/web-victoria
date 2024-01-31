@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { useRolState } from '../states/PlantaState';
 import Download from '../components/Download';
+import { DataTable } from '../components/DataTable';
 const columns = [
   {
     dataField: 'name',
@@ -96,7 +97,7 @@ export const Roles = () => {
         <br />
         <div className="row">
           <div className="col-sm-12">
-            <CustomTable columns={columns} data={data}></CustomTable>
+            <DataTable columnNames={columns} data={data}></DataTable>
 
           </div>
         </div>

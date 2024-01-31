@@ -4,7 +4,7 @@ export interface AuthInterface {
 }
 export interface TokenResponse {
   user: string;
-  rol:string;
+  rol: string;
   access_token: string;
   refresh_token: string;
 }
@@ -31,30 +31,39 @@ export interface ILote {
   Id_Proyecto: number;
   Activo: boolean;
 }
-export interface IUser {
-  id:               number;
-  is_superuser:     boolean;
-  username:         string;
-  first_name:       string;
-  last_name:        string;
-  email:            string;
-  is_staff:         boolean;
-  is_active:        boolean;
-  groups:           number[];
-  user_permissions: any[];
-  cedula:           string;
-  user:             number;
+export interface IRegister {
+  cedula: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  password: string;
+  Id_Hacienda:number;
 }
-export interface IRol{
+export interface IUser {
+  id: number;
+  is_superuser: boolean;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  is_staff: boolean;
+  is_active: boolean;
+  groups?: number[];
+  user_permissions?: any[];
+  cedula: string;
+  user: number;
+}
+export interface IRol {
   id?: number;
   name: string,
   permissions?: IPermissions[]
 }
 
 export interface IPermissions {
-  id:           number;
-  name:         string;
-  codename:     string;
+  id: number;
+  name: string;
+  codename: string;
   content_type: number;
 }
 

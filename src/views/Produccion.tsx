@@ -8,6 +8,7 @@ import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import Download from '../components/Download';
+import { DataTable } from '../components/DataTable';
 //import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
 
@@ -84,7 +85,7 @@ export const Produccion = () => {
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
        
-        <CustomTable columns={columns} data={data}></CustomTable>
+        <DataTable columnNames={columns} data={data}></DataTable>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Registar Lectura</Modal.Title>

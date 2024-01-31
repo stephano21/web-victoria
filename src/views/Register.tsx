@@ -1,7 +1,7 @@
 import React from "react";
 import { CardRegister } from "../components/CardRegister";
 import { useRequest } from "../api/UseRequest";
-import { TokenResponse } from "../interfaces/AuthInterface";
+import { IRegister, TokenResponse } from "../interfaces/AuthInterface";
 import { Endpoints } from "../api/routes";
 import { useAuth } from "./../context/AuthContext";
 
@@ -9,20 +9,17 @@ export const Register = () => {
   const { postRequest } = useRequest();
   const { login } = useAuth();
 
-  const Login = async (username: string, password: string) => {
-    await postRequest<TokenResponse>(Endpoints.login, {
-      username,
-      password,
-    })
+  const Register = async (data:IRegister) => {
+    await postRequest<TokenResponse>(Endpoints.register,data )
       .then((e) => {
-        login(e.access_token);
+        //login(e.access_token);
         console.log(e);
       })
       .catch((error) => console.log(error));
   };
 
-  const isLogin = (username: string, password: string) => {
-    Login(username, password).then(() => (window.location.href = "/home"));
+  const isLogin = (dataUser: IRegister) => {
+    Register(dataUser).then(() => (window.location.href = "/home"));
   };
 
   return (
@@ -41,7 +38,7 @@ export const Register = () => {
 
       }}
     >
-      <CardRegister onLogin={isLogin}></CardRegister>
+      <CardRegister onRegister={isLogin}></CardRegister>
     </div>
   );
 };

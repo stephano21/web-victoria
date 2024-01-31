@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import { Card } from "./Card";
 import { GenericForm } from "./Form";
+import { IRegister } from "../interfaces/AuthInterface";
 interface CardRegisterProps {
-  onLogin: (username: string, password: string) => void;
+  //onLogin: (username: string, password: string) => void;
+  onRegister: (dataUser: IRegister) => void
 }
 
-export const CardRegister = ({ onLogin }: CardRegisterProps) => {
-  const [formData, setFormData] = useState({
+export const CardRegister = ({ onRegister }: CardRegisterProps) => {
+  const [formData, setFormData] = useState<IRegister>({
+    cedula: "",
+    first_name: "",
+    last_name: "",
+    email: "",
     username: "",
     password: "",
+    Id_Hacienda: 1,
   });
 
   const handleLogin = () => {
-    // Realiza alguna lógica de autenticación aquí
-    onLogin(formData.username, formData.password);
+    onRegister(formData);
   };
   const handleInputChange = (name: string, value: string) => {
     setFormData({
@@ -30,24 +36,24 @@ export const CardRegister = ({ onLogin }: CardRegisterProps) => {
             label: "Numero de cedula",
             bclass: "form-control",
             placeholder: "Numero de cedula",
-            value: formData.username, // Establece el valor de username desde el estado formData
+            value: formData.cedula, // Establece el valor de username desde el estado formData
             onChange: (value) => handleInputChange("cedula", value), // Maneja los cambios en el username
           },
           {
-            name: "nombre",
+            name: "first_name",
             label: "Nombres",
             bclass: "form-control",
             placeholder: "Nombres",
-            value: formData.username, // Establece el valor de username desde el estado formData
-            onChange: (value) => handleInputChange("cedula", value), // Maneja los cambios en el username
+            value: formData.first_name, // Establece el valor de username desde el estado formData
+            onChange: (value) => handleInputChange("first_name", value), // Maneja los cambios en el username
           },
           {
-            name: "apellido",
+            name: "last_name",
             label: "Apellidos",
             bclass: "form-control",
             placeholder: "Apellidos",
-            value: formData.username, // Establece el valor de username desde el estado formData
-            onChange: (value) => handleInputChange("apellido", value), // Maneja los cambios en el username
+            value: formData.last_name, // Establece el valor de username desde el estado formData
+            onChange: (value) => handleInputChange("last_name", value), // Maneja los cambios en el username
           },
           {
             name: "username",
@@ -58,21 +64,30 @@ export const CardRegister = ({ onLogin }: CardRegisterProps) => {
             onChange: (value) => handleInputChange("username", value), // Maneja los cambios en el username
           },
           {
+            name: "email",
+            label: "Correo",
+            bclass: "form-control",
+            inputType:"email",
+            placeholder: "Nombre de usuario",
+            value: formData.email, // Establece el valor de username desde el estado formData
+            onChange: (value) => handleInputChange("email", value), // Maneja los cambios en el username
+          },
+          {
             name: "password",
             label: "Contraseña",
             bclass: "form-control",
             placeholder: "Contraseña",
-            type: "password",
+            inputType: "password",
             value: formData.password, // Establece el valor de password desde el estado formData
             onChange: (value) => handleInputChange("password", value), // Maneja los cambios en el password
           },
           {
             name: "remenber",
             bclass: "form-check-input",
-            type: "checkbox",
+            inputType: "checkbox",
             label: "Recordarme?",
             value: formData.password, // Establece el valor de password desde el estado formData
-            onChange: (value) => handleInputChange("password", value), // Maneja los cambios en el password
+            onChange: (value) => handleInputChange("remenber", value), // Maneja los cambios en el password
           },
         ]}
         onSubmit={handleLogin}
