@@ -2,7 +2,7 @@ import React, { useEffect, useState, ChangeEvent } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { IAnalytics } from '../interfaces/AuthInterface';
+import { IAnalytics } from '../interfaces/AnalytisInterfaces';
 
 import {
   LineChart,
@@ -19,6 +19,8 @@ import {
   ResponsiveContainer,
 
 } from 'recharts';
+import { Input } from '../components/InputCustom';
+import { IDateFilter } from '../interfaces/FilterInteface';
 //const data = [{ name: 'Ene', price: 0 }, { name: 'Feb', price: 501}, { name: 'Page B', price: 681}];
 const style = {
   top: '50%',
@@ -29,12 +31,13 @@ const style = {
 export const Estadisticas = () => {
   const { getRequest, postRequest } = useRequest();
   const [data, setData] = useState<IAnalytics>();
+  const [DateFilter, setDateFilter] = useState<IDateFilter>({
+    to: "",
+    from: "",
+  });
   //call api
   const GetData = async () => {
-    await getRequest<IAnalytics>(Endpoints.Analitics,{
-      to:"2024-01-30",
-      from: "2024-01-30",
-    })
+    await getRequest<IAnalytics>(Endpoints.Analitics, DateFilter)
       .then((e) => {
         setData(e)
         console.log(e);
@@ -46,16 +49,65 @@ export const Estadisticas = () => {
     // Realiza una solicitud a la API para obtener los datos
     GetData();
 
-  }, []);
+  }, [DateFilter]);
+  const handleFilterChange = (name: string, value: string) => {
+    // Convierte las fechas a objetos Date para comparación
+    const fromDate = new Date(DateFilter.from);
+    const toDate = new Date(DateFilter.to);
+    const selectedDate = new Date(value);
+  
+    // Realiza la validación según tu lógica específica
+    if (name === "from" && toDate.getTime() < selectedDate.getTime()) {
+      // La fecha de inicio no puede ser después de la fecha de fin
+      console.log("Fecha de inicio no puede ser después de la fecha de fin");
+      return;
+    }
+  
+    if (name === "to" && fromDate.getTime() > selectedDate.getTime()) {
+      // La fecha de fin no puede ser antes de la fecha de inicio
+      console.log("Fecha de fin no puede ser antes de la fecha de inicio");
+      return;
+    }
+  
+    // Si la validación pasa, actualiza el estado DateFilter
+    setDateFilter({
+      ...DateFilter,
+      [name]: value,
+    });
+  };
+  
   return (
     <BaseLayout PageName='Estadisticas'>
       <div className='container'>
+        <div className='d-flex flex-row-reverse'>
+          <div className="p-2">
+            <Input type='date'
+              label='Fecha Hasta'
+              bclass='form-control'
+              value={DateFilter.to}
+              onChange={(value) => handleFilterChange("to", value.toString())}
+            ></Input>
+          </div>
+          <div className="p-2">
+            <Input type='date' 
+            label='Fecha Desde' 
+            bclass='form-control' 
+            value={DateFilter.from}
+            onChange={(value) => handleFilterChange("from", value.toString())}></Input>
+          </div>
+        </div>
+        <div className="row text-center">
+          <h5>{DateFilter.from!=='' && DateFilter.to? 
+          `Mostrando registros desde ${DateFilter.from} hasta ${DateFilter.to}`:
+          DateFilter.from!==''?`Mostrando datos desde ${DateFilter.from}`:
+          DateFilter.to!==''?`Mostrando datos hasta ${DateFilter.to}`:'Mostrando todos los datos'}</h5>
+        </div>
         <div className="row">
           <div className="col-md-12 text-center">
             {/*<h1>Pantalla en espera...<Spinner animation="border" variant='success' /></h1>*/}
           </div>
           <div className="col-md-6">
-            <h5>Masorcas por estadio</h5>
+            <h5>Masorcas promedio por estadio</h5>
             <LineChart width={600} height={300} data={data?.Lecturas}>
               <Line type="monotone" dataKey="E1" stroke="#49942D" />
               <Line type="monotone" dataKey="E2" stroke="#64942D" />
@@ -79,8 +131,9 @@ export const Estadisticas = () => {
           </div>
 
           <div className="col-md-6">
-            <LineChart width={600} height={300} data={data?.Trees} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-              <Line type="monotone" dataKey="Plantas" stroke="#8884d8" />
+            <h5>Producción por victoria en Quintales </h5>
+            <LineChart width={600} height={300} data={data?.Produccion} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+              <Line type="monotone" dataKey="qq" stroke="#8884d8" />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
               <XAxis dataKey="Victoria" />
               <YAxis />

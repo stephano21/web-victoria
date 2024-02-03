@@ -19,7 +19,8 @@ export const Register = () => {
   };
 
   const isLogin = (dataUser: IRegister) => {
-    Register(dataUser).then(() => (window.location.href = "/home"));
+    Register(dataUser).then(() => {}
+    );
   };
 
   return (

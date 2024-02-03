@@ -22,6 +22,11 @@ export const CardRegister = ({ onRegister }: CardRegisterProps) => {
     onRegister(formData);
   };
   const handleInputChange = (name: string, value: string) => {
+    // Validación: Solo permite números si el name es "cedula"
+    if (name === "cedula" && value !== ""  && !/^[0-9]+$/.test(value)|| (name === "cedula" && value.length >10)) {
+    // Si el valor no es solo números, no actualices el estado
+    return;
+  }
     setFormData({
       ...formData,
       [name]: value,
@@ -80,15 +85,7 @@ export const CardRegister = ({ onRegister }: CardRegisterProps) => {
             inputType: "password",
             value: formData.password, // Establece el valor de password desde el estado formData
             onChange: (value) => handleInputChange("password", value), // Maneja los cambios en el password
-          },
-          {
-            name: "remenber",
-            bclass: "form-check-input",
-            inputType: "checkbox",
-            label: "Recordarme?",
-            value: formData.password, // Establece el valor de password desde el estado formData
-            onChange: (value) => handleInputChange("remenber", value), // Maneja los cambios en el password
-          },
+          }
         ]}
         onSubmit={handleLogin}
       />

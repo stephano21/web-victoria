@@ -90,19 +90,3 @@ export interface ISelectListItem {
   value: string,
   label: string,
 }
-export interface IAnalytics {
-  Trees: IProyectoPlantas[];
-  Lecturas: IProyectoLecturas[];
-}
-export interface IProyectoPlantas {
-  Victoria: string;
-  Plantas: number;
-}
-export interface IProyectoLecturas {
-  Victoria: string;
-  E1: number;
-  E2: number;
-  E3: number;
-  E4: number;
-  E5: number;
-}

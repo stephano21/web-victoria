@@ -3,6 +3,7 @@ import { BaseLayout } from "../components/BaseLayout"
 import { CustomTable } from "../components/CustomTable"
 import { useRequest } from "../api/UseRequest";
 import { Endpoints } from "../api/routes";
+import { DataTable } from "../components/DataTable";
 
 const columns = [
     
@@ -48,7 +49,7 @@ export const Sincronizaciones = () => {
     return (
       <BaseLayout PageName="Clima">
         <div className='container'>
-        <CustomTable columns={columns} data={data}></CustomTable>
+        <DataTable columnNames={columns} data={data}></DataTable>
         </div>
     
     </BaseLayout>
