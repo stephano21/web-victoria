@@ -1,9 +1,11 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
+import React, { useEffect, useState, useRef, Fragment } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
 import { IAnalytics } from '../interfaces/AnalytisInterfaces';
-
+//Reportes
+import { Document, Page, pdfjs } from 'react-pdf';
+import * as XLSX from 'xlsx';
 import {
   LineChart,
   Line,
@@ -17,11 +19,14 @@ import {
   RadialBar,
   Legend,
   ResponsiveContainer,
-
 } from 'recharts';
 import { Input } from '../components/InputCustom';
 import { IDateFilter } from '../interfaces/FilterInteface';
-//const data = [{ name: 'Ene', price: 0 }, { name: 'Feb', price: 501}, { name: 'Page B', price: 681}];
+import { DateToString } from '../helpers/FormatDate';
+import { convertChartToImage } from '../helpers/ChartToImage';
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+
+
 const style = {
   top: '50%',
   right: 0,
@@ -35,6 +40,9 @@ export const Estadisticas = () => {
     to: "",
     from: "",
   });
+  const barChartRef = useRef(null);
+  const lineChartRef = useRef(null);
+
   //call api
   const GetData = async () => {
     await getRequest<IAnalytics>(Endpoints.Analitics, DateFilter)
@@ -55,27 +63,74 @@ export const Estadisticas = () => {
     const fromDate = new Date(DateFilter.from);
     const toDate = new Date(DateFilter.to);
     const selectedDate = new Date(value);
-  
+
     // Realiza la validación según tu lógica específica
     if (name === "from" && toDate.getTime() < selectedDate.getTime()) {
       // La fecha de inicio no puede ser después de la fecha de fin
       console.log("Fecha de inicio no puede ser después de la fecha de fin");
       return;
     }
-  
+
     if (name === "to" && fromDate.getTime() > selectedDate.getTime()) {
       // La fecha de fin no puede ser antes de la fecha de inicio
       console.log("Fecha de fin no puede ser antes de la fecha de inicio");
       return;
     }
-  
+
     // Si la validación pasa, actualiza el estado DateFilter
     setDateFilter({
       ...DateFilter,
       [name]: value,
     });
   };
-  
+  const generateExcelReport = () => {
+    const workbook = XLSX.utils.book_new();
+
+    // Agregar hoja de cálculo para el rango de fechas
+    const worksheetDates = XLSX.utils.json_to_sheet([
+      { 'Fecha Desde': DateFilter.from, 'Fecha Hasta': DateFilter.to },
+    ]);
+    XLSX.utils.book_append_sheet(workbook, worksheetDates, 'Fechas');
+
+    // Agregar hoja de cálculo para los datos de lecturas
+    const worksheetData = XLSX.utils.json_to_sheet(data?.Lecturas || []);
+    XLSX.utils.book_append_sheet(workbook, worksheetData, 'Lecturas');
+
+    // Agregar hoja de cálculo para los datos de árboles
+    const worksheetTrees = XLSX.utils.json_to_sheet(data?.Trees || []);
+    XLSX.utils.book_append_sheet(workbook, worksheetTrees, 'Plantas');
+
+    // Agregar hoja de cálculo para los datos de producción
+    const worksheetProduccion = XLSX.utils.json_to_sheet(data?.Produccion || []);
+    XLSX.utils.book_append_sheet(workbook, worksheetProduccion, 'Produccion');
+
+    // Guardar el archivo Excel
+    XLSX.writeFile(workbook, 'reporte.xlsx');
+  };
+  const generatePDF = async () => {
+    const barChartImage = await convertChartToImage(barChartRef);
+    const lineChartImage = await convertChartToImage(lineChartRef);
+
+    // Crear el documento PDF
+    const pdf = (
+      <Document>
+        <Page>
+          <h1>Informe PDF</h1>
+          <p>Texto del informe.</p>
+
+          {barChartImage && <img src={barChartImage} alt="Gráfico de Barras" />}
+          {lineChartImage && <img src={lineChartImage} alt="Gráfico de Línea" />}
+        </Page>
+      </Document>
+    );
+
+    // Descargar el documento PDF
+    const blob = new Blob([pdf], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'reporte.pdf';
+    link.click();
+  };
   return (
     <BaseLayout PageName='Estadisticas'>
       <div className='container'>
@@ -89,56 +144,80 @@ export const Estadisticas = () => {
             ></Input>
           </div>
           <div className="p-2">
-            <Input type='date' 
-            label='Fecha Desde' 
-            bclass='form-control' 
-            value={DateFilter.from}
-            onChange={(value) => handleFilterChange("from", value.toString())}></Input>
+            <Input type='date'
+              label='Fecha Desde'
+              bclass='form-control'
+              value={DateFilter.from}
+              onChange={(value) => handleFilterChange("from", value.toString())}></Input>
+          </div>
+          <div className="p-2">
+            <button className="btn btn-success" onClick={generateExcelReport}>
+              <i className="bi bi-file-excel"></i>
+            </button>
+          </div>
+          <div className="p-2">
+            <button className="btn btn-danger" onClick={generatePDF}>
+              <i className="bi bi-file-pdf"></i>
+            </button>
           </div>
         </div>
         <div className="row text-center">
-          <h5>{DateFilter.from!=='' && DateFilter.to? 
-          `Mostrando registros desde ${DateFilter.from} hasta ${DateFilter.to}`:
-          DateFilter.from!==''?`Mostrando datos desde ${DateFilter.from}`:
-          DateFilter.to!==''?`Mostrando datos hasta ${DateFilter.to}`:'Mostrando todos los datos'}</h5>
+          <h5>{DateFilter.from !== '' && DateFilter.to ?
+            `Mostrando registros desde ${DateToString(DateFilter.from)} hasta ${DateToString(DateFilter.to)}` :
+            DateFilter.from !== '' ? `Mostrando datos desde ${DateToString(DateFilter.from)}` :
+              DateFilter.to !== '' ? `Mostrando datos hasta ${DateToString(DateFilter.to)}` : 'Mostrando todos los datos'}</h5>
         </div>
         <div className="row">
           <div className="col-md-12 text-center">
             {/*<h1>Pantalla en espera...<Spinner animation="border" variant='success' /></h1>*/}
           </div>
-          <div className="col-md-6">
-            <h5>Masorcas promedio por estadio</h5>
-            <LineChart width={600} height={300} data={data?.Lecturas}>
-              <Line type="monotone" dataKey="E1" stroke="#49942D" />
-              <Line type="monotone" dataKey="E2" stroke="#64942D" />
-              <Line type="monotone" dataKey="E3" stroke="#BCBA35" />
-              <Line type="monotone" dataKey="E4" stroke="#F18E16" />
-              <Line type="monotone" dataKey="E5" stroke="#F15516" />
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="Victoria" />
-              <YAxis />
-              <Tooltip />
-            </LineChart>
+          <div className="col-md-6 text-center">
+            <ResponsiveContainer width="100%" height="100%" ref={lineChartRef}>
+              <Fragment>
+                <h5>Masorcas promedio por estadio</h5>
+                <LineChart width={600} height={300} data={data?.Lecturas}>
+                  <Line type="monotone" dataKey="E1" stroke="#49942D" />
+                  <Line type="monotone" dataKey="E2" stroke="#64942D" />
+                  <Line type="monotone" dataKey="E3" stroke="#BCBA35" />
+                  <Line type="monotone" dataKey="E4" stroke="#F18E16" />
+                  <Line type="monotone" dataKey="E5" stroke="#F15516" />
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="Victoria" />
+                  <YAxis />
+                  <Tooltip />
+                </LineChart>
+              </Fragment>
+            </ResponsiveContainer>
           </div>
-          <div className="col-md-6">
-            <h5>Plantas por Victoria</h5>
-            <BarChart width={600} height={300} data={data?.Trees}>
-              <XAxis dataKey="Victoria" />
-              <YAxis />
-              <Bar dataKey="Plantas" barSize={30} fill="#8884d8" />
-              <Tooltip />
-            </BarChart>
+          <div className="col-md-6 text-center">
+            <ResponsiveContainer width="100%" height="100%" ref={barChartRef}>
+              <Fragment>
+                <h5>Plantas por Victoria</h5>
+                <BarChart width={600} height={300} data={data?.Trees}>
+                  <XAxis dataKey="Victoria" />
+                  <YAxis />
+                  <Bar dataKey="Plantas" barSize={30} fill="#8884d8" />
+                  <Tooltip />
+                </BarChart>
+              </Fragment>
+            </ResponsiveContainer>
+
           </div>
 
-          <div className="col-md-6">
-            <h5>Producción por victoria en Quintales </h5>
-            <LineChart width={600} height={300} data={data?.Produccion} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-              <Line type="monotone" dataKey="qq" stroke="#8884d8" />
-              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-              <XAxis dataKey="Victoria" />
-              <YAxis />
-              <Tooltip />
-            </LineChart>
+          <div className="col-md-6 text-center ">
+            <ResponsiveContainer width={"100%"} height="100%">
+              <Fragment>
+                <h5>Producción por victoria en Quintales </h5>
+                <LineChart width={600} height={300} data={data?.Produccion} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                  <Line type="monotone" dataKey="qq" stroke="#8884d8" />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                  <XAxis dataKey="Victoria" />
+                  <YAxis />
+                  <Tooltip />
+                </LineChart>
+              </Fragment>
+            </ResponsiveContainer>
+
           </div>
           <div className="col-md-6">
             <ResponsiveContainer width="100%" height="100%">
