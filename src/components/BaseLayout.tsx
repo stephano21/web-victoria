@@ -125,7 +125,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               </Nav.Link>
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/auth/porfile">Perfil</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
+                <NavDropdown.Item href="https://victoria-api.up.railway.app/api/auth/admin">
                   Admin
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
