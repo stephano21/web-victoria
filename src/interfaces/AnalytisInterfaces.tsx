@@ -1,4 +1,5 @@
 import { Produccion } from '../views/Produccion';
+import { Lecturas } from '../views/Lecturas';
 export interface IAnalytics {
     Trees: IProyectoPlantas[];
     Lecturas: IProyectoLecturas[];
@@ -19,4 +20,8 @@ export interface IAnalytics {
   export interface IProduccionProyecto {
     Victoria: string;
     qq: number;
+  }
+  export interface IHome{
+    Usuarios:number;
+    Lecturas:number;
   }

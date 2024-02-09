@@ -1,14 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { IPlantas } from '../interfaces/AuthInterface';
+import { IPlantas, ISelectListItem } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { DataTable } from '../components/DataTable';
+import { Selects } from '../hooks/Selects';
 //import { AlertContext, AlertType } from '../context/AlertContext';
+import value from '../../declarations';
 const columns = [
 
   {
@@ -21,33 +23,42 @@ const columns = [
   },
   // Agrega más columnas según sea necesario
 ];
-const options = [
-  { value: "option1", label: "Opción 1" },
-  { value: "option2", label: "Opción 2" },
-  { value: "option3", label: "Opción 3" },
-  { value: "option4", label: "Opción 4" },
-  { value: "option5", label: "Opción 5" }, 
-];
+
 
 export const Plantas = () => {
   //const
   const { getRequest } = useRequest();
+  const {GetLotes} = Selects();
+
   const [data, setData] = useState<IPlantas[]>([]);
+  const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
   const [Planta, setPLanta] = useState({
     Nombre: "",
     Codigo: "",
     Id_Lote_id: 0,
   });
   const [show, setShow] = useState(false);
-  //const {  addAlert } = useContext(AlertContext);
-  //functions
-  const handleClose = () => setShow(false);
+  const [showImport, setshowImport] = useState(false);
+  const ResetForm =()=>{
+    setPLanta({
+      Nombre: "",
+      Codigo: "",
+      Id_Lote_id: 0,
+    })
+  }
+  const handleClose = () => {
+    setShow(false);
+    ResetForm();
+  };
   const handleShow = () => setShow(true);
+  const handleCloseImport = () => setshowImport(false);
+  const handleShowImport = () => setshowImport(true);
   const handleInputChange = (name: string, value: string) => {
     setPLanta({
       ...Planta,
       [name]: value,
     });
+    console.log(name, value)
   };
   const SavePlanta = () => {
     // Realiza alguna lógica de autenticación aquí
@@ -62,6 +73,7 @@ export const Plantas = () => {
         console.log(e);
       })
       .catch((error) => alert(error));
+      setLotesSelect(await GetLotes())
   };
   useEffect(() => {
     // Realiza una solicitud a la API para obtener los datos
@@ -73,7 +85,7 @@ export const Plantas = () => {
         <Button variant="success" onClick={handleShow}>
           <i className="bi bi-plus-circle"></i>&nbsp; Crear
         </Button>
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="primary" onClick={handleShowImport}>
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
        
@@ -108,17 +120,38 @@ export const Plantas = () => {
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
                   inputType:"select",
-                  options:options,
+                  options:LotesSelect,
                   value: Planta.Id_Lote_id, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
-                },
+                  onChange: (value) => handleInputChange("Id_Lote_id", value.value), // Maneja los cambios en el password
+                }
+              ]}
+              onSubmit={SavePlanta}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={SavePlanta}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={showImport} onHide={handleCloseImport}>
+          <Modal.Header closeButton>
+            <Modal.Title>Cargar Plantas</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <GenericForm
+              showSubmit={false}
+              fields={[
                 {
                   name: "Id_Lote_id",
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
                   inputType:"file",
-                  options:options,
                   value: Planta.Id_Lote_id, // Establece el valor de password desde el estado formData
                   onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
                 }
@@ -127,7 +160,7 @@ export const Plantas = () => {
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={handleCloseImport}>
               Close
             </Button>
             <Button variant="primary" onClick={SavePlanta}>

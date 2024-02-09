@@ -127,7 +127,7 @@ export const Roles = () => {
                   multiple: true,
                   value: Rol?.permissions, // Establece el valor de password desde el estado formData
                   onChange: (event) => {
-                    const selectedValues = Array.from(event.target.selectedOptions, option => option.value);
+                    const selectedValues = Array.from(event.target.selectedOptions, (option: any) => option.value);
                     console.log(selectedValues);
                   }
                   

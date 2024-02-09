@@ -49,6 +49,7 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
               options={field.options}
               value={field.value}
               multiOptions={ field.multiple}
+              onChange={field.onChange}
             />
             
             ) : field.inputType==='password'?(

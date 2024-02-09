@@ -14,6 +14,15 @@ export interface ApiErrorResponse {
   Message: string;
   error_description: string;
 }
+export interface IProyecto {
+  id: number;
+  Codigo_Proyecto: string;
+  Nombre: string;
+  Densidad: number | null; 
+  Activo: boolean;
+  Usuario: string;
+  Id_Hacienda: number;
+}
 export interface IPlantas {
   id: number;
   Disabled: boolean;
@@ -30,6 +39,9 @@ export interface ILote {
   Variedad: null;
   Id_Proyecto: number;
   Activo: boolean;
+  FechaSiembra: string;
+  Edad: number;
+  Num_Plantas: number;
 }
 export interface IRegister {
   cedula: string;

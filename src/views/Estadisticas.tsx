@@ -24,6 +24,8 @@ import { Input } from '../components/InputCustom';
 import { IDateFilter } from '../interfaces/FilterInteface';
 import { DateToString } from '../helpers/FormatDate';
 import { convertChartToImage } from '../helpers/ChartToImage';
+import { Selects } from '../hooks/Selects';
+import { left } from '@popperjs/core';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 
@@ -36,6 +38,8 @@ const style = {
 export const Estadisticas = () => {
   const { getRequest, postRequest } = useRequest();
   const [data, setData] = useState<IAnalytics>();
+ // const {GetLotes, pointInRegion, getPlantas} = Selects();
+
   const [DateFilter, setDateFilter] = useState<IDateFilter>({
     to: "",
     from: "",
@@ -175,15 +179,15 @@ export const Estadisticas = () => {
             <ResponsiveContainer width="100%" height="100%" ref={lineChartRef}>
               <Fragment>
                 <h5>Masorcas promedio por estadio</h5>
-                <LineChart width={600} height={300} data={data?.Lecturas}>
+                <LineChart  width={600} height={300} data={data?.Lecturas} >
                   <Line type="monotone" dataKey="E1" stroke="#49942D" />
                   <Line type="monotone" dataKey="E2" stroke="#64942D" />
                   <Line type="monotone" dataKey="E3" stroke="#BCBA35" />
                   <Line type="monotone" dataKey="E4" stroke="#F18E16" />
                   <Line type="monotone" dataKey="E5" stroke="#F15516" />
-                  <CartesianGrid stroke="#ccc" />
-                  <XAxis dataKey="Victoria" />
-                  <YAxis />
+                  <CartesianGrid  stroke="#ccc" />
+                  <XAxis  dataKey="Victoria" />
+                  <YAxis label={{ value: '# de Mazorcas', angle: -90, position: 'center',  }} />
                   <Tooltip />
                 </LineChart>
               </Fragment>
