@@ -81,7 +81,22 @@ export const useRequest = () => {
         hideLoader();
       });
   };
-
+  const putRequest = async <T extends unknown>(
+    endpoint: string,
+    data?: object,
+    params?: object
+  ): Promise<T> => {
+    showLoader();
+    return await ApiRequest.put(endpoint, data, { params })
+      .then(({ data }: AxiosResponse<T>) => data)
+      .catch((error: AxiosError<ApiErrorResponse>) => {
+        //ShowAlertApiError(error);
+        throw error;
+      })
+      .finally(() => {
+        hideLoader();
+      });
+  };
   const postRequestToken = async <T extends TokenResponse>(
     data: AuthInterface
   ): Promise<T> => {
@@ -121,5 +136,11 @@ export const useRequest = () => {
       });
   };
 
-  return { getRequest, postRequestToken, postRequest, postFileRequest };
+  return { 
+    getRequest,
+    postRequestToken, 
+    postRequest, 
+    postFileRequest,
+    putRequest 
+  };
 };

@@ -8,9 +8,9 @@ import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { DataTable } from '../components/DataTable';
-import { Selects } from '../hooks/Selects';
+import { Selects } from '../hooks/useSelect';
+import useCrud from '../hooks/useCrud';
 //import { AlertContext, AlertType } from '../context/AlertContext';
-import value from '../../declarations';
 const columns = [
 
   {
@@ -21,29 +21,41 @@ const columns = [
     dataField: 'Nombre',
     text: 'Nombre',
   },
-  // Agrega más columnas según sea necesario
 ];
-
-
 export const Plantas = () => {
-  //const
   const { getRequest } = useRequest();
   const {GetLotes} = Selects();
 
-  const [data, setData] = useState<IPlantas[]>([]);
+  //const [data, setData] = useState<IPlantas[]>([]);
   const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
-  const [Planta, setPLanta] = useState({
+  const [Planta, setPLanta] = useState<IPlantas>({
+    id:0,
     Nombre: "",
-    Codigo: "",
-    Id_Lote_id: 0,
+    Codigo_Planta: "",
+    Id_Lote: 0,
+    Disabled:false,
+    Activo: true,
+
   });
+  const {
+    data,
+    editingItem,
+    createItem,
+    updateItem,
+    deleteItem,
+    editItem,
+    resetEditingItem,
+  } = useCrud<IPlantas>(Endpoints.Plantas);
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
   const ResetForm =()=>{
     setPLanta({
+      id:0,
       Nombre: "",
-      Codigo: "",
-      Id_Lote_id: 0,
+      Codigo_Planta: "",
+      Id_Lote: 0,
+      Disabled:false,
+      Activo: true,
     })
   }
   const handleClose = () => {
@@ -61,22 +73,13 @@ export const Plantas = () => {
     console.log(name, value)
   };
   const SavePlanta = () => {
-    // Realiza alguna lógica de autenticación aquí
-    //onLogin(formData.username, formData.password);
-    alert(JSON.stringify( Planta,null,3))
+    createItem(Planta)
   };
   //call api
   const GetData = async () => {
-    await getRequest<IPlantas[]>(Endpoints.Plantas)
-      .then((e) => {
-        setData(e)
-        console.log(e);
-      })
-      .catch((error) => alert(error));
       setLotesSelect(await GetLotes())
   };
-  useEffect(() => {
-    // Realiza una solicitud a la API para obtener los datos
+  useEffect(()  => {
     GetData();
   }, []);
   return (
@@ -107,22 +110,22 @@ export const Plantas = () => {
                   onChange: (value) => handleInputChange("Nombre", value), // Maneja los cambios en el username
                 },
                 {
-                  name: "Codigo",
+                  name: "Codigo_Planta",
                   label: "Código",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
-                  value: Planta.Codigo, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Codigo", value), // Maneja los cambios en el password
+                  value: Planta.Codigo_Planta, // Establece el valor de password desde el estado formData
+                  onChange: (value) => handleInputChange("Codigo_Planta", value), // Maneja los cambios en el password
                 },
                 {
-                  name: "Id_Lote_id",
+                  name: "Id_Lote",
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
                   inputType:"select",
                   options:LotesSelect,
-                  value: Planta.Id_Lote_id, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Id_Lote_id", value.value), // Maneja los cambios en el password
+                  value: Planta.Id_Lote, // Establece el valor de password desde el estado formData
+                  onChange: (value) => handleInputChange("Id_Lote", value.value), // Maneja los cambios en el password
                 }
               ]}
               onSubmit={SavePlanta}
@@ -147,13 +150,13 @@ export const Plantas = () => {
               showSubmit={false}
               fields={[
                 {
-                  name: "Id_Lote_id",
+                  name: "Id_Lote",
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
                   inputType:"file",
-                  value: Planta.Id_Lote_id, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
+                  value: Planta.Id_Lote, // Establece el valor de password desde el estado formData
+                  onChange: (value) => handleInputChange("Id_Lote", value), // Maneja los cambios en el password
                 }
               ]}
               onSubmit={SavePlanta}

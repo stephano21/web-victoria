@@ -1,42 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BaseLayout } from "../components/BaseLayout";
-import { Card, CardText, CardTitle, Placeholder } from "react-bootstrap";
-import { DataTable } from "../components/DataTable";
-import { title } from "process";
-import { text } from "stream/consumers";
+import { Card, CardText, CardTitle } from "react-bootstrap";
+import {Analytics} from '../hooks/useAnalytics'
+import { IHome } from "../interfaces/AnalytisInterfaces";
 export const Home = () => {
-  const columnNames = ['ID', 'First Name', 'Last Name', 'Age', 'Email'];
+  const [Home, setHome]= useState<IHome>();
+  const {GetHomeInfo} = Analytics();
+  const LoadData = async () => {
+    setHome(await GetHomeInfo());
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    // Realiza una solicitud a la API para obtener los datos
+    LoadData()
+  }, []);
+const data =[
+  {
+    class: 'Primary',
+    area:'Usuarios',
+    icon: 'bi bi-people',
+    title: 'Usuarios registrados',
+    message:`${Home?.Usuarios} usuarios nuevos`,
+  },
+  {
+    class: 'success',
+    icon: 'bi bi-book',
+    area:'Lecturas',
+    title: 'Lecturas del mes',
+    message:Home?.Lecturas,
+  },
+  {
+    class: 'danger',
+    icon: 'bi bi-arrow-repeat',
+    area:'Sincronización',
+    title: 'Sincronizacion con Arable',
+    message:'La sincronizacion diaria ha fallado!',
+  }
 
-
+]
 
   return (
     <BaseLayout>
       <div className="container" >
         <div className="row">
-          {[
-            {
-              class: 'Primary',
-              area:'Usuarios',
-              icon: 'bi bi-people',
-              title: 'Usuarios registrados',
-              message:'2 usuarios nuevos',
-            },
-            {
-              class: 'success',
-              icon: 'bi bi-book',
-              area:'Lecturas',
-              title: 'Lecturas del mes',
-              message:'No se registrado ninguna lectura para este mes',
-            },
-            {
-              class: 'danger',
-              icon: 'bi bi-arrow-repeat',
-              area:'Sincronización',
-              title: 'Sincronizacion con Arable',
-              message:'La sincronizacion diaria ha fallado!',
-            }
-
-          ].map((variant) => (
+          {data.map((variant) => (
             <Card
               bg={variant.class.toLowerCase()}
               key={variant.class}

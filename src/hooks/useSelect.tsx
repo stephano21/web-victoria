@@ -63,6 +63,7 @@ export const Selects = () => {
             return [];
         }
     };
+    
     return {
         GetPlantas,
         GetLotes,

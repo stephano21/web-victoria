@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
-import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
 import { ILectura } from '../interfaces/AuthInterface';
