@@ -2,13 +2,21 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { ILectura } from '../interfaces/AuthInterface';
+import { ILectura, ISelectListItem } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
-import {Download} from '../components/Download';
+import { Download } from '../components/Download';
 import { DataTable } from '../components/DataTable';
+import { IDateFilter } from '../interfaces/FilterInteface';
+import { DateRangePicker } from 'rsuite';
+import useCrud from '../hooks/useCrud';
+import { Selects } from '../hooks/useSelect';
 const columns = [
+  {
+    dataField: 'Planta',
+    text: 'Planta',
+  },
   {
     dataField: 'FechaVisita',
     text: 'Fecha',
@@ -66,14 +74,31 @@ const columns = [
 
 export const Lecturas = () => {
   const { getRequest, postFileRequest } = useRequest();
-  const [data, setData] = useState<ILectura[]>([]);
+  const [PlantasSelect, setPlantasSelect] = useState<ISelectListItem[]>([]);
   const [Lectura, setLectura] = useState({
     Nombre: "",
     Codigo: "",
     Id_Lote_id: 0,
   });
+  const { GetPlantas } = Selects();
+  type ValueType = [Date, Date];
+  const [Range, setRange] = useState<ValueType>();
+  const [DateFilter, setDateFilter] = useState<IDateFilter>({
+    to: "",
+    from: "",
+  });
+  const {
+    data,
+    editingItem,
+    createItem,
+    updateItem,
+    deleteItem,
+    editItem,
+    resetEditingItem,
+  } = useCrud<ILectura>(Endpoints.Plantas,DateFilter);
   const [file, setFile] = useState<File | null>(null)
   const [show, setShow] = useState(false);
+
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -81,7 +106,7 @@ export const Lecturas = () => {
     const formData = new FormData()
     formData.append('lecturas', file as any)
 
-    postFileRequest(Endpoints.Lectura+Endpoints.Upload, formData)
+    postFileRequest(Endpoints.Lectura + Endpoints.Upload, formData)
       .then((e) => {
         console.log(e, formData);
       })
@@ -96,25 +121,39 @@ export const Lecturas = () => {
   }
   //call api
   const GetData = async () => {
-    await getRequest<ILectura[]>(Endpoints.Lectura)
-      .then((e) => {
-        setData(e)
-      })
-      .catch((error) => alert(error));
+    setPlantasSelect(await GetPlantas())
   };
   useEffect(() => {
-    // Realiza una solicitud a la API para obtener los datos
     GetData();
-  }, []);
+  }, [DateFilter]);
   return (
     <BaseLayout PageName='Lecturas'>
       <div className='container'>
         <Button variant="primary" onClick={handleShow}>
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
+        <div className='d-flex flex-row-reverse'>
+          <div className="p-2">
 
-       {/*  <CustomTable columns={columns} data={data}></CustomTable> */}
-        <DataTable data={data} columnNames={columns} actionsColumn={<button/>}></DataTable>
+            <DateRangePicker
+              showOneCalendar
+              value={Range}
+              onChange={(value) => {
+                // Si el valor es nulo, no actualizamos el estado
+                if (value !== null) {
+                  // Formateamos las fechas en formato "yyyy-mm-dd"
+                  const fromDate = value[0]?.toISOString().split('T')[0] || "";
+                  const toDate = value[1]?.toISOString().split('T')[0] || "";
+                  setDateFilter({
+                    from: fromDate,
+                    to: toDate,
+                  });
+                  setRange(value);
+                }
+              }} />
+          </div>
+        </div>
+        <DataTable data={data} columnNames={columns} actionsColumn={<button />}></DataTable>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Importar Lecturas</Modal.Title>
@@ -140,7 +179,7 @@ export const Lecturas = () => {
             />
           </Modal.Body>
           <Modal.Footer>
-          <Download fileName="FormatoLecturas.xlsx" Name='Formato de Lecturas'/>
+            <Download fileName="FormatoLecturas.xlsx" Name='Formato de Lecturas' />
 
             <Button variant="secondary" onClick={handleClose}>
               Close

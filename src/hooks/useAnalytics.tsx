@@ -6,9 +6,9 @@ export const useAnalytics = () => {
     const { getRequest } = useRequest();
     const [Estadisticas, setEstadisticas] = useState<IAnalytics>();
     const [Home, setHome] = useState<IHome>();
-    const GetEstadisticas = async (): Promise<IAnalytics> => {
+    const GetEstadisticas = async (params?: object): Promise<IAnalytics> => {
         try {
-            const Response = await getRequest<IAnalytics>(Endpoints.Analitics);
+            const Response = await getRequest<IAnalytics>(Endpoints.Analitics,params);
             setEstadisticas(Response);
             return Response; // Devuelve el arreglo transformado
         } catch (error) {

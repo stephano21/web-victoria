@@ -36,7 +36,7 @@ const style = {
 };
 export const Estadisticas = () => {
   const { getRequest } = useRequest();
-  const { GetEstadisticas} = useAnalytics();
+  const { GetEstadisticas } = useAnalytics();
 
   const [data, setData] = useState<IAnalytics>();
   // const {GetLotes, pointInRegion, getPlantas} = Selects();
@@ -51,7 +51,7 @@ export const Estadisticas = () => {
 
   //call api
   const GetData = async () => {
-    await GetEstadisticas();
+    setData(await GetEstadisticas(DateFilter));
   };
   useEffect(() => {
 
@@ -59,31 +59,7 @@ export const Estadisticas = () => {
     GetData();
 
   }, [DateFilter]);
-  const handleFilterChange = (name: string, value: string) => {
-    // Convierte las fechas a objetos Date para comparación
-    const fromDate = new Date(DateFilter.from);
-    const toDate = new Date(DateFilter.to);
-    const selectedDate = new Date(value);
 
-    // Realiza la validación según tu lógica específica
-    if (name === "from" && toDate.getTime() < selectedDate.getTime()) {
-      // La fecha de inicio no puede ser después de la fecha de fin
-      console.log("Fecha de inicio no puede ser después de la fecha de fin");
-      return;
-    }
-
-    if (name === "to" && fromDate.getTime() > selectedDate.getTime()) {
-      // La fecha de fin no puede ser antes de la fecha de inicio
-      console.log("Fecha de fin no puede ser antes de la fecha de inicio");
-      return;
-    }
-
-    // Si la validación pasa, actualiza el estado DateFilter
-    setDateFilter({
-      ...DateFilter,
-      [name]: value,
-    });
-  };
   const generateExcelReport = () => {
     const workbook = XLSX.utils.book_new();
 
@@ -137,7 +113,6 @@ export const Estadisticas = () => {
       <div className='container'>
         <div className='d-flex flex-row-reverse'>
           <div className="p-2">
-            
             <DateRangePicker
               showOneCalendar
               value={Range}
@@ -155,7 +130,7 @@ export const Estadisticas = () => {
                 }
               }} />
           </div>
-          
+
           <div className="p-2">
             <button className="btn btn-success" onClick={generateExcelReport}>
               <i className="bi bi-file-excel"></i>
