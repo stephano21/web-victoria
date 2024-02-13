@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react"
+import React, {ChangeEvent, useEffect, useState} from "react"
 import { BaseLayout } from "../components/BaseLayout"
-import { CustomTable } from "../components/CustomTable"
 import { useRequest } from "../api/UseRequest";
 import { Endpoints } from "../api/routes";
 import { DataTable } from "../components/DataTable";

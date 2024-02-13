@@ -12,7 +12,7 @@ export const Endpoints = {
   Plantas: "/plantas/",
   Poligonos: "/geolotes/",
   Produccion: "/produccion/",
-  Proyecto: "/proyecto/",
+  Proyecto: "/proyectos/",
   register: "/auth/register/",
   Roles: '/auth/roles',
   Root: '/auth/admin/',

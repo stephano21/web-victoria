@@ -1,7 +1,6 @@
 import React from "react";
 import { Input } from "./InputCustom";
 import { SelectSearch } from "./SelectSearch";
-import Select from 'react-select'
 interface FormField<T> {
   name: string;
   label?: string;
@@ -32,7 +31,14 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
       <div className="mb-3">
         {fields.map((field) => (
           <div key={field.name}>
-            {field.inputType === "text" || !field.inputType || field.inputType === "email"? ( // Usar "text" por defecto
+            {!field.inputType || 
+            field.inputType === "text" ||  
+            field.inputType === "email" ||
+            field.inputType === "password" ||
+            field.inputType === "number" ||
+            field.inputType === "file"
+            ? 
+            ( 
               <Input
                 {...field}
                 label={field.label}
@@ -52,38 +58,7 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
               onChange={field.onChange}
             />
             
-            ) : field.inputType==='password'?(
-              <Input
-              {...field}
-              label={field.label}
-              type={field.inputType}
-              bclass={field.bclass}
-              placeholder={field.placeholder}
-              value={field.value}
-              onChange={field.onChange}
-            />
-            ): field.inputType==='checkbox'?(
-              <Input
-              {...field}
-              label={field.label}
-              type={field.inputType}
-              bclass={field.bclass}
-              placeholder={field.placeholder}
-              value={field.value}
-              onChange={field.onChange}
-            />
-            ): field.inputType==='file'?(
-              <Input
-              {...field}
-              label={field.label}
-              accept={accept}
-              type={field.inputType}
-              bclass={field.bclass}
-              placeholder={field.placeholder}
-              value={field.value}
-              onChange={field.onChange}
-            />
-            ): (
+            ) : (
               // Renderizar otros tipos de entradas aquí
               <div>Entrada de tipo desconocido</div>
             )}

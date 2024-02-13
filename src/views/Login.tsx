@@ -5,16 +5,19 @@ import { TokenResponse } from "../interfaces/AuthInterface";
 import { Endpoints } from "../api/routes";
 import { useAuth } from "./../context/AuthContext";
 import { AlertContext, AlertType } from "../context/AlertContext";
+import useToaster from "../hooks/useToaster";
 
 export const Login = () => {
   const { postRequest } = useRequest();
   const { login } = useAuth();
-  const { alerts, addAlert } = useContext(AlertContext);
+  const { notify } = useToaster()
   const Login = async (username: string, password: string) => {
    
     if (username === '' || password === '') {
       //alert("Rellene todos los campos""Rellene todos los campos");\
-      return addAlert(AlertType.ERROR,"Rellene todos los campos");
+      return  notify(
+        `Rellene todos los campos`,"warning"
+      )
     }
     await postRequest<TokenResponse>(Endpoints.login, {
       username,
@@ -29,6 +32,7 @@ export const Login = () => {
   };
 
   const isLogin = (username: string, password: string) => {
+   
     Login(username, password).then(() => {}
     //(window.location.href = "/home")
     );
@@ -50,11 +54,7 @@ export const Login = () => {
 
       }}
     >
-      {alerts.map((alert) => (
-        <div key={alert.id} className={`alert-${alert.type}`}>
-          {alert.message}
-        </div>
-      ))}
+     
       <CardLogin onLogin={isLogin}></CardLogin>
     </div>
   );

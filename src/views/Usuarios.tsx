@@ -8,7 +8,7 @@ import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { usePlantaState } from '../states/PlantaState';
-import Download from '../components/Download';
+import {Download} from '../components/Download';
 import { DataTable } from '../components/DataTable';
 const columns = [
   {

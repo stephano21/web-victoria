@@ -2,7 +2,7 @@
 import { AlertContext } from "../context/AlertContext";
 import { useLoader } from "./../hooks/useLoader";
 import axios, { AxiosError, AxiosResponse } from "axios";
-
+import useToaster from "../hooks/useToaster";
 import {
   ApiErrorResponse,
   AuthInterface,
@@ -14,6 +14,7 @@ import { Endpoints } from "./routes";
 export const useRequest = () => {
   //const { addAlert } = useContext(AlertContext);
   const { showLoader, hideLoader } = useLoader();
+  const { notify } = useToaster()
 
   //#region AxiosConfig
 
@@ -56,7 +57,10 @@ export const useRequest = () => {
     return await ApiRequest.get(endpoint, { params })
       .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
-        //ShowAlertApiError(error);
+        notify(
+          `Ha ocurrido un error al obtener los datos!`, 
+          "error"
+        )
         throw error;
       })
       .finally(() => {
@@ -72,9 +76,18 @@ export const useRequest = () => {
     console.log("post??");
     showLoader();
     return await ApiRequest.post(endpoint, data, { params })
-      .then(({ data }: AxiosResponse<T>) => data)
+      .then(({ data }: AxiosResponse<T>) => {
+        // Notificar que el registro fue exitoso
+        notify("El registro se ha completado exitosamente", "success");
+        return data;
+      })
       .catch((error: AxiosError<ApiErrorResponse>) => {
-        //ShowAlertApiError(error);
+        console.log("error.....")
+        console.log(error)
+        notify(
+          `Ha ocurrido un error del sistema ${error.message}`, 
+          "error"
+        )
         throw error;
       })
       .finally(() => {
@@ -127,8 +140,10 @@ export const useRequest = () => {
     return await ApiPostFileRequest.post(endpoint, data, { params })
       .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
-        //console.error(JSON.stringify(error, null, 3));
-        //ShowAlertApiError(error);
+        notify(
+          `Ha ocurrido un error del sistema ${error.response?.data}`, 
+          "error"
+        )
         throw error;
       })
       .finally(() => {

@@ -10,7 +10,6 @@ import { GenericForm } from '../components/Form';
 import { DataTable } from '../components/DataTable';
 import { Selects } from '../hooks/useSelect';
 import useCrud from '../hooks/useCrud';
-//import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
 
   {
@@ -24,17 +23,18 @@ const columns = [
 ];
 export const Plantas = () => {
   const { getRequest } = useRequest();
-  const {GetLotes} = Selects();
+  const { GetLotes } = Selects();
 
-  //const [data, setData] = useState<IPlantas[]>([]);
   const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
   const [Planta, setPLanta] = useState<IPlantas>({
-    id:0,
+    id: 0,
     Nombre: "",
     Codigo_Planta: "",
     Id_Lote: 0,
-    Disabled:false,
+    Disabled: false,
     Activo: true,
+    lat: 0,
+    lng: 0,
 
   });
   const {
@@ -48,14 +48,16 @@ export const Plantas = () => {
   } = useCrud<IPlantas>(Endpoints.Plantas);
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
-  const ResetForm =()=>{
+  const ResetForm = () => {
     setPLanta({
-      id:0,
+      id: 0,
       Nombre: "",
       Codigo_Planta: "",
       Id_Lote: 0,
-      Disabled:false,
+      Disabled: false,
       Activo: true,
+      lat: 0,
+      lng: 0,
     })
   }
   const handleClose = () => {
@@ -70,16 +72,15 @@ export const Plantas = () => {
       ...Planta,
       [name]: value,
     });
-    console.log(name, value)
   };
   const SavePlanta = () => {
     createItem(Planta)
   };
   //call api
   const GetData = async () => {
-      setLotesSelect(await GetLotes())
+    setLotesSelect(await GetLotes())
   };
-  useEffect(()  => {
+  useEffect(() => {
     GetData();
   }, []);
   return (
@@ -91,7 +92,7 @@ export const Plantas = () => {
         <Button variant="primary" onClick={handleShowImport}>
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
-       
+
         <DataTable columnNames={columns} data={data}></DataTable>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -105,7 +106,7 @@ export const Plantas = () => {
                   name: "Nombre",
                   label: "Nombre",
                   bclass: "form-control",
-                  placeholder: "Escriba el nombre del lote",
+                  placeholder: "Escriba el nombre de la planta",
                   value: Planta.Nombre, // Establece el valor de username desde el estado formData
                   onChange: (value) => handleInputChange("Nombre", value), // Maneja los cambios en el username
                 },
@@ -118,12 +119,30 @@ export const Plantas = () => {
                   onChange: (value) => handleInputChange("Codigo_Planta", value), // Maneja los cambios en el password
                 },
                 {
+                  name: "lat",
+                  inputType:"number",
+                  label: "Latitud",
+                  bclass: "form-control",
+                  placeholder: "Ingrese la latitud",
+                  value: Planta.lat, // Establece el valor de password desde el estado formData
+                  onChange: (value) => handleInputChange("lat", value), // Maneja los cambios en el password
+                },
+                {
+                  name: "lng",
+                  inputType:"number",
+                  label: "Longitud",
+                  bclass: "form-control",
+                  placeholder: "Ingrese la longitud",
+                  value: Planta.lng, // Establece el valor de password desde el estado formData
+                  onChange: (value) => handleInputChange("lng", value), // Maneja los cambios en el password
+                },
+                {
                   name: "Id_Lote",
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
-                  inputType:"select",
-                  options:LotesSelect,
+                  inputType: "select",
+                  options: LotesSelect,
                   value: Planta.Id_Lote, // Establece el valor de password desde el estado formData
                   onChange: (value) => handleInputChange("Id_Lote", value.value), // Maneja los cambios en el password
                 }
@@ -133,10 +152,10 @@ export const Plantas = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Cancelar
             </Button>
             <Button variant="primary" onClick={SavePlanta}>
-              Save Changes
+              Enviar
             </Button>
           </Modal.Footer>
         </Modal>
@@ -154,7 +173,7 @@ export const Plantas = () => {
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
-                  inputType:"file",
+                  inputType: "file",
                   value: Planta.Id_Lote, // Establece el valor de password desde el estado formData
                   onChange: (value) => handleInputChange("Id_Lote", value), // Maneja los cambios en el password
                 }
@@ -164,10 +183,10 @@ export const Plantas = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseImport}>
-              Close
+              Cancelar
             </Button>
             <Button variant="primary" onClick={SavePlanta}>
-              Save Changes
+              Enviar
             </Button>
           </Modal.Footer>
         </Modal>

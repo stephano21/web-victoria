@@ -6,9 +6,8 @@ import { ILectura } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
-import Download from '../components/Download';
+import {Download} from '../components/Download';
 import { DataTable } from '../components/DataTable';
-//import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
   {
     dataField: 'FechaVisita',
@@ -66,7 +65,6 @@ const columns = [
 ];
 
 export const Lecturas = () => {
-  //const
   const { getRequest, postFileRequest } = useRequest();
   const [data, setData] = useState<ILectura[]>([]);
   const [Lectura, setLectura] = useState({
@@ -76,7 +74,6 @@ export const Lecturas = () => {
   });
   const [file, setFile] = useState<File | null>(null)
   const [show, setShow] = useState(false);
-  //const {  addAlert } = useContext(AlertContext);
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -88,13 +85,11 @@ export const Lecturas = () => {
       .then((e) => {
         console.log(e, formData);
       })
-      .catch((error) => alert(error.response.data));
+      .catch((error) => console.log(error.response.data));
     console.log(JSON.stringify(formData, null, 3))
   };
   const SetearFile = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('archivo xd', e[0])
     const archivo = e[0]
-    console.log('archivo xd', archivo)
     if (archivo) {
       setFile(archivo)
     }
@@ -104,7 +99,6 @@ export const Lecturas = () => {
     await getRequest<ILectura[]>(Endpoints.Lectura)
       .then((e) => {
         setData(e)
-        console.log(e);
       })
       .catch((error) => alert(error));
   };

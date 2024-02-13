@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BaseLayout } from "../components/BaseLayout";
 import { Card, CardText, CardTitle } from "react-bootstrap";
-import {Analytics} from '../hooks/useAnalytics'
+import {useAnalytics} from '../hooks/useAnalytics'
 import { IHome } from "../interfaces/AnalytisInterfaces";
 export const Home = () => {
   const [Home, setHome]= useState<IHome>();
-  const {GetHomeInfo} = Analytics();
+  const {GetHomeInfo} = useAnalytics();
   const LoadData = async () => {
     setHome(await GetHomeInfo());
   };

@@ -5,7 +5,7 @@ interface DownloadProps {
   Name?: string;
 }
 
-const Download: React.FC<DownloadProps> = ({ fileName, Name }) => {
+export const Download: React.FC<DownloadProps> = ({ fileName, Name }) => {
   const fileUrl = process.env.PUBLIC_URL + `/Formats/${fileName}`;
 
   const descargarArchivo = () => {
@@ -28,5 +28,3 @@ const Download: React.FC<DownloadProps> = ({ fileName, Name }) => {
     </div>
   );
 };
-
-export default Download;

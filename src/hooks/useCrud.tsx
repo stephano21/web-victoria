@@ -1,4 +1,3 @@
-// useCrud.js
 import { useState, useEffect } from 'react';
 import { useRequest } from '../api/UseRequest';
 
@@ -19,7 +18,9 @@ export const useCrud =<T,>(apiUrl: string) => {
     try {
       await postRequest(apiUrl, formData);
       fetchData();
+      
     } catch (error) {
+       
       console.error('Error creating data:', error);
     }
   };

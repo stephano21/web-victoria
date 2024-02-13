@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRequest } from '../api/UseRequest';
 import { Endpoints } from '../api/routes';
 import { IAnalytics, IHome } from '../interfaces/AnalytisInterfaces';
-export const Analytics = () => {
+export const useAnalytics = () => {
     const { getRequest } = useRequest();
     const [Estadisticas, setEstadisticas] = useState<IAnalytics>();
     const [Home, setHome] = useState<IHome>();

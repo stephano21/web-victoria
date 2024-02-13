@@ -30,18 +30,20 @@ export interface IPlantas {
   Nombre: string;
   Activo: boolean;
   Id_Lote: number;
+  lat:number;
+  lng: number;
 }
 export interface ILote {
   id: number;
   Codigo_Lote: string;
   Nombre: string;
   Hectareas: number | null;
-  Variedad: null;
+  Variedad: string;
   Id_Proyecto: number;
   Activo: boolean;
-  FechaSiembra: string;
-  Edad: number;
-  Num_Plantas: number;
+  FechaSiembra?: Date;
+  Edad?: number;
+  Num_Plantas?: number;
 }
 export interface IRegister {
   cedula: string;

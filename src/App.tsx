@@ -8,7 +8,7 @@ import {
 import { Login } from "./views/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-
+import 'rsuite/dist/rsuite.min.css';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { PolygonCreator } from "./components/PoligonCreator";
 import { Register } from "./views/Register";

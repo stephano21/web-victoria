@@ -20,12 +20,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { Input } from '../components/InputCustom';
 import { IDateFilter } from '../interfaces/FilterInteface';
 import { DateToString } from '../helpers/FormatDate';
 import { convertChartToImage } from '../helpers/ChartToImage';
-import { Selects } from '../hooks/Selects';
-import { left } from '@popperjs/core';
+import { useAnalytics } from '../hooks/useAnalytics';
+import { DateRangePicker } from 'rsuite';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 
@@ -36,10 +35,13 @@ const style = {
   lineHeight: '24px',
 };
 export const Estadisticas = () => {
-  const { getRequest, postRequest } = useRequest();
-  const [data, setData] = useState<IAnalytics>();
- // const {GetLotes, pointInRegion, getPlantas} = Selects();
+  const { getRequest } = useRequest();
+  const { GetEstadisticas} = useAnalytics();
 
+  const [data, setData] = useState<IAnalytics>();
+  // const {GetLotes, pointInRegion, getPlantas} = Selects();
+  type ValueType = [Date, Date];
+  const [Range, setRange] = useState<ValueType>();
   const [DateFilter, setDateFilter] = useState<IDateFilter>({
     to: "",
     from: "",
@@ -49,12 +51,7 @@ export const Estadisticas = () => {
 
   //call api
   const GetData = async () => {
-    await getRequest<IAnalytics>(Endpoints.Analitics, DateFilter)
-      .then((e) => {
-        setData(e)
-        console.log(e);
-      })
-      .catch((error) => console.warn(error));
+    await GetEstadisticas();
   };
   useEffect(() => {
 
@@ -140,20 +137,25 @@ export const Estadisticas = () => {
       <div className='container'>
         <div className='d-flex flex-row-reverse'>
           <div className="p-2">
-            <Input type='date'
-              label='Fecha Hasta'
-              bclass='form-control'
-              value={DateFilter.to}
-              onChange={(value) => handleFilterChange("to", value.toString())}
-            ></Input>
+            
+            <DateRangePicker
+              showOneCalendar
+              value={Range}
+              onChange={(value) => {
+                // Si el valor es nulo, no actualizamos el estado
+                if (value !== null) {
+                  // Formateamos las fechas en formato "yyyy-mm-dd"
+                  const fromDate = value[0]?.toISOString().split('T')[0] || "";
+                  const toDate = value[1]?.toISOString().split('T')[0] || "";
+                  setDateFilter({
+                    from: fromDate,
+                    to: toDate,
+                  });
+                  setRange(value);
+                }
+              }} />
           </div>
-          <div className="p-2">
-            <Input type='date'
-              label='Fecha Desde'
-              bclass='form-control'
-              value={DateFilter.from}
-              onChange={(value) => handleFilterChange("from", value.toString())}></Input>
-          </div>
+          
           <div className="p-2">
             <button className="btn btn-success" onClick={generateExcelReport}>
               <i className="bi bi-file-excel"></i>
@@ -179,15 +181,15 @@ export const Estadisticas = () => {
             <ResponsiveContainer width="100%" height="100%" ref={lineChartRef}>
               <Fragment>
                 <h5>Masorcas promedio por estadio</h5>
-                <LineChart  width={600} height={300} data={data?.Lecturas} >
+                <LineChart width={600} height={300} data={data?.Lecturas} >
                   <Line type="monotone" dataKey="E1" stroke="#49942D" />
                   <Line type="monotone" dataKey="E2" stroke="#64942D" />
                   <Line type="monotone" dataKey="E3" stroke="#BCBA35" />
                   <Line type="monotone" dataKey="E4" stroke="#F18E16" />
                   <Line type="monotone" dataKey="E5" stroke="#F15516" />
-                  <CartesianGrid  stroke="#ccc" />
-                  <XAxis  dataKey="Victoria" />
-                  <YAxis label={{ value: '# de Mazorcas', angle: -90, position: 'center',  }} />
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="Victoria" />
+                  <YAxis label={{ value: '# de Mazorcas', angle: -90, position: 'center', }} />
                   <Tooltip />
                 </LineChart>
               </Fragment>
