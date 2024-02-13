@@ -12,9 +12,10 @@ import { IDateFilter } from '../interfaces/FilterInteface';
 import { DateRangePicker } from 'rsuite';
 import useCrud from '../hooks/useCrud';
 import { Selects } from '../hooks/useSelect';
+import { set } from 'date-fns';
 const columns = [
   {
-    dataField: 'Planta',
+    dataField: 'NombrePlanta',
     text: 'Planta',
   },
   {
@@ -73,8 +74,8 @@ const columns = [
 ];
 
 export const Lecturas = () => {
-  const { getRequest, postFileRequest } = useRequest();
-  const [PlantasSelect, setPlantasSelect] = useState<ISelectListItem[]>([]);
+  const { postFileRequest, getRequest } = useRequest();
+  const [, setPlantasSelect] = useState<ISelectListItem[]>([]);
   const [Lectura, setLectura] = useState({
     Nombre: "",
     Codigo: "",
@@ -87,15 +88,15 @@ export const Lecturas = () => {
     to: "",
     from: "",
   });
+  const [data, setData] = useState<ILectura[]>([]);
   const {
-    data,
     editingItem,
     createItem,
     updateItem,
     deleteItem,
     editItem,
     resetEditingItem,
-  } = useCrud<ILectura>(Endpoints.Plantas,DateFilter);
+  } = useCrud<ILectura>(Endpoints.Lectura, DateFilter);
   const [file, setFile] = useState<File | null>(null)
   const [show, setShow] = useState(false);
 
@@ -113,6 +114,13 @@ export const Lecturas = () => {
       .catch((error) => console.log(error.response.data));
     console.log(JSON.stringify(formData, null, 3))
   };
+  const ResetDate = () => {
+    setDateFilter({
+      from: "",
+      to: ""
+    });
+    setRange(undefined)
+  };
   const SetearFile = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e[0]
     if (archivo) {
@@ -121,11 +129,16 @@ export const Lecturas = () => {
   }
   //call api
   const GetData = async () => {
+    await getRequest<ILectura[]>(Endpoints.Lectura, DateFilter)
+      .then((e) => {
+        setData(e)
+      })
+      .catch((error) => alert(error));
     setPlantasSelect(await GetPlantas())
   };
   useEffect(() => {
     GetData();
-  }, [DateFilter]);
+  }, [Range]);
   return (
     <BaseLayout PageName='Lecturas'>
       <div className='container'>
@@ -138,6 +151,8 @@ export const Lecturas = () => {
             <DateRangePicker
               showOneCalendar
               value={Range}
+              cleanable={true}
+              onClean={ResetDate}
               onChange={(value) => {
                 // Si el valor es nulo, no actualizamos el estado
                 if (value !== null) {
@@ -167,7 +182,7 @@ export const Lecturas = () => {
                   label: "Cargar Archivo",
                   bclass: "form-control",
                   inputType: "file",
-                  value: Lectura.Id_Lote_id, // Establece el valor de password desde el estado formData
+                  value: "xd", // Establece el valor de password desde el estado formData
                   onChange: (value) => {
 
                     SetearFile(value)
