@@ -82,8 +82,8 @@ export const Lecturas = () => {
     Id_Lote_id: 0,
   });
   const { GetPlantas } = Selects();
-  type ValueType = [Date, Date];
-  const [Range, setRange] = useState<ValueType>();
+  type ValueType = [Date|null, Date|null];
+  const [Range, setRange] = useState<ValueType>([null,null]);
   const [DateFilter, setDateFilter] = useState<IDateFilter>({
     to: "",
     from: "",
@@ -119,7 +119,7 @@ export const Lecturas = () => {
       from: "",
       to: ""
     });
-    setRange(undefined)
+    setRange([null,null])
   };
   const SetearFile = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e[0]

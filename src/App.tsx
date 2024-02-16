@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -27,7 +27,7 @@ import { Produccion } from "./views/Produccion";
 import { Roles } from "./views/Roles";
 
 const App: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, UserData } = useAuth();
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -42,30 +42,35 @@ const App: React.FC = () => {
     <>
       <Router>
         <Routes>
-          {isAuthenticated ? (
+          {isAuthenticated  ? (
             <>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/crop/lots" element={<Lotes />} />
-              <Route path="/crop/trees" element={<Plantas />} />
-              <Route path="/crop/readings" element={<Lecturas/>} />
-              <Route path="/crop/production" element={<Produccion/>} />
-              <Route path="/weather/sync" element={<Sincronizaciones/>} />
-              <Route path="/auth/users" element={<Usuarios/>} />
-              <Route path="/auth/porfile" element={<Porfile/>} />
-              <Route path="/auth/role" element={<Roles/>} />
-              <Route path="/pred/averange" element={<Estimaciones/>} />
-              <Route path="/pred/analytics" element={<Estadisticas/>} />
               <Route path="*" element={<Navigate to="/home" />} />
+              {UserData && UserData.rol !== null && (
+                <Fragment>
+                  <Route path="/crop/lots" element={<Lotes />} />
+                  <Route path="/crop/trees" element={<Plantas />} />
+                  <Route path="/crop/readings" element={<Lecturas />} />
+                  <Route path="/crop/production" element={<Produccion />} />
+                  <Route path="/weather/sync" element={<Sincronizaciones />} />
+                  <Route path="/auth/users" element={<Usuarios />} />
+                  <Route path="/auth/porfile" element={<Porfile />} />
+                  <Route path="/auth/role" element={<Roles />} />
+                  <Route path="/pred/averange" element={<Estimaciones />} />
+                  <Route path="/pred/analytics" element={<Estadisticas />} />
+                </Fragment>
+              )}
+
             </>
           ) : (
             <>
               <Route path="/" element={<Navigate to="/auth/login" />} />
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/register" element={<Register />} />
-              <Route path="/uae/likes" element={<Likes/>} />
+              <Route path="/uae/likes" element={<Likes />} />
               <Route path="*" element={<Navigate to="/auth/login" />} />
-              
+
             </>
           )}
           <Route path="*" element={<p>La ruta no existe</p>} />

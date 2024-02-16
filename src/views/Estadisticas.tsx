@@ -193,7 +193,8 @@ export const Estadisticas = () => {
                   <Line type="monotone" dataKey="qq" stroke="#8884d8" />
                   <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                   <XAxis dataKey="Victoria" />
-                  <YAxis />
+                  <YAxis label={{ value: 'Quintales', angle: -90, position: 'center', }} />
+                  <YAxis  />
                   <Tooltip />
                 </LineChart>
               </Fragment>

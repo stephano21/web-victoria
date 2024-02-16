@@ -69,7 +69,7 @@ export const Produccion = () => {
         setData(e)
         console.log(e);
       })
-      .catch((error) => alert(error));
+      .catch((error) => console.log(error));
   };
   useEffect(() => {
     // Realiza una solicitud a la API para obtener los datos
