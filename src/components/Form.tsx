@@ -16,14 +16,14 @@ interface FormField<T> {
 interface GenericFormProps {
   fields: FormField<any>[];
   showSubmit?: boolean;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   accept?: string;
 }
 
 export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }: GenericFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit();
+    onSubmit && onSubmit();
   };
 
   return (

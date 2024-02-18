@@ -239,7 +239,7 @@ export const Lotes: React.FC = () => {
 
           <Modal show={showImport} onHide={handleCloseImport}>
             <Modal.Header closeButton>
-              <Modal.Title>Cargar Plantas</Modal.Title>
+              <Modal.Title>Cargar Lotes</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <GenericForm
@@ -261,7 +261,7 @@ export const Lotes: React.FC = () => {
               />
             </Modal.Body>
             <Modal.Footer>
-              <Download fileName="FormatoActualizarLotes.xlsx" Name='Formato de Lecturas' />
+              <Download fileName="FormatoLotes.xlsx" Name='Formato de Lecturas' />
               <Button variant="secondary" onClick={handleCloseImport}>
                 Cancelar
               </Button>

@@ -47,6 +47,7 @@ const App: React.FC = () => {
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<Navigate to="/home" />} />
+              <Route path="/auth/porfile" element={<Porfile />} />
               {UserData && UserData.rol !== null && (
                 <Fragment>
                   <Route path="/crop/lots" element={<Lotes />} />
@@ -55,7 +56,6 @@ const App: React.FC = () => {
                   <Route path="/crop/production" element={<Produccion />} />
                   <Route path="/weather/sync" element={<Sincronizaciones />} />
                   <Route path="/auth/users" element={<Usuarios />} />
-                  <Route path="/auth/porfile" element={<Porfile />} />
                   <Route path="/auth/role" element={<Roles />} />
                   <Route path="/pred/averange" element={<Estimaciones />} />
                   <Route path="/pred/analytics" element={<Estadisticas />} />

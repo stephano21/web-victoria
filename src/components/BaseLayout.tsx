@@ -48,10 +48,10 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
              <Accordion.Body>
                <ListGroup variant="flush">
                  <ListGroup.Item>
-                   <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
+                   <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
                  </ListGroup.Item>
                  <ListGroup.Item>
-                   <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                   <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
                  </ListGroup.Item>
                  <ListGroup.Item>
                    <Nav.Link href="/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
@@ -125,7 +125,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               </Nav.Link>
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/auth/porfile">Perfil</NavDropdown.Item>
-                { UserData && UserData?.rol =="Researcher" && (
+                { UserData && UserData?.rol =="Researcher"|| UserData?.rol =="Root" && (
                 <NavDropdown.Item href={Endpoints.BaseURL+Endpoints.Api+Endpoints.Root}>
                   Admin
                 </NavDropdown.Item>)

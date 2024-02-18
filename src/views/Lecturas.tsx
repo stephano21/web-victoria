@@ -13,6 +13,7 @@ import { DateRangePicker } from 'rsuite';
 import useCrud from '../hooks/useCrud';
 import { Selects } from '../hooks/useSelect';
 import { set } from 'date-fns';
+import { SelectSearch } from '../components/SelectSearch';
 const columns = [
   {
     dataField: 'NombrePlanta',
@@ -75,18 +76,18 @@ const columns = [
 
 export const Lecturas = () => {
   const { postFileRequest, getRequest } = useRequest();
-  const [, setPlantasSelect] = useState<ISelectListItem[]>([]);
+  const [PlantasSelect, setPlantasSelect] = useState<ISelectListItem[]>([]);
   const [Lectura, setLectura] = useState({
     Nombre: "",
     Codigo: "",
     Id_Lote_id: 0,
   });
-  const { GetPlantas } = Selects();
-  type ValueType = [Date|null, Date|null];
-  const [Range, setRange] = useState<ValueType>([null,null]);
+  const {  GetLotes } = Selects();
+  type ValueType = [Date | null, Date | null];
+  const [Range, setRange] = useState<ValueType>([new Date(), new Date()]);
   const [DateFilter, setDateFilter] = useState<IDateFilter>({
-    to: "",
-    from: "",
+    to: new Date().toISOString().split('T')[0],
+    from: new Date().toISOString().split('T')[0],
   });
   const [data, setData] = useState<ILectura[]>([]);
   const {
@@ -119,7 +120,7 @@ export const Lecturas = () => {
       from: "",
       to: ""
     });
-    setRange([null,null])
+    setRange([null, null])
   };
   const SetearFile = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e[0]
@@ -134,19 +135,30 @@ export const Lecturas = () => {
         setData(e)
       })
       .catch((error) => alert(error));
-    setPlantasSelect(await GetPlantas())
+
   };
+  const GetPlantasFilter = async () => {
+    setPlantasSelect(await GetLotes())
+
+  }
   useEffect(() => {
     GetData();
   }, [Range]);
+
+  useEffect(() => {
+    GetPlantasFilter();
+  }, []);
   return (
     <BaseLayout PageName='Lecturas'>
       <div className='container'>
-        <Button variant="primary" onClick={handleShow}>
-          <i className="bi bi-upload"></i>&nbsp;  Cargar
-        </Button>
-        <div className='d-flex flex-row-reverse'>
+
+        <div className='d-flex flex-row'>
           <div className="p-2">
+            <Button variant="primary" onClick={handleShow}>
+              <i className="bi bi-upload"></i>&nbsp;  Cargar
+            </Button>
+          </div>
+          <div className="col-sm-2 p-2">
 
             <DateRangePicker
               showOneCalendar
@@ -166,6 +178,11 @@ export const Lecturas = () => {
                   setRange(value);
                 }
               }} />
+          </div>
+          <div className="col-sm-2 p-2">
+            <SelectSearch
+              options={PlantasSelect}
+            ></SelectSearch>
           </div>
         </div>
         <DataTable data={data} columnNames={columns} actionsColumn={<button />}></DataTable>
