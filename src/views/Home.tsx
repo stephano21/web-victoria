@@ -59,7 +59,9 @@ export const Home = () => {
       <div className="container" >
         {UserData && UserData?.rol !== null && (
           <div className="row">
+            {process.env.REACT_APP_DEBUGG  &&(
             <button type="button" className="btn btn-warning" onClick={HandeleButton}>Test </button>
+            )}
             {data.map((variant) => (
               <Card
                 bg={variant.class.toLowerCase()}
