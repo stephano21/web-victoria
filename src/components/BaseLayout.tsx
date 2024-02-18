@@ -1,5 +1,4 @@
 import React, { ReactNode, useContext, useState } from "react";
-import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -9,8 +8,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import banner from './../assets/brand.png'
 //Auth
 import { useAuth } from "./../context/AuthContext";
-import { useOutletContext } from "react-router-dom";
-import { AlertContext } from "../context/AlertContext";
 import { Endpoints } from "../api/routes";
 interface BaseLayoutProps {
   PageName?: string;
@@ -25,75 +22,77 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleLinkClick = () => setShow(true);
-  const { alerts } = useContext(AlertContext);
   const { logout, UserData } = useAuth();
   return (
     <>
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Plant Trace</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header><i className="bi bi-cloud-lightning-rain"></i> &nbsp; Clima</Accordion.Header>
-              <Accordion.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <Nav.Link href="/weather/sync"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
-                  </ListGroup.Item>
+    {UserData && UserData?.rol !== null && (
+       <Offcanvas show={show} onHide={handleClose}>
+       <Offcanvas.Header closeButton>
+         <Offcanvas.Title>Plant Trace</Offcanvas.Title>
+       </Offcanvas.Header>
+       <Offcanvas.Body>
+         <Accordion>
+           <Accordion.Item eventKey="0">
+             <Accordion.Header><i className="bi bi-cloud-lightning-rain"></i> &nbsp; Clima</Accordion.Header>
+             <Accordion.Body>
+               <ListGroup variant="flush">
+                 <ListGroup.Item>
+                   <Nav.Link href="/weather/sync"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
+                 </ListGroup.Item>
 
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Parametrizaciones</Accordion.Header>
-              <Accordion.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Nav.Link href="/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Nav.Link href="/crop/readings"><i className="bi bi-list-check"></i>&nbsp;&nbsp;Lecturas</Nav.Link>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="2">
-              <Accordion.Header><i className="bi bi-graph-up-arrow"></i> &nbsp;Estimaciones</Accordion.Header>
-              <Accordion.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <Nav.Link href="/pred/analytics"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Nav.Link href="/pred/averange"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="3">
-              <Accordion.Header><i className="bi bi-person-gear"></i> &nbsp;Administrador</Accordion.Header>
-              <Accordion.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <Nav.Link href="/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Nav.Link href="/auth/role"><i className="bi bi-person-fill-lock"></i>&nbsp;&nbsp;Roles</Nav.Link>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </Offcanvas.Body>
-      </Offcanvas>
+               </ListGroup>
+             </Accordion.Body>
+           </Accordion.Item>
+           <Accordion.Item eventKey="1">
+             <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Parametrizaciones</Accordion.Header>
+             <Accordion.Body>
+               <ListGroup variant="flush">
+                 <ListGroup.Item>
+                   <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                   <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                   <Nav.Link href="/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                   <Nav.Link href="/crop/readings"><i className="bi bi-list-check"></i>&nbsp;&nbsp;Lecturas</Nav.Link>
+                 </ListGroup.Item>
+               </ListGroup>
+             </Accordion.Body>
+           </Accordion.Item>
+           <Accordion.Item eventKey="2">
+             <Accordion.Header><i className="bi bi-graph-up-arrow"></i> &nbsp;Estimaciones</Accordion.Header>
+             <Accordion.Body>
+               <ListGroup variant="flush">
+                 <ListGroup.Item>
+                   <Nav.Link href="/pred/analytics"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                   <Nav.Link href="/pred/averange"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
+                 </ListGroup.Item>
+               </ListGroup>
+             </Accordion.Body>
+           </Accordion.Item>
+           <Accordion.Item eventKey="3">
+             <Accordion.Header><i className="bi bi-person-gear"></i> &nbsp;Administrador</Accordion.Header>
+             <Accordion.Body>
+               <ListGroup variant="flush">
+                 <ListGroup.Item>
+                   <Nav.Link href="/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
+                 </ListGroup.Item>
+                 <ListGroup.Item>
+                   <Nav.Link href="/auth/role"><i className="bi bi-person-fill-lock"></i>&nbsp;&nbsp;Roles</Nav.Link>
+                 </ListGroup.Item>
+               </ListGroup>
+             </Accordion.Body>
+           </Accordion.Item>
+         </Accordion>
+       </Offcanvas.Body>
+     </Offcanvas>
+    )}
+     
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <div className="container-fluid">
           <Navbar.Brand onClick={handleShow}>
@@ -126,9 +125,13 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               </Nav.Link>
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/auth/porfile">Perfil</NavDropdown.Item>
+                { UserData && UserData?.rol =="Researcher"|| UserData?.rol =="Root" && (
                 <NavDropdown.Item href={Endpoints.BaseURL+Endpoints.Api+Endpoints.Root}>
                   Admin
-                </NavDropdown.Item>
+                </NavDropdown.Item>)
+
+                
+                }
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   href="#action5"

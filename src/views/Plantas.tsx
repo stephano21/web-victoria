@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
 import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
@@ -10,6 +10,8 @@ import { GenericForm } from '../components/Form';
 import { DataTable } from '../components/DataTable';
 import { Selects } from '../hooks/useSelect';
 import useCrud from '../hooks/useCrud';
+import { Input } from '../components/InputCustom';
+import { Download } from '../components/Download';
 const columns = [
 
   {
@@ -22,10 +24,11 @@ const columns = [
   },
 ];
 export const Plantas = () => {
-  const { getRequest } = useRequest();
+  const { getRequest,postFileRequest } = useRequest();
   const { GetLotes } = Selects();
 
   const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
+  const [file, setFile] = useState<File | null>(null)
   const [Planta, setPLanta] = useState<IPlantas>({
     id: 0,
     Nombre: "",
@@ -72,6 +75,23 @@ export const Plantas = () => {
       ...Planta,
       [name]: value,
     });
+  };
+  const HandleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const archivo = e[0]
+    if (archivo) {
+      setFile(archivo)
+    }
+  }
+  const ImporPlantas = () => {
+    const formData = new FormData()
+    formData.append('plantas', file as any)
+
+    postFileRequest(Endpoints.Plantas + Endpoints.Upload, formData)
+      .then((e) => {
+        console.log(e, formData);
+      })
+      .catch((error) => console.log(error.response.data));
+    console.log(JSON.stringify(formData, null, 3))
   };
   const SavePlanta = () => {
     createItem(Planta)
@@ -120,7 +140,7 @@ export const Plantas = () => {
                 },
                 {
                   name: "lat",
-                  inputType:"number",
+                  inputType: "number",
                   label: "Latitud",
                   bclass: "form-control",
                   placeholder: "Ingrese la latitud",
@@ -129,7 +149,7 @@ export const Plantas = () => {
                 },
                 {
                   name: "lng",
-                  inputType:"number",
+                  inputType: "number",
                   label: "Longitud",
                   bclass: "form-control",
                   placeholder: "Ingrese la longitud",
@@ -175,17 +195,20 @@ export const Plantas = () => {
                   placeholder: "Ingrese el código",
                   inputType: "file",
                   value: Planta.Id_Lote, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Id_Lote", value), // Maneja los cambios en el password
+                  onChange: (value) => {
+
+                    HandleFile(value)
+                  }, // Maneja los cambios en el password
                 }
               ]}
-              onSubmit={SavePlanta}
             />
           </Modal.Body>
           <Modal.Footer>
+          <Download fileName="FormatoPlantas.xlsx" Name='Formato de Lecturas' />
             <Button variant="secondary" onClick={handleCloseImport}>
               Cancelar
             </Button>
-            <Button variant="primary" onClick={SavePlanta}>
+            <Button variant="primary" onClick={ImporPlantas}>
               Enviar
             </Button>
           </Modal.Footer>

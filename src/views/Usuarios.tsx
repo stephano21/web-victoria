@@ -1,6 +1,5 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
-import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
 import { IUser } from '../interfaces/AuthInterface';
@@ -68,8 +67,9 @@ export const Usuarios = () => {
       .then((e) => {
         console.log(e, formData);
       })
-      .catch((error) => alert(error.response.data));
+      .catch((error) => console.log(error.response.data));
     console.log(JSON.stringify(formData, null, 3))
+    GetData();
   };
   //call api
   const GetData = async () => {
