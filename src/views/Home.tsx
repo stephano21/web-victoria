@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { BaseLayout } from "../components/BaseLayout";
-import { Card, CardText, CardTitle, Toast, ToastContainer } from "react-bootstrap";
 import { useAnalytics } from '../hooks/useAnalytics'
 import { IHome } from "../interfaces/AnalytisInterfaces";
 import { useAuth } from "../context/AuthContext";
@@ -15,10 +14,6 @@ export const Home = () => {
   const { getRequest } = useRequest();
   const { notify } = useToaster()
   const LoadData = async () => {
-    /* await getRequest<IHome>(Endpoints.Home).then((res) => {
-      setHome(res);
-      console.log(Home.Proyects);
-    }).catch((err) => { console.log(err) }); */
     await setHome(await GetHomeInfo());
   };
   const { UserData } = useAuth();
@@ -38,7 +33,6 @@ export const Home = () => {
         }
       )
     })
-
   }, []);
   const HandeleButton = () => getRequest(Endpoints.Test);
   const data = [
@@ -82,11 +76,9 @@ export const Home = () => {
                   <p>{item.Proyect} {MonthToString(new Date().toISOString().split('T')[0])}</p>
                 </Col>
               )
-
               )}
             </div>
           </Fragment>
-
         )}
         {UserData && UserData?.rol === null && (
           <Fragment>

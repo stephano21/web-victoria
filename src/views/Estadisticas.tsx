@@ -26,8 +26,6 @@ import { convertChartToImage } from '../helpers/ChartToImage';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { DateRangePicker } from 'rsuite';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
-
-
 const style = {
   top: '50%',
   right: 0,
@@ -48,18 +46,14 @@ export const Estadisticas = () => {
   });
   const barChartRef = useRef(null);
   const lineChartRef = useRef(null);
-
   //call api
   const GetData = async () => {
     setData(await GetEstadisticas(DateFilter));
   };
   useEffect(() => {
-
     // Realiza una solicitud a la API para obtener los datos
     GetData();
-
   }, [DateFilter]);
-
   const generateExcelReport = () => {
     const workbook = XLSX.utils.book_new();
 
@@ -85,6 +79,7 @@ export const Estadisticas = () => {
     XLSX.writeFile(workbook, 'reporte.xlsx');
   };
   const generatePDF = async () => {
+    if(1==1) return;
     const barChartImage = await convertChartToImage(barChartRef);
     const lineChartImage = await convertChartToImage(lineChartRef);
 
@@ -182,9 +177,7 @@ export const Estadisticas = () => {
                 </BarChart>
               </Fragment>
             </ResponsiveContainer>
-
           </div>
-
           <div className="col-md-6 text-center ">
             <ResponsiveContainer width={"100%"} height="100%">
               <Fragment>
@@ -199,7 +192,6 @@ export const Estadisticas = () => {
                 </LineChart>
               </Fragment>
             </ResponsiveContainer>
-
           </div>
           <div className="col-md-6">
             <ResponsiveContainer width="100%" height="100%">
@@ -212,11 +204,9 @@ export const Estadisticas = () => {
                 <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
               </RadialBarChart>
             </ResponsiveContainer>
-
           </div>
         </div>
       </div>
-
     </BaseLayout>
   )
 }
