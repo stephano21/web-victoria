@@ -10,9 +10,7 @@ import { Download } from '../components/Download';
 import { DataTable } from '../components/DataTable';
 import { IDateFilter } from '../interfaces/FilterInteface';
 import { DateRangePicker } from 'rsuite';
-import useCrud from '../hooks/useCrud';
 import { Selects } from '../hooks/useSelect';
-import { set } from 'date-fns';
 import { SelectSearch } from '../components/SelectSearch';
 const columns = [
   {
@@ -77,12 +75,7 @@ const columns = [
 export const Lecturas = () => {
   const { postFileRequest, getRequest } = useRequest();
   const [PlantasSelect, setPlantasSelect] = useState<ISelectListItem[]>([]);
-  const [Lectura, setLectura] = useState({
-    Nombre: "",
-    Codigo: "",
-    Id_Lote_id: 0,
-  });
-  const {  GetLotes } = Selects();
+  const {GetLotes } = Selects();
   type ValueType = [Date | null, Date | null];
   const [Range, setRange] = useState<ValueType>([new Date(), new Date()]);
   const [DateFilter, setDateFilter] = useState<IDateFilter>({
@@ -90,17 +83,8 @@ export const Lecturas = () => {
     from: new Date().toISOString().split('T')[0],
   });
   const [data, setData] = useState<ILectura[]>([]);
-  const {
-    editingItem,
-    createItem,
-    updateItem,
-    deleteItem,
-    editItem,
-    resetEditingItem,
-  } = useCrud<ILectura>(Endpoints.Lectura, DateFilter);
   const [file, setFile] = useState<File | null>(null)
   const [show, setShow] = useState(false);
-
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -158,7 +142,7 @@ export const Lecturas = () => {
               <i className="bi bi-upload"></i>&nbsp;  Cargar
             </Button>
           </div>
-          <div className="col-sm-2 p-2">
+          <div className="col-sm-3 p-2">
 
             <DateRangePicker
               showOneCalendar
@@ -214,10 +198,10 @@ export const Lecturas = () => {
             <Download fileName="FormatoLecturas.xlsx" Name='Formato de Lecturas' />
 
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Cancelar
             </Button>
             <Button variant="primary" onClick={ImporLecturas}>
-              Save Changes
+              Guardar
             </Button>
           </Modal.Footer>
         </Modal>

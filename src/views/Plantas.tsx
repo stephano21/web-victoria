@@ -24,7 +24,7 @@ const columns = [
   },
 ];
 export const Plantas = () => {
-  const { getRequest,postFileRequest } = useRequest();
+  const { getRequest, postFileRequest } = useRequest();
   const { GetLotes } = Selects();
 
   const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
@@ -42,12 +42,7 @@ export const Plantas = () => {
   });
   const {
     data,
-    editingItem,
     createItem,
-    updateItem,
-    deleteItem,
-    editItem,
-    resetEditingItem,
   } = useCrud<IPlantas>(Endpoints.Plantas);
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
@@ -196,7 +191,6 @@ export const Plantas = () => {
                   inputType: "file",
                   value: Planta.Id_Lote, // Establece el valor de password desde el estado formData
                   onChange: (value) => {
-
                     HandleFile(value)
                   }, // Maneja los cambios en el password
                 }
@@ -204,7 +198,7 @@ export const Plantas = () => {
             />
           </Modal.Body>
           <Modal.Footer>
-          <Download fileName="FormatoPlantas.xlsx" Name='Formato de Lecturas' />
+            <Download fileName="FormatoPlantas.xlsx" Name='Formato de Lecturas' />
             <Button variant="secondary" onClick={handleCloseImport}>
               Cancelar
             </Button>

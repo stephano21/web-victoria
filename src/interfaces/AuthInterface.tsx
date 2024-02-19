@@ -18,7 +18,7 @@ export interface IProyecto {
   id: number;
   Codigo_Proyecto: string;
   Nombre: string;
-  Densidad: number | null; 
+  Densidad: number | null;
   Activo: boolean;
   Usuario: string;
   Id_Hacienda: number;
@@ -30,7 +30,7 @@ export interface IPlantas {
   Nombre: string;
   Activo: boolean;
   Id_Lote: number;
-  lat:number;
+  lat: number;
   lng: number;
 }
 export interface ILote {
@@ -52,7 +52,7 @@ export interface IRegister {
   email: string;
   username: string;
   password: string;
-  Id_Hacienda:number;
+  Id_Hacienda: number;
 }
 export interface IUser {
   id: number;
@@ -98,6 +98,18 @@ export interface ILectura {
   FechaVisita: Date;
   Activo: boolean;
   Id_Planta: number;
+}
+
+export interface IProduccion {
+  id?: number;
+  Lote?: string;
+  Fecha_Produccion?: string;
+  Qq: number;
+  Fecha?: string;
+  FechaRegistro?: string;
+  Activo?: boolean;
+  Usuario?: string;
+  Id_Lote?: number;
 }
 
 export interface ISelectListItem {

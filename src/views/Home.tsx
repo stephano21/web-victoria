@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { BaseLayout } from "../components/BaseLayout";
-import { Card, CardText, CardTitle } from "react-bootstrap";
+import { Card, CardText, CardTitle, Toast, ToastContainer } from "react-bootstrap";
 import { useAnalytics } from '../hooks/useAnalytics'
 import { IHome } from "../interfaces/AnalytisInterfaces";
 import { useAuth } from "../context/AuthContext";
 import { Endpoints } from "../api/routes";
 import { useRequest } from "../api/UseRequest";
 import { Progress, Col } from "rsuite";
+import { MonthToString } from '../helpers/FormatDate';
 import useToaster from "../hooks/useToaster";
 export const Home = () => {
   const [Home, setHome] = useState<IHome>();
@@ -14,34 +15,39 @@ export const Home = () => {
   const { getRequest } = useRequest();
   const { notify } = useToaster()
   const LoadData = async () => {
-    setHome(await GetHomeInfo());
+    /* await getRequest<IHome>(Endpoints.Home).then((res) => {
+      setHome(res);
+      console.log(Home.Proyects);
+    }).catch((err) => { console.log(err) }); */
+    await setHome(await GetHomeInfo());
   };
   const { UserData } = useAuth();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Realiza una solicitud a la API para obtener los datos
     LoadData()
-    notify(
-      `${Home?.Usuarios} usuarios nuevos`,
-      "info",
-      { notificationProps: { header: "Usuarios" } }
-    )
+    data.forEach((item) => {
+      notify(
+        item?.message,
+        item?.class == "danger" ? "error" : "info",
+        {
+          notificationProps: {
+            header: item?.area
+          },
+          pushOptions: { duration: 100000 }
+        }
+      )
+    })
+
   }, []);
   const HandeleButton = () => getRequest(Endpoints.Test);
   const data = [
     {
-      class: 'Primary',
+      class: 'primary',
       area: 'Usuarios',
       icon: 'bi bi-people',
       title: 'Usuarios registrados',
       message: `${Home?.Usuarios} usuarios nuevos`,
-    },
-    {
-      class: 'success',
-      icon: 'bi bi-book',
-      area: 'Lecturas',
-      title: 'Lecturas del mes',
-      message: Home?.Lecturas,
     },
     {
       class: 'danger',
@@ -50,7 +56,6 @@ export const Home = () => {
       title: 'Sincronizacion con Arable',
       message: 'La sincronizacion diaria ha fallado!',
     }
-
   ]
   const status = Home?.Lecturas === 100 ? 'success' : null;
   const color = Home?.Lecturas === 100 ? '#52c41a' : '#3385ff';
@@ -58,35 +63,30 @@ export const Home = () => {
     <BaseLayout>
       <div className="container" >
         {UserData && UserData?.rol !== null && (
-          <div className="row">
-            {process.env.REACT_APP_DEBUGG  &&(
-            <button type="button" className="btn btn-warning" onClick={HandeleButton}>Test </button>
-            )}
-            {data.map((variant) => (
-              <Card
-                bg={variant.class.toLowerCase()}
-                key={variant.class}
-                text={variant.class.toLowerCase() === 'light' ? 'dark' : 'white'}
-                style={{ width: '15rem', margin: 2, }}
-                className="mb-2"
-              >
-                <Card.Header><i className={variant.icon}></i> {variant.area}</Card.Header>
-                <Card.Body>
-                  <CardTitle as={Card.Title} animation="glow">
-                    {variant.title}
-                  </CardTitle>
-                  <CardText>{variant.message}</CardText>
-                </Card.Body>
-              </Card>
+          <Fragment>
+            <div className="d-flex justify-content-center">
+              {process.env.REACT_APP_DEBUGG && (
+                <button type="button" className="btn btn-warning" onClick={HandeleButton}>Test </button>
+              )}
+              <Col md={6}>
+                <div style={{ width: 120, marginTop: 10 }}>
+                  <Progress.Circle percent={Home?.Lecturas} strokeColor={color} status={status} />
+                  <p>Lecturas {MonthToString(new Date().toISOString().split('T')[0])}</p>
+                </div>
+              </Col>
+            </div>
+            <div className="d-flex justify-content-center ">
+            {Home && Home.Proyects?.map((item) => (
+                <Col md={3}>
+                  <Progress.Circle  percent={item.Lecturas} strokeColor={color} status={status} />
+                  <p>{item.Proyect} {MonthToString(new Date().toISOString().split('T')[0])}</p>
+                </Col>
+              )
 
-            ))}
-            <br />
-            <Col md={6}>
-              <div style={{ width: 120, marginTop: 10 }}>
-                <Progress.Circle percent={Home?.Lecturas} strokeColor={color} status={status} />
-              </div>
-            </Col>
-          </div>
+              )}
+            </div>
+          </Fragment>
+
         )}
         {UserData && UserData?.rol === null && (
           <Fragment>

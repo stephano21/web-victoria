@@ -4,7 +4,7 @@ import { SelectSearch } from "./SelectSearch";
 interface FormField<T> {
   name: string;
   label?: string;
-  inputType?: "text" | "select" | "checkbox"| "password"|"file"|"email"|"number"; // Agregar más tipos si es necesario
+  inputType?: "text" | "select" | "checkbox"| "password"|"file"|"email"|"number"|"date"; // Agregar más tipos si es necesario
   bclass?: string;
   placeholder?: string;
   value: T;
@@ -36,6 +36,7 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
             field.inputType === "email" ||
             field.inputType === "password" ||
             field.inputType === "number" ||
+            field.inputType === "date" ||
             field.inputType === "file"
             ? 
             ( 

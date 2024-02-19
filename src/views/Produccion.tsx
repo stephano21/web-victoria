@@ -1,94 +1,106 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
-import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { ILectura } from '../interfaces/AuthInterface';
+import { IProduccion, ISelectListItem } from '../interfaces/AuthInterface';
 import { Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
-import {Download} from '../components/Download';
+import { Download } from '../components/Download';
 import { DataTable } from '../components/DataTable';
+import useCrud from '../hooks/useCrud';
+import { Selects } from '../hooks/useSelect';
 //import { AlertContext, AlertType } from '../context/AlertContext';
 const columns = [
-
   {
-    dataField: 'Victoria',
-    text: 'Victoria',
+    dataField: 'Lote',
+    text: 'Lote',
   },
   {
     dataField: 'Qq',
     text: 'Quintales',
   },
   {
-    dataField: 'Fecha',
+    dataField: 'Fecha_Produccion',
     text: 'Fecha',
   },
-  // Agrega más columnas según sea necesario
 ];
-const options = [
-  { value: "option1", label: "Opción 1" },
-  { value: "option2", label: "Opción 2" },
-  { value: "option3", label: "Opción 3" },
-  { value: "option4", label: "Opción 4" },
-  { value: "option5", label: "Opción 5" },
-];
+
 
 export const Produccion = () => {
   //const
-  const { getRequest } = useRequest();
-  const [data, setData] = useState<ILectura[]>([]);
-  const [Lectura, setLectura] = useState({
-    Nombre: "",
-    Codigo: "",
-    Id_Lote_id: 0,
+  const { getRequest, postFileRequest } = useRequest();
+  const [data, setData] = useState<IProduccion[]>([]);
+  const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
+  const [file, setFile] = useState<File | null>(null)
+  const { GetLotes } = Selects();
+  const [Produccion, setProduccion] = useState<IProduccion>({
+    Fecha: "",
+    Qq: 0,
+    Id_Lote: 0,
   });
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
-  //const {  addAlert } = useContext(AlertContext);
   //functions
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handImportleClose = () => setshowImport(false);
   const handImportleShow = () => setshowImport(true);
   const handleInputChange = (name: string, value: string) => {
-    setLectura({
-      ...Lectura,
+    setProduccion({
+      ...Produccion,
       [name]: value,
     });
   };
-  const ImportProduccion = () => {
-    // Realiza alguna lógica de autenticación aquí
-    //onLogin(formData.username, formData.password);
-    alert(JSON.stringify( Lectura,null,3))
-  };
+  const {
+    createItem,
+  } = useCrud<IProduccion>(Endpoints.Produccion);
   //call api
   const GetData = async () => {
-    await getRequest<ILectura[]>(Endpoints.Produccion)
+    await getRequest<IProduccion[]>(Endpoints.Produccion)
       .then((e) => {
         setData(e)
         console.log(e);
       })
       .catch((error) => console.log(error));
+    setLotesSelect(await GetLotes())
   };
   useEffect(() => {
-    // Realiza una solicitud a la API para obtener los datos
     GetData();
   }, []);
+  const HandleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const archivo = e[0]
+    if (archivo) {
+      setFile(archivo)
+    }
+  }
+  const RegisterProducction = () => {
+    createItem(Produccion)
+  }
+  const ImportProduccion = () => {
+    const formData = new FormData()
+    formData.append('produccion', file as any)
+
+    postFileRequest(Endpoints.Produccion + Endpoints.Upload, formData)
+      .then((e) => {
+        console.log(e, formData);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
   return (
     <BaseLayout PageName='Produccion'>
       <div className='container'>
-       {/*  <Button variant="success" onClick={handleShow}>
+        <Button variant="success" onClick={handleShow}>
           <i className="bi bi-plus-circle"></i>&nbsp; Crear
-        </Button> */}
+        </Button>
         <Button variant="primary" onClick={handImportleShow}>
           <i className="bi bi-upload"></i>&nbsp;  Cargar
         </Button>
-       
+
         <DataTable columnNames={columns} data={data}></DataTable>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Registar Lectura</Modal.Title>
+            <Modal.Title>Registar Producción</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <GenericForm
@@ -96,40 +108,40 @@ export const Produccion = () => {
               fields={[
                 {
                   name: "Nombre",
-                  label: "Nombre",
+                  label: "Quintales",
                   bclass: "form-control",
                   placeholder: "Escriba el nombre del lote",
-                  value: Lectura.Nombre, // Establece el valor de username desde el estado formData
-                  onChange: (value) => handleInputChange("Nombre", value), // Maneja los cambios en el username
+                  value: Produccion.Qq,
+                  onChange: (value) => handleInputChange("Qq", value),
                 },
                 {
                   name: "Codigo",
-                  label: "Código",
+                  label: "Fecha",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
-                  value: Lectura.Codigo, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Codigo", value), // Maneja los cambios en el password
+                  inputType: "date",
+                  value: Produccion.Fecha,
+                  onChange: (value) => handleInputChange("Fecha", value),
                 },
                 {
                   name: "Id_Lote_id",
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
-                  inputType:"select",
-                  options:options,
-                  value: Lectura.Id_Lote_id, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
+                  inputType: "select",
+                  options: LotesSelect,
+                  value: Produccion.Id_Lote,
+                  onChange: (value) => handleInputChange("Id_Lote", value.value),
                 }
               ]}
-              onSubmit={ImportProduccion}
             />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Cancelar
             </Button>
-            <Button variant="primary" onClick={ImportProduccion}>
-              Save Changes
+            <Button variant="primary" onClick={RegisterProducction}>
+              Guardar
             </Button>
           </Modal.Footer>
         </Modal>
@@ -142,28 +154,27 @@ export const Produccion = () => {
             <GenericForm
               showSubmit={false}
               fields={[
-               
                 {
                   name: "Id_Lote_id",
                   label: "Lote",
                   bclass: "form-control",
                   placeholder: "Ingrese el código",
-                  inputType:"file",
-                  options:options,
-                  value: Lectura.Id_Lote_id, // Establece el valor de password desde el estado formData
-                  onChange: (value) => handleInputChange("Id_Lote_id", value), // Maneja los cambios en el password
+                  inputType: "file",
+                  value: file?.name,
+                  onChange: (value) => {
+                    HandleFile(value)
+                  },
                 }
               ]}
-              onSubmit={ImportProduccion}
             />
           </Modal.Body>
           <Modal.Footer>
-          <Download fileName="FormatoProduccion.xlsx" Name='Formato de Lecturas'/>
+            <Download fileName="FormatoProduccion.xlsx" Name='Formato de Lecturas' />
             <Button variant="secondary" onClick={handImportleClose}>
-              Close
+              Cancelar
             </Button>
             <Button variant="primary" onClick={ImportProduccion}>
-              Save Changes
+              Guardar
             </Button>
           </Modal.Footer>
         </Modal>

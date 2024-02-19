@@ -6,3 +6,9 @@ export const DateToString = (fechaString) => {
     const fechaFormateada = format(fecha, "d 'de' MMMM 'de' yyyy", { locale: es });
     return fechaFormateada;
   };
+  export const MonthToString = (fechaString) => {
+    const fecha = parseISO(fechaString); // Convierte la cadena de fecha a un objeto de fecha
+    // Utiliza la función `format` para formatear la fecha
+    const fechaFormateada = format(fecha, "MMMM 'de' yyyy", { locale: es });
+    return fechaFormateada;
+  };

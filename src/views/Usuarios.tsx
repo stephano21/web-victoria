@@ -144,10 +144,10 @@ export const Usuarios = () => {
           <Modal.Footer>
           <Download fileName="FormatoUsuarios.xlsx" Name='Formato de Lecturas'/>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Cancelar
             </Button>
             <Button variant="primary" onClick={SavePlanta}>
-              Save Changes
+              Guardar
             </Button>
           </Modal.Footer>
         </Modal>

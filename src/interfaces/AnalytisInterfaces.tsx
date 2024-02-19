@@ -24,4 +24,9 @@ export interface IAnalytics {
   export interface IHome{
     Usuarios:number;
     Lecturas:number;
+    Proyects:IProyect[];
+  }
+  export interface IProyect{
+    Proyect: string;
+    Lecturas: number;
   }
