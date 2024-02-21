@@ -9,7 +9,22 @@ import Button from 'react-bootstrap/Button';
 import { GenericForm } from '../components/Form';
 import { usePlantaState } from '../states/PlantaState';
 import { DataTable } from '../components/DataTable';
+import { Timeline, Grid, Row, Col } from 'rsuite';
 
+const renderTimelineItems = (monthData) => {
+  return Object.entries(monthData).map(([month, items]) => (
+    <Timeline.Item key={month}>
+      <p>{month}</p>
+      {items.map((item, index) => (
+        <>
+        <h4> {`victoria ${index + 1}`}</h4>
+        <p key={index}>{`Quintales: ${item["victoria" + (index + 1)]}`}</p>
+        <p key={index}>{`Q/Has: ${item["q/l"]}`}</p>
+        </>
+      ))}
+    </Timeline.Item>
+  ));
+};
 
 
 export const Estimaciones = () => {
@@ -18,7 +33,7 @@ export const Estimaciones = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const columns = [
-    
+
     {
       dataField: 'Febrero',
       text: 'Febrero',
@@ -40,13 +55,98 @@ export const Estimaciones = () => {
       text: 'Junio',
     }
   ];
-  const data =[
+  const data = [
     {
-      'Febrero':171.5,
-      'Marzo':182.21,
-      'Abril':197.24,
-      'Mayo':201.15,
-      'Junio':231.44,
+      'Febrero': [
+        {
+          "victoria1": 248.693746,
+          "q/l": 44.377480,
+        },
+        {
+          "victoria2": 204.976898,
+          "q/l": 25.727575,
+        }, 
+        {
+          "victoria3": 199.689498,
+          "q/l": 29.158436,
+        },
+        {
+          "victoria4": 92.386954,
+          "q/l": 19.004831,
+        }
+      ],
+      'Marzo': [
+        {
+          "victoria1": 54.849177,
+          "q/l": 9.545397,
+        },
+        {
+          "victoria2": 164.277929,
+          "q/l": 21.159834,
+        }, 
+        {
+          "victoria3": 102.855013,
+          "q/l": 15.088717,
+        },
+        {
+          "victoria4": 95.7233976,
+          "q/l": 21.724409,
+        }
+      ],
+      'Abril':[
+        {
+          "victoria1": 201.121069,
+          "q/l":33.004932,
+        },
+        {
+          "victoria2": 268.154571,
+          "q/l":34.531651,
+        }, 
+        {
+          "victoria3":232.560612,
+          "q/l": 34.1638950,
+        },
+        {
+          "victoria4":  130.474347,
+          "q/l": 28.5328640,
+        }
+      ],
+      'Mayo': [
+        {
+          "victoria1": 32.587902,
+          "q/l": 5.637151,
+        },
+        {
+          "victoria2": 43.732002,
+          "q/l": 5.353327,
+        }, 
+        {
+          "victoria3": 55.177322,
+          "q/l": 7.988513,
+        },
+        {
+          "victoria4": 23.402240,
+          "q/l": 4.726527,
+        }
+      ],
+      'Junio': [
+        {
+          "victoria1": 248.693746,
+          "q/l": 12.574623,
+        },
+        {
+          "victoria2": 248.693746,
+          "q/l": 13.017844,
+        }, 
+        {
+          "victoria3": 248.693746,
+          "q/l": 15.084069,
+        },
+        {
+          "victoria4": 248.693746,
+          "q/l": 9.683834,
+        }
+      ],
     }
   ];
   return (
@@ -72,13 +172,22 @@ export const Estimaciones = () => {
           <Modal.Title id="example-modal-sizes-title-lg">Valores estimados</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <DataTable columnNames={columns} data={data}></DataTable>
+        <Grid fluid>
+      <Row>
+        <Col xs={8}>
+          <Timeline align="left">
+            {renderTimelineItems(data[0])}
+          </Timeline>
+        </Col>
+        
+      </Row>
+    </Grid>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>
-         
+
         </Modal.Footer>
       </Modal>
     </BaseLayout>
