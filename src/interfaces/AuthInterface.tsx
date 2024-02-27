@@ -15,12 +15,12 @@ export interface ApiErrorResponse {
   error_description: string;
 }
 export interface IProyecto {
-  id: number;
+  id?: number;
   Codigo_Proyecto: string;
   Nombre: string;
-  Densidad: number | null;
-  Activo: boolean;
-  Usuario: string;
+  Densidad?: number | null;
+  Activo?: boolean;
+  Usuario?: string;
   Id_Hacienda: number;
 }
 export interface IPlantas {

@@ -139,9 +139,9 @@ export const Estadisticas = () => {
         </div>
         <div className="row text-center">
           <h5>{DateFilter.from !== '' && DateFilter.to ?
-            `Mostrando registros desde ${DateToString(DateFilter.from)} hasta ${DateToString(DateFilter.to)}` :
-            DateFilter.from !== '' ? `Mostrando datos desde ${DateToString(DateFilter.from)}` :
-              DateFilter.to !== '' ? `Mostrando datos hasta ${DateToString(DateFilter.to)}` : 'Mostrando todos los datos'}</h5>
+            `Datos desde ${DateToString(DateFilter.from)} hasta ${DateToString(DateFilter.to)}` :
+            DateFilter.from !== '' ? `Datos desde ${DateToString(DateFilter.from)}` :
+              DateFilter.to !== '' ? `Datos hasta ${DateToString(DateFilter.to)}` : 'Mostrando todos los datos'}</h5>
         </div>
         <div className="row">
           <div className="col-md-12 text-center">
@@ -150,7 +150,7 @@ export const Estadisticas = () => {
           <div className="col-md-6 text-center">
             <ResponsiveContainer width="100%" height="100%" ref={lineChartRef}>
               <Fragment>
-                <h5>Masorcas promedio por estadio</h5>
+                <h5>Mazorcas promedio por estadio</h5>
                 <LineChart width={600} height={300} data={data?.Lecturas} >
                   <Line type="monotone" dataKey="E1" stroke="#49942D" />
                   <Line type="monotone" dataKey="E2" stroke="#64942D" />

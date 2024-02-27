@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import MapContainer from './../components/Map'; // Asegúrate de importar el componente MapContainer desde el lugar correcto
+import MapContainer from '../components/Map'; // Asegúrate de importar el componente MapContainer desde el lugar correcto
 import { BaseLayout } from '../components/BaseLayout';
 import { Button, Modal } from 'react-bootstrap';
 import { Endpoints } from '../api/routes';
-import { ILote, ISelectListItem } from '../interfaces/AuthInterface';
+import { IProyecto, ISelectListItem } from '../interfaces/AuthInterface';
 import { useRequest } from '../api/UseRequest';
 import { DataTable } from '../components/DataTable';
 import { Selects } from '../hooks/useSelect';
@@ -12,47 +12,26 @@ import { GenericForm } from '../components/Form';
 import { Download } from '../components/Download';
 const columns = [
   {
-    dataField: 'Codigo_Lote',
+    dataField: 'Codigo_Proyecto',
     text: 'Codigo',
   },
   {
     dataField: 'Nombre',
     text: 'Nombre',
-  },
-  {
-    dataField: 'Hectareas',
-    text: 'Hectareas',
-  },
-  {
-    dataField: 'Variedad',
-    text: 'Variedad',
-  },
-  {
-    dataField: 'Edad',
-    text: 'Edad',
-  },
-  {
-    dataField: 'FechaSiembra',
-    text: 'Fecha de Siembra',
-  },
-  {
-    dataField: 'Num_Plantas',
-    text: 'Plantas',
   }
 ];
-export const Lotes: React.FC = () => {
+export const Proyectos: React.FC = () => {
   const { postFileRequest } = useRequest();
   const { GetProyectos } = Selects();
   const [file, setFile] = useState<File | null>(null)
   const [ProyectoSelect, setProyectoSelect] = useState<ISelectListItem[]>();
-  const [Lote, setLote] = useState<ILote>({
+  const [Proyecto, setProyecto] = useState<IProyecto>({
     id: 0,
     Nombre: "",
-    Codigo_Lote: "",
-    Id_Proyecto: 0,
-    Hectareas: 0,
+    Codigo_Proyecto: "",
+    Id_Hacienda: 0,
+    Densidad: 0,
     Activo: true,
-    Variedad: "",
 
   })
   const {
@@ -63,7 +42,7 @@ export const Lotes: React.FC = () => {
     deleteItem,
     editItem,
     resetEditingItem,
-  } = useCrud<ILote>(Endpoints.lotes);
+  } = useCrud<IProyecto>(Endpoints.Proyecto);
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
   const handleShow = () => setShow(true);
@@ -73,24 +52,22 @@ export const Lotes: React.FC = () => {
     setShow(false);
     ResetForm();
   };
-  const ResetForm = () => setLote({
+  const ResetForm = () => setProyecto({
     id: 0,
     Nombre: "",
-    Codigo_Lote: "",
-    Id_Proyecto: 0,
-    Hectareas: 0,
+    Codigo_Proyecto: "",
+    Id_Hacienda: 0,
+    Densidad: 0,
     Activo: true,
-    Variedad: "",
-
   });
   const handleInputChange = (name: string, value: string) => {
-    setLote({
-      ...Lote,
+    setProyecto({
+      ...Proyecto,
       [name]: value,
     });
   };
   const SaveLote = () => {
-    createItem(Lote);
+    createItem(Proyecto);
     handleClose();
   };
   const ImporLotes = () => {
@@ -137,7 +114,7 @@ export const Lotes: React.FC = () => {
     GetData();
   }, []);
   return (
-    <BaseLayout PageName='Lotes'>
+    <BaseLayout PageName='Proyectos'>
       <div className="row">
       </div>
       {/* <MapContainer initialCenter={center} polygons={polygons} /> */}
@@ -152,7 +129,7 @@ export const Lotes: React.FC = () => {
           <DataTable columnNames={columns} data={data}></DataTable>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Registar Lote</Modal.Title>
+              <Modal.Title>Registar Proyecto</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <GenericForm
@@ -162,8 +139,8 @@ export const Lotes: React.FC = () => {
                     name: "Nombre",
                     label: "Nombre",
                     bclass: "form-control",
-                    placeholder: "Escriba el nombre del lote",
-                    value: Lote.Nombre, // Establece el valor de username desde el estado formData
+                    placeholder: "Escriba el nombre del Proyecto",
+                    value: Proyecto.Nombre, // Establece el valor de username desde el estado formData
                     onChange: (value) => handleInputChange("Nombre", value), // Maneja los cambios en el username
                   },
                   {
@@ -171,45 +148,8 @@ export const Lotes: React.FC = () => {
                     label: "Código",
                     bclass: "form-control",
                     placeholder: "Ingrese el código",
-                    value: Lote.Codigo_Lote, // Establece el valor de password desde el estado formData
-                    onChange: (value) => handleInputChange("Codigo_Lote", value), // Maneja los cambios en el password
-                  },
-                  {
-                    name: "lat",
-                    inputType: "number",
-                    label: "Variedad",
-                    bclass: "form-control",
-                    placeholder: "Ingrese la variedad",
-                    value: Lote.Variedad, // Establece el valor de password desde el estado formData
-                    onChange: (value) => handleInputChange("Variedad", value), // Maneja los cambios en el password
-                  },
-                  {
-                    name: "lng",
-                    inputType: "number",
-                    label: "Hectáreas",
-                    bclass: "form-control",
-                    placeholder: "Ingrese las hectáreas",
-                    value: Lote.Hectareas, // Establece el valor de password desde el estado formData
-                    onChange: (value) => handleInputChange("Hectareas", value), // Maneja los cambios en el password
-                  },
-                  {
-                    name: "lng",
-                    inputType: "number",
-                    label: "Plantas",
-                    bclass: "form-control",
-                    placeholder: "Ingrese numero de plantas del lote",
-                    value: Lote.Num_Plantas, // Establece el valor de password desde el estado formData
-                    onChange: (value) => handleInputChange("Num_Plantas", value), // Maneja los cambios en el password
-                  },
-                  {
-                    name: "Id_Lote",
-                    label: "Lote",
-                    bclass: "form-control",
-                    placeholder: "Ingrese el código",
-                    inputType: "select",
-                    options: ProyectoSelect,
-                    value: Lote.Id_Proyecto, // Establece el valor de password desde el estado formData
-                    onChange: (value) => handleInputChange("Id_Proyecto", value.value), // Maneja los cambios en el password
+                    value: Proyecto.Codigo_Proyecto, // Establece el valor de password desde el estado formData
+                    onChange: (value) => handleInputChange("Codigo_Proyecto", value), // Maneja los cambios en el password
                   }
                 ]}
                 onSubmit={SaveLote}
@@ -238,7 +178,7 @@ export const Lotes: React.FC = () => {
                     label: "Cargar Archivo",
                     bclass: "form-control",
                     inputType: "file",
-                    value: Lote.Id_Proyecto, // Establece el valor de password desde el estado formData
+                    value: Proyecto.Id_Proyecto, // Establece el valor de password desde el estado formData
                     onChange: (value) => {
 
                       HandleFile(value)

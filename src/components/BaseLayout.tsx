@@ -47,6 +47,9 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Parametrizaciones</Accordion.Header>
                 <Accordion.Body>
                   <ListGroup variant="flush">
+                  <ListGroup.Item>
+                      <Nav.Link href="/crop/proyects"><i className="bi bi-boxes"></i>&nbsp;&nbsp;Proyectos</Nav.Link>
+                    </ListGroup.Item>
                     <ListGroup.Item>
                       <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
                     </ListGroup.Item>

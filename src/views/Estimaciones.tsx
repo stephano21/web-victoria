@@ -10,10 +10,11 @@ import { GenericForm } from '../components/Form';
 import { usePlantaState } from '../states/PlantaState';
 import { DataTable } from '../components/DataTable';
 import { Timeline, Grid, Row, Col } from 'rsuite';
+import CheckIcon from '@rsuite/icons/legacy/Check';
 
 const renderTimelineItems = (monthData) => {
   return Object.entries(monthData).map(([month, items]) => (
-    <Timeline.Item key={month}>
+    <Timeline.Item key={month} dot={<CheckIcon style={{ background: '#15b215', color: '#fff' }} />}>
       <p>{month}</p>
       {items.map((item, index) => (
         <>
@@ -175,7 +176,7 @@ export const Estimaciones = () => {
         <Grid fluid>
       <Row>
         <Col xs={8}>
-          <Timeline align="left">
+          <Timeline align="left" className="custom-timeline">
             {renderTimelineItems(data[0])}
           </Timeline>
         </Col>
