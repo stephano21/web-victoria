@@ -123,6 +123,9 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
 
             </Nav>
             <Nav>
+            <Nav.Link disabled>
+                {UserData?.hacienda}
+              </Nav.Link>
               <Nav.Link disabled>
                 {UserData?.rol}
               </Nav.Link>

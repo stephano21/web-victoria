@@ -7,6 +7,7 @@ export interface TokenResponse {
   rol: string;
   access_token: string;
   refresh_token: string;
+  hacienda:string;
 }
 
 //ApirError
