@@ -1,13 +1,30 @@
 import { useState } from 'react';
 import { useRequest } from '../api/UseRequest';
 import { Endpoints } from '../api/routes';
-import { ILote, IPlantas, IProyecto, ISelectListItem } from '../interfaces/AuthInterface';
+import { ILote, IPlantas, IProyecto, ISelectListItem, IHacienda } from '../interfaces/AuthInterface';
 export const Selects = () => {
     const { getRequest } = useRequest();
     const [Lotes, setLotes] = useState<ILote[]>([]);
     const [Plantas, setPlantas] = useState<IPlantas[]>([]);
     const [Proyectos, setProyectos] = useState<IProyecto[]>([]);
-
+    const [Haciendas, setHaciendas] = useState<IHacienda[]>([]);
+    const GetHaciendas = async (): Promise<ISelectListItem[]> => {
+        try {
+            const Response = await getRequest<IHacienda[]>(Endpoints.Hacienda);
+            setHaciendas(Response);
+            const Data: ISelectListItem[] = Response.map((data) => {
+                return {
+                    value: data.id.toString(),
+                    label: data.codigo
+                };
+            });
+            console.log(Data);
+            return Data; // Devuelve el arreglo transformado
+        } catch (error) {
+            console.error('Error al obtener haciendas:', error);
+            return [];
+        }
+    };
     const GetProyectos = async (): Promise<ISelectListItem[]> => {
         try {
             const Response = await getRequest<IProyecto[]>(Endpoints.Proyecto);
@@ -68,6 +85,7 @@ export const Selects = () => {
         GetPlantas,
         GetLotes,
         GetProyectos,
+        GetHaciendas,
         Plantas,
         Lotes,
         Proyectos

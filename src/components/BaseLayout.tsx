@@ -47,7 +47,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Parametrizaciones</Accordion.Header>
                 <Accordion.Body>
                   <ListGroup variant="flush">
-                  <ListGroup.Item>
+                    <ListGroup.Item>
                       <Nav.Link href="/crop/proyects"><i className="bi bi-boxes"></i>&nbsp;&nbsp;Proyectos</Nav.Link>
                     </ListGroup.Item>
                     <ListGroup.Item>
@@ -123,16 +123,18 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
 
             </Nav>
             <Nav>
-            <Nav.Link disabled>
-                {UserData?.hacienda}
+              <Nav.Link disabled>
+                {UserData?.hacienda && (
+                  <><i className="bi bi-house-gear-fill"></i>{UserData?.hacienda}</>
+                )}
               </Nav.Link>
               <Nav.Link disabled>
-                {UserData?.rol}
+                {<> <i className="bi bi-person-lock"></i> {UserData?.rol}</>}
               </Nav.Link>
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/auth/porfile">Perfil</NavDropdown.Item>
-                {UserData && UserData?.rol == "Researcher" || UserData?.rol == "Root" && (
-                  <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Api + Endpoints.Root}>
+                {UserData && (UserData?.rol == "Researcher" || UserData?.rol == "Root") && (
+                  <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Api + Endpoints.Root} target="_blank">
                     Admin
                   </NavDropdown.Item>)
 
@@ -150,7 +152,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link disabled>
-                Producción
+                {<> <i className="bi bi-terminal"></i> {process.env.REACT_APP_DEBUGG ? "Development" : "Producción"}</>}
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

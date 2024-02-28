@@ -56,6 +56,7 @@ export const useCrud = <T,>(apiUrl: string, params?: object) => {
 
   return {
     data,
+    fetchData,
     editingItem,
     createItem,
     updateItem,

@@ -57,6 +57,7 @@ export const Lotes: React.FC = () => {
   })
   const {
     data,
+    fetchData, 
     editingItem,
     createItem,
     updateItem,
@@ -103,6 +104,7 @@ export const Lotes: React.FC = () => {
       })
       .catch((error) => console.log(error.response.data));
     console.log(JSON.stringify(formData, null, 3))
+    fetchData(); 
   };
   const HandleFile = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e[0]

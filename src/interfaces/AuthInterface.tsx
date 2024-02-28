@@ -15,6 +15,14 @@ export interface ApiErrorResponse {
   Message: string;
   error_description: string;
 }
+
+export interface IHacienda {
+  id: number;
+  codigo: string;
+  Nombre: string;
+  Activo?: boolean;
+  Usuario?: string;
+}
 export interface IProyecto {
   id?: number;
   Codigo_Proyecto: string;

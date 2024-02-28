@@ -3,6 +3,7 @@ export const Endpoints = {
   Api: "/api",
   BaseURL: process.env.REACT_APP_API,
   Home :'analytics/home',
+  Hacienda: "/hacienda/",
   ImportUsers: '/auth/register/import',
   Lectura: "/lecturas/",
   login: "/auth/login/",
