@@ -112,116 +112,116 @@ export const DataTable: React.FC<DataTableProps> = ({
         pdf.save(`${fileName !== undefined ? fileName : screenName}` + `_${year}${month}${day}_${hours}${minutes}.pdf`);
     };
     const generatePDF = () => {
-      // Crear el blob PDF y descargarlo
-      ReactPDF.render(<div className="datatable-container">
-      <div className="d-flex flex-row-reverse">
-          <div className="p-2"><input
-              type="text"
-              placeholder="Buscar..."
-              value={filter}
-              className="form-control "
-              onChange={handleFilterChange}
-          /></div>
-          <div className="p-1"></div>
-          <div className="p-1">
-              <button onClick={exportToExcel} className="btn btn-success"><i className="bi bi-file-excel"></i></button>
-          </div>
-          <div className="p-1">
-              <button onClick={exportToPDF} className="btn btn-danger"><i className="bi bi-filetype-pdf"></i></button>
-          </div>
-          <div className='p-1'>
-              <div className="items-per-page">
-              <SelectSearch
-              value={PAGES_TO_SHOW.toString()}
-               onChange={handleItemsPerPageChange} 
-              options={itemsPerPageOptions.map((option) => {
-                 return {
-                  value: option.toString(),
-                  label: option==-1? "Todos":option.toString(),
-                }
-              })}
-             />
-            
-              </div>
-          </div>
-      </div>
-      {/* Filtro */}
+        // Crear el blob PDF y descargarlo
+        ReactPDF.render(<div className="datatable-container">
+            <div className="d-flex flex-row-reverse">
+                <div className="p-2"><input
+                    type="text"
+                    placeholder="Buscar..."
+                    value={filter}
+                    className="form-control "
+                    onChange={handleFilterChange}
+                /></div>
+                <div className="p-1"></div>
+                <div className="p-1">
+                    <button onClick={exportToExcel} className="btn btn-success"><i className="bi bi-file-excel"></i></button>
+                </div>
+                <div className="p-1">
+                    <button onClick={exportToPDF} className="btn btn-danger"><i className="bi bi-filetype-pdf"></i></button>
+                </div>
+                <div className='p-1'>
+                    <div className="items-per-page">
+                        <SelectSearch
+                            value={PAGES_TO_SHOW.toString()}
+                            onChange={handleItemsPerPageChange}
+                            options={itemsPerPageOptions.map((option) => {
+                                return {
+                                    value: option.toString(),
+                                    label: option == -1 ? "Todos" : option.toString(),
+                                }
+                            })}
+                        />
 
-      {/* Tabla */}
-      <table className="datatable">
-          <thead>
-              <tr>
-                  {columns?.map((column) => (
-                      <th key={column.key} onClick={() => handleSort(column.key)}>
-                          {column.title} {sortColumn === column.key && (sortDirection === 'asc' ? '▲' : '▼')}
-                      </th>
-                  ))}
-                  {actionsColumn && <th>Acciones</th>}
-              </tr>
-          </thead>
-          <tbody>
-              {currentItems.map((row, rowIndex) => (
-                  <tr key={`row_${rowIndex}`}>
-                      {columnNames?.map((column) => (
-                          <td key={column.dataField}>{row[column.dataField]}</td>
-                      ))}
-                      {actionsColumn && <td>{actionsColumn}</td>}
-                  </tr>
-              ))}
-          </tbody>
-      </table>
-      {/* Paginación */}
-      <div className="d-flex justify-content-between">
-          <div className="p-2">
-              <span>Mostrando {startPage} al {endPage} de {data.length} registros</span>
-          </div>
-          <div className="p-2">
-              <ul className="pagination">
-                  <li className={currentPage === 1 ? "page-item disabled" : "page-item"}>
-                      <a onClick={() => handlePageChange(currentPage - 1)} className="page-link">
-                          Prev
-                      </a>
-                  </li>
+                    </div>
+                </div>
+            </div>
+            {/* Filtro */}
 
-                  {startPage > 1 && (
-                      <li className="page-item">
-                          <a
-                              onClick={() => handlePageChange(startPage - PAGES_TO_SHOW)}
-                              className="page-link">{'<<'}</a>
-                      </li>
-                  )}
-                  {pageNumbers.map((page) => (
-                      currentPage === page ? (
-                          <li className="page-item active" aria-current="page">
-                              <span className="page-link"> {page}</span>
-                          </li>
-                      ) : (
-                          <li className="page-item">
-                              <a className="page-link"
-                                  onClick={() => handlePageChange(page)}> {page}</a>
-                          </li>
-                      )
+            {/* Tabla */}
+            <table className="datatable">
+                <thead>
+                    <tr>
+                        {columns?.map((column) => (
+                            <th key={column.key} onClick={() => handleSort(column.key)}>
+                                {column.title} {sortColumn === column.key && (sortDirection === 'asc' ? '▲' : '▼')}
+                            </th>
+                        ))}
+                        {actionsColumn && <th>Acciones</th>}
+                    </tr>
+                </thead>
+                <tbody>
+                    {currentItems.map((row, rowIndex) => (
+                        <tr key={`row_${rowIndex}`}>
+                            {columnNames?.map((column) => (
+                                <td key={column.dataField}>{row[column.dataField]}</td>
+                            ))}
+                            {actionsColumn && <td>{actionsColumn}</td>}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {/* Paginación */}
+            <div className="d-flex justify-content-between">
+                <div className="p-2">
+                    <span>Mostrando {startPage} al {endPage} de {data.length} registros</span>
+                </div>
+                <div className="p-2">
+                    <ul className="pagination">
+                        <li className={currentPage === 1 ? "page-item disabled" : "page-item"}>
+                            <a onClick={() => handlePageChange(currentPage - 1)} className="page-link">
+                                Prev
+                            </a>
+                        </li>
 
-                  ))}
-                  {endPage < totalPages && (
-                      <li className="page-item">
-                          <a onClick={() => handlePageChange(endPage + PAGES_TO_SHOW)}
-                              className="page-link">{'>>'}</a>
-                      </li>
+                        {startPage > 1 && (
+                            <li className="page-item">
+                                <a
+                                    onClick={() => handlePageChange(startPage - PAGES_TO_SHOW)}
+                                    className="page-link">{'<<'}</a>
+                            </li>
+                        )}
+                        {pageNumbers.map((page) => (
+                            currentPage === page ? (
+                                <li className="page-item active" aria-current="page">
+                                    <span className="page-link"> {page}</span>
+                                </li>
+                            ) : (
+                                <li className="page-item">
+                                    <a className="page-link"
+                                        onClick={() => handlePageChange(page)}> {page}</a>
+                                </li>
+                            )
 
-                  )}
-                  <li className={currentPage === totalPages ? "page-item disabled" : "page-item"}>
-                      <a onClick={() => handlePageChange(currentPage + 1)}
-                          className="page-link">
-                          Next
-                      </a>
-                  </li>
-              </ul>
-          </div>
-      </div>
+                        ))}
+                        {endPage < totalPages && (
+                            <li className="page-item">
+                                <a onClick={() => handlePageChange(endPage + PAGES_TO_SHOW)}
+                                    className="page-link">{'>>'}</a>
+                            </li>
 
-  </div>,`${fileName !== undefined ? fileName : screenName}` + `_${year}${month}${day}_${hours}${minutes}.pdf`);
-      
+                        )}
+                        <li className={currentPage === totalPages ? "page-item disabled" : "page-item"}>
+                            <a onClick={() => handlePageChange(currentPage + 1)}
+                                className="page-link">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>, `${fileName !== undefined ? fileName : screenName}` + `_${year}${month}${day}_${hours}${minutes}.pdf`);
+
     };
     // Exportar a Excel
     const exportToExcel = () => {
@@ -287,16 +287,16 @@ export const DataTable: React.FC<DataTableProps> = ({
                 </div>
                 <div className='p-1'>
                     <div className="items-per-page">
-                    <SelectSearch
-                    value={PAGES_TO_SHOW.toString()}
-                     onChange={handleItemsPerPageChange} 
-                    options={itemsPerPageOptions.map((option) => {
-                       return {
-                        value: option.toString(),
-                        label: option==-1? "Todos":option.toString(),
-                      }
-                    })}
-                   />
+                        <SelectSearch
+                            value={PAGES_TO_SHOW.toString()}
+                            onChange={handleItemsPerPageChange}
+                            options={itemsPerPageOptions.map((option) => {
+                                return {
+                                    value: option.toString(),
+                                    label: option == -1 ? "Todos" : option.toString(),
+                                }
+                            })}
+                        />
                         {/* <select value={itemsPerPage}
                             className="form-select"
                             onChange={handleItemsPerPageChange}>
@@ -336,9 +336,9 @@ export const DataTable: React.FC<DataTableProps> = ({
             </table>
             {/* Paginación */}
             <div className="d-flex justify-content-between">
-                <div className="p-2">
+                {/* <div className="p-2">
                     <span>Mostrando {startPage} al {endPage} de {data.length} registros</span>
-                </div>
+                </div> */}
                 <div className="p-2">
                     <ul className="pagination">
                         <li className={currentPage === 1 ? "page-item disabled" : "page-item"}>

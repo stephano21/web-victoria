@@ -141,7 +141,7 @@ export const Estadisticas = () => {
           <h5>{DateFilter.from !== '' && DateFilter.to ?
             `Datos desde ${DateToString(DateFilter.from)} hasta ${DateToString(DateFilter.to)}` :
             DateFilter.from !== '' ? `Datos desde ${DateToString(DateFilter.from)}` :
-              DateFilter.to !== '' ? `Datos hasta ${DateToString(DateFilter.to)}` : 'Mostrando todos los datos'}</h5>
+              DateFilter.to !== '' ? `Datos hasta ${DateToString(DateFilter.to)}` : 'Todos los datos'}</h5>
         </div>
         <div className="row">
           <div className="col-md-12 text-center">
