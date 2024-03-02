@@ -1,7 +1,6 @@
 // DataTable.js
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { DataGrid } from '@mui/x-data-grid';
 import { toBlob } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 import { saveAs } from 'file-saver';
@@ -48,9 +47,9 @@ export const DataTable: React.FC<DataTableProps> = ({
     const [itemsPerPage, setItemsPerPage] = useState(10);
 
     // Genera las columnas con keys basadas en los nombres
-    const columns = columnNames?.map((columnName, index) => ({
-        key: columnName.dataField, // Reemplaza espacios con guiones bajos y convierte a minúsculas
-        title: columnName.text,
+    const columns = columnNames?.map(() => ({
+        key: columnName.dataField, // Reemplaza espacios con guiones baj
+        title: mnName.text,
     }));
 
     // Función para manejar cambios en el filtro
@@ -58,7 +57,6 @@ export const DataTable: React.FC<DataTableProps> = ({
         setFilter(e.target.value);
         setCurrentPage(1);
     };
-
     // Función para manejar el ordenamiento de las columnas
     const handleSort = (columnKey) => {
         if (sortColumn === columnKey) {
@@ -71,12 +69,10 @@ export const DataTable: React.FC<DataTableProps> = ({
         }
         setCurrentPage(1);
     };
-
     // Función de comparación para ordenamiento
     const compare = (a, b) => {
         const aValue = a[sortColumn];
         const bValue = b[sortColumn];
-
         if (aValue < bValue) {
             return sortDirection === 'asc' ? -1 : 1;
         }
@@ -85,7 +81,6 @@ export const DataTable: React.FC<DataTableProps> = ({
         }
         return 0;
     };
-
     // Aplicar filtros y ordenamiento
     const filteredData = data.filter((row) =>
         Object.values(row).some(
@@ -141,13 +136,9 @@ export const DataTable: React.FC<DataTableProps> = ({
                                 }
                             })}
                         />
-
                     </div>
                 </div>
             </div>
-            {/* Filtro */}
-
-            {/* Tabla */}
             <table className="datatable">
                 <thead>
                     <tr>
@@ -173,7 +164,7 @@ export const DataTable: React.FC<DataTableProps> = ({
             {/* Paginación */}
             <div className="d-flex justify-content-between">
                 <div className="p-2">
-                    <span>Mostrando {startPage} al {endPage} de {data.length} registros</span>
+                    <span>Mostrando {startPage} al {(startPage+PAGES_TO_SHOW)-1} de {data.length} registros</span>
                 </div>
                 <div className="p-2">
                     <ul className="pagination">
@@ -182,7 +173,6 @@ export const DataTable: React.FC<DataTableProps> = ({
                                 Prev
                             </a>
                         </li>
-
                         {startPage > 1 && (
                             <li className="page-item">
                                 <a
@@ -201,14 +191,12 @@ export const DataTable: React.FC<DataTableProps> = ({
                                         onClick={() => handlePageChange(page)}> {page}</a>
                                 </li>
                             )
-
                         ))}
                         {endPage < totalPages && (
                             <li className="page-item">
                                 <a onClick={() => handlePageChange(endPage + PAGES_TO_SHOW)}
                                     className="page-link">{'>>'}</a>
                             </li>
-
                         )}
                         <li className={currentPage === totalPages ? "page-item disabled" : "page-item"}>
                             <a onClick={() => handlePageChange(currentPage + 1)}
