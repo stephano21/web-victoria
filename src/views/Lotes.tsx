@@ -105,6 +105,7 @@ export const Lotes: React.FC = () => {
       .catch((error) => console.log(error.response.data));
     console.log(JSON.stringify(formData, null, 3))
     fetchData(); 
+    handleCloseImport();
   };
   const HandleFile = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e[0]
@@ -178,7 +179,6 @@ export const Lotes: React.FC = () => {
                   },
                   {
                     name: "lat",
-                    inputType: "number",
                     label: "Variedad",
                     bclass: "form-control",
                     placeholder: "Ingrese la variedad",
@@ -205,7 +205,7 @@ export const Lotes: React.FC = () => {
                   },
                   {
                     name: "Id_Lote",
-                    label: "Lote",
+                    label: "Hacienda",
                     bclass: "form-control",
                     placeholder: "Ingrese el código",
                     inputType: "select",
