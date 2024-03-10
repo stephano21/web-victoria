@@ -15,9 +15,15 @@ interface DataTableProps {
     itemsPerPageOptions?: number[];
     actionsColumn?: React.ReactNode;
 }
-interface HeaderProp {
+export interface HeaderProp {
     dataField: string;
     text: string;
+    isActions?: boolean;
+    /** 
+    ** Componente de acciones personalizado solo funciona cuando el todas las consultas tien el campo id
+    **/
+    actionsComponent?: React.ReactNode;
+
 }
 export const DataTable: React.FC<DataTableProps> = ({
     columnNames,
@@ -47,9 +53,11 @@ export const DataTable: React.FC<DataTableProps> = ({
     const [itemsPerPage, setItemsPerPage] = useState(10);
 
     // Genera las columnas con keys basadas en los nombres
-    const columns = columnNames?.map(() => ({
-        key: columnName.dataField, // Reemplaza espacios con guiones baj
-        title: mnName.text,
+    const columns = columnNames?.map((row) => ({
+        key: row?.dataField, // Reemplaza espacios con guiones baj
+        title: row?.text,
+        isActions: row?.isActions,
+        actionsComponent: row?.actionsComponent,
     }));
 
     // Función para manejar cambios en el filtro
@@ -164,7 +172,7 @@ export const DataTable: React.FC<DataTableProps> = ({
             {/* Paginación */}
             <div className="d-flex justify-content-between">
                 <div className="p-2">
-                    <span>Mostrando {startPage} al {(startPage+PAGES_TO_SHOW)-1} de {data.length} registros</span>
+                    <span>Mostrando {startPage} al {(startPage + PAGES_TO_SHOW) - 1} de {data.length} registros</span>
                 </div>
                 <div className="p-2">
                     <ul className="pagination">
@@ -233,8 +241,6 @@ export const DataTable: React.FC<DataTableProps> = ({
     };
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    //const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
-    //const totalPages = Math.ceil(sortedData.length / itemsPerPage);
     let currentItems: object[] = [];
     let totalPages = 0;
 
@@ -277,6 +283,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                     <div className="items-per-page">
                         <SelectSearch
                             value={PAGES_TO_SHOW.toString()}
+
                             onChange={handleItemsPerPageChange}
                             options={itemsPerPageOptions.map((option) => {
                                 return {
@@ -285,15 +292,6 @@ export const DataTable: React.FC<DataTableProps> = ({
                                 }
                             })}
                         />
-                        {/* <select value={itemsPerPage}
-                            className="form-select"
-                            onChange={handleItemsPerPageChange}>
-                            {itemsPerPageOptions.map((option) => (
-                                <option key={option} value={option}>
-                                    {option === -1 ? 'Mostrar todos' : option}
-                                </option>
-                            ))}
-                        </select> */}
                     </div>
                 </div>
             </div>
@@ -304,9 +302,18 @@ export const DataTable: React.FC<DataTableProps> = ({
                 <thead>
                     <tr>
                         {columns?.map((column) => (
-                            <th key={column.key} onClick={() => handleSort(column.key)}>
-                                {column.title} {sortColumn === column.key && (sortDirection === 'asc' ? '▲' : '▼')}
-                            </th>
+                            <>
+                                {column.isActions && column.key ? (
+                                    <th key={`${column.key}_1`} onClick={() => handleSort(column.key)}>
+                                        {column.title} {sortColumn === column.key && (sortDirection === 'asc' ? '▲' : '▼')}
+                                    </th>
+                                ) : (
+                                    <th key={column.key} onClick={() => handleSort(column.key)}>
+                                        {column.title} {sortColumn === column.key && (sortDirection === 'asc' ? '▲' : '▼')}
+                                    </th>
+                                )}
+
+                            </>
                         ))}
                         {actionsColumn && <th>Acciones</th>}
                     </tr>
@@ -315,9 +322,20 @@ export const DataTable: React.FC<DataTableProps> = ({
                     {currentItems.map((row, rowIndex) => (
                         <tr key={`row_${rowIndex}`}>
                             {columnNames?.map((column) => (
-                                <td key={column.dataField}>{row[column.dataField]}</td>
+                                <>
+                                    {column.isActions && column.dataField ? (
+                                        <td key={`${column.key}_1`}>
+                                            {React.cloneElement(column.actionsComponent as React.ReactElement, { id: row['id'], Name: row[column.dataField] })}
+                                        </td>
+                                        // Renderiza el componente de acciones aquí
+                                    ) : (
+                                        // Renderiza el valor de la celda normalmente
+                                        <td key={column.dataField}>
+                                            {row[column.dataField]}
+                                        </td>
+                                    )}
+                                </>
                             ))}
-                            {actionsColumn && <td>{actionsColumn}</td>}
                         </tr>
                     ))}
                 </tbody>

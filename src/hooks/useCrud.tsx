@@ -4,7 +4,7 @@ import { useRequest } from '../api/UseRequest';
 export const useCrud = <T,>(apiUrl: string, params?: object) => {
   const [data, setData] = useState<T[]>([]);
   const [editingItem, setEditingItem] = useState<T | null>(Object);
-  const { getRequest, postRequest, postFileRequest, putRequest } = useRequest();
+  const { getRequest, postRequest, deleteRequest, putRequest } = useRequest();
   useEffect(() => {
     fetchData();
   }, []);
@@ -35,18 +35,23 @@ export const useCrud = <T,>(apiUrl: string, params?: object) => {
   };
 
   const deleteItem = async (id: number) => {
+    console.log(id,"deleeeee");
     try {
       //await axios.delete(`${apiUrl}/${id}`);
+      await deleteRequest<T[]>(`${apiUrl}${id}/`);
       fetchData();
     } catch (error) {
       console.error('Error deleting data:', error);
     }
   };
 
-  const editItem = (id: number) => {
+  const GetItemById = (id: number) => {
+    console.log("llego el id:",id)
     const itemToEdit = data.find(item => item.id === id);
+    console.log("itemToEdit:",itemToEdit)
     if (itemToEdit) {
       setEditingItem(itemToEdit);
+      return itemToEdit;
     }
   };
 
@@ -61,7 +66,7 @@ export const useCrud = <T,>(apiUrl: string, params?: object) => {
     createItem,
     updateItem,
     deleteItem,
-    editItem,
+    GetItemById,
     resetEditingItem,
   };
 };

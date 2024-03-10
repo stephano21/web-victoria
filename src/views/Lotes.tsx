@@ -5,42 +5,70 @@ import { Button, Modal } from 'react-bootstrap';
 import { Endpoints } from '../api/routes';
 import { ILote, ISelectListItem } from '../interfaces/AuthInterface';
 import { useRequest } from '../api/UseRequest';
-import { DataTable } from '../components/DataTable';
+import { DataTable, HeaderProp } from '../components/DataTable';
 import { Selects } from '../hooks/useSelect';
 import useCrud from '../hooks/useCrud';
 import { GenericForm } from '../components/Form';
 import { Download } from '../components/Download';
-const columns = [
-  {
-    dataField: 'Codigo_Lote',
-    text: 'Codigo',
-  },
-  {
-    dataField: 'Nombre',
-    text: 'Nombre',
-  },
-  {
-    dataField: 'Hectareas',
-    text: 'Hectareas',
-  },
-  {
-    dataField: 'Variedad',
-    text: 'Variedad',
-  },
-  {
-    dataField: 'Edad',
-    text: 'Edad',
-  },
-  {
-    dataField: 'FechaSiembra',
-    text: 'Fecha de Siembra',
-  },
-  {
-    dataField: 'Num_Plantas',
-    text: 'Plantas',
-  }
-];
+import { ButomsGroup } from '../components/ButomsGroup';
+import { ConfirmModal } from '../components/ConfirmModal';
+import { tr } from 'date-fns/locale';
+
 export const Lotes: React.FC = () => {
+  const {
+    data,
+    fetchData,
+    editingItem,
+    createItem,
+    updateItem,
+    deleteItem,
+    GetItemById,
+    resetEditingItem,
+  } = useCrud<ILote>(Endpoints.lotes);
+  const [open, setOpen] = useState(false);
+  const [ConfirmData, setConfirmData] = useState({ id: 0, text: '' });
+  const Confirm = (id: number, text: string) => {
+    let html = "Esta seguro de eliminar el lote " + text + "?";
+    setConfirmData({ id, text: html });
+    setOpen(true)
+    console.log('confirm', id, text)
+  }
+  const columns: HeaderProp[] = [
+    {
+      dataField: 'Codigo_Lote',
+      text: 'Codigo',
+    },
+    {
+      dataField: 'Nombre',
+      text: 'Nombre',
+    },
+    {
+      dataField: 'Hectareas',
+      text: 'Hectareas',
+    },
+    {
+      dataField: 'Variedad',
+      text: 'Variedad',
+    },
+    {
+      dataField: 'Edad',
+      text: 'Edad',
+    },
+    {
+      dataField: 'FechaSiembra',
+      text: 'Fecha de Siembra',
+    },
+    {
+      dataField: 'Num_Plantas',
+      text: 'Plantas',
+    },
+    {
+      text: 'Acciones',
+      isActions: true,
+      dataField: 'Codigo_Lote',
+      actionsComponent: <ButomsGroup onDelete={Confirm} onEdit={Confirm} />
+    },
+  ];
   const { postFileRequest } = useRequest();
   const { GetProyectos } = Selects();
   const [file, setFile] = useState<File | null>(null)
@@ -55,16 +83,6 @@ export const Lotes: React.FC = () => {
     Variedad: "",
 
   })
-  const {
-    data,
-    fetchData, 
-    editingItem,
-    createItem,
-    updateItem,
-    deleteItem,
-    editItem,
-    resetEditingItem,
-  } = useCrud<ILote>(Endpoints.lotes);
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
   const handleShow = () => setShow(true);
@@ -74,6 +92,7 @@ export const Lotes: React.FC = () => {
     setShow(false);
     ResetForm();
   };
+
   const ResetForm = () => setLote({
     id: 0,
     Nombre: "",
@@ -104,7 +123,7 @@ export const Lotes: React.FC = () => {
       })
       .catch((error) => console.log(error.response.data));
     console.log(JSON.stringify(formData, null, 3))
-    fetchData(); 
+    fetchData();
     handleCloseImport();
   };
   const HandleFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -153,6 +172,16 @@ export const Lotes: React.FC = () => {
         </Button>
         <div className="row">
           <DataTable columnNames={columns} data={data}></DataTable>
+          <ConfirmModal
+            id={ConfirmData.id}
+            text={ConfirmData.text}
+            onConfirm={() => {
+              deleteItem(ConfirmData.id);
+              setOpen(false);
+            }}
+            visible={open}
+            setVisible={setOpen}
+          ></ConfirmModal>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Registar Lote</Modal.Title>

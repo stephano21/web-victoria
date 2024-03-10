@@ -58,7 +58,7 @@ export const useRequest = () => {
       .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
         notify(
-          `Ha ocurrido un error al obtener los datos!`, 
+          `Ha ocurrido un error al obtener los datos! ${error.message}`, 
           "error"
         )
         throw error;
@@ -67,18 +67,34 @@ export const useRequest = () => {
         hideLoader();
       });
   };
-
+  const deleteRequest = async <T extends unknown>(
+    endpoint: string,
+    params?: object,
+  ): Promise<T> => {
+    showLoader();
+    return await ApiRequest.delete(endpoint, { params })
+      .then(({ data }: AxiosResponse<T>) => data)
+      .catch((error: AxiosError<ApiErrorResponse>) => {
+        notify(
+          `Ha ocurrido un error al eliminar el registro!${error.message}`, 
+          "error"
+        )
+        throw error;
+      })
+      .finally(() => {
+        hideLoader();
+      });
+  };
   const postRequest = async <T extends unknown>(
     endpoint: string,
     data?: object,
     params?: object
   ): Promise<T> => {
-    console.log("post??");
     showLoader();
     return await ApiRequest.post(endpoint, data, { params })
       .then(({ data }: AxiosResponse<T>) => {
         // Notificar que el registro fue exitoso
-        notify("El registro se ha completado exitosamente", "success");
+        endpoint!= Endpoints.login && notify("El registro se ha completado exitosamente", "success");
         return data;
       })
       .catch((error: AxiosError<ApiErrorResponse>) => {
@@ -101,9 +117,15 @@ export const useRequest = () => {
   ): Promise<T> => {
     showLoader();
     return await ApiRequest.put(endpoint, data, { params })
-      .then(({ data }: AxiosResponse<T>) => data)
+      .then(({ data }: AxiosResponse<T>) => {
+        notify("El registro se ha actualizado exitosamente", "success");
+        return data
+      })
       .catch((error: AxiosError<ApiErrorResponse>) => {
-        //ShowAlertApiError(error);
+        notify(
+          `Ha ocurrido un error al actualizar el registro! ${error.message}`, 
+          "error"
+        )
         throw error;
       })
       .finally(() => {
@@ -156,6 +178,7 @@ export const useRequest = () => {
     postRequestToken, 
     postRequest, 
     postFileRequest,
-    putRequest 
+    putRequest,
+    deleteRequest,
   };
 };
