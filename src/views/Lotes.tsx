@@ -234,7 +234,7 @@ export const Lotes: React.FC = () => {
                   },
                   {
                     name: "Id_Lote",
-                    label: "Hacienda",
+                    label: "Proyecto",
                     bclass: "form-control",
                     placeholder: "Ingrese el código",
                     inputType: "select",

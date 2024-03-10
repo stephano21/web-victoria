@@ -20,7 +20,7 @@ export const useRequest = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-  const {  login,  UserData, isAuthenticated } = useAuth();
+  const { login, UserData, isAuthenticated } = useAuth();
   // Create an axios instance for the UserData endpoint
   const ApiTokenRequest = axios.create({
     baseURL: Endpoints.BaseURL + Endpoints.Api + Endpoints.login,
@@ -35,7 +35,7 @@ export const useRequest = () => {
     baseURL: Endpoints.BaseURL + Endpoints.Api,
     headers: {
       "Content-Type": "application/json",
-      ...(UserData?.access_token !== ""  && UserData?.access_token !==undefined? { Authorization: `Bearer ${UserData?.access_token}` } : {}),
+      ...(UserData?.access_token !== "" && UserData?.access_token !== undefined ? { Authorization: `Bearer ${UserData?.access_token}` } : {}),
     },
   });
 
@@ -58,7 +58,7 @@ export const useRequest = () => {
       .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
         notify(
-          `Ha ocurrido un error al obtener los datos! ${error.message}`, 
+          `Ha ocurrido un error al obtener los datos ${typeof error.response?.data === 'string' ? error.response?.data : error.message}`,
           "error"
         )
         throw error;
@@ -73,10 +73,16 @@ export const useRequest = () => {
   ): Promise<T> => {
     showLoader();
     return await ApiRequest.delete(endpoint, { params })
-      .then(({ data }: AxiosResponse<T>) => data)
+      .then(({ data }: AxiosResponse<T>) => {
+        notify(
+          `${typeof data === 'string' ? data : "Registro eliminado exitosamente!"}`,
+          "success"
+        )
+        return data
+      })
       .catch((error: AxiosError<ApiErrorResponse>) => {
         notify(
-          `Ha ocurrido un error al eliminar el registro!${error.message}`, 
+          `Ha ocurrido un error al eliminar el registro ${typeof error.response?.data === 'string' ? error.response?.data : error.message}`,
           "error"
         )
         throw error;
@@ -94,14 +100,14 @@ export const useRequest = () => {
     return await ApiRequest.post(endpoint, data, { params })
       .then(({ data }: AxiosResponse<T>) => {
         // Notificar que el registro fue exitoso
-        endpoint!= Endpoints.login && notify("El registro se ha completado exitosamente", "success");
+        endpoint != Endpoints.login && notify("El registro se ha completado exitosamente", "success");
         return data;
       })
       .catch((error: AxiosError<ApiErrorResponse>) => {
         console.log("error.....")
         console.log(error)
         notify(
-          `Ha ocurrido un error del sistema ${error.message}`, 
+          `Ha ocurrido un error del sistema ${typeof error.response?.data === 'string' ? error.response?.data : error.message}`,
           "error"
         )
         throw error;
@@ -123,7 +129,7 @@ export const useRequest = () => {
       })
       .catch((error: AxiosError<ApiErrorResponse>) => {
         notify(
-          `Ha ocurrido un error al actualizar el registro! ${error.message}`, 
+          `Ha ocurrido un error al actualizar el registro! ${typeof error.response?.data === 'string' ? error.response?.data : error.message}`,
           "error"
         )
         throw error;
@@ -163,7 +169,7 @@ export const useRequest = () => {
       .then(({ data }: AxiosResponse<T>) => data)
       .catch((error: AxiosError<ApiErrorResponse>) => {
         notify(
-          `Ha ocurrido un error del sistema ${error.response?.data}`, 
+          `Ha ocurrido un error del sistema ${typeof error.response?.data === 'string' ? error.response?.data : error.message}`,
           "error"
         )
         throw error;
@@ -173,10 +179,10 @@ export const useRequest = () => {
       });
   };
 
-  return { 
+  return {
     getRequest,
-    postRequestToken, 
-    postRequest, 
+    postRequestToken,
+    postRequest,
     postFileRequest,
     putRequest,
     deleteRequest,
