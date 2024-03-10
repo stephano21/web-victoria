@@ -124,7 +124,7 @@ export const useRequest = () => {
     showLoader();
     return await ApiRequest.put(endpoint, data, { params })
       .then(({ data }: AxiosResponse<T>) => {
-        notify("El registro se ha actualizado exitosamente", "success");
+        notify(`${data ? data : "El registro se ha actualizado exitosamente"}`, "success");
         return data
       })
       .catch((error: AxiosError<ApiErrorResponse>) => {

@@ -15,6 +15,41 @@ import { ConfirmModal } from '../components/ConfirmModal';
 import { tr } from 'date-fns/locale';
 
 export const Lotes: React.FC = () => {
+  const { postFileRequest } = useRequest();
+  const { GetProyectos } = Selects();
+  const [EditMode, setEditMode] = useState(false);
+  const [file, setFile] = useState<File | null>(null)
+  const [ProyectoSelect, setProyectoSelect] = useState<ISelectListItem[]>();
+  const [Lote, setLote] = useState<ILote>({
+    id: 0,
+    Nombre: "",
+    Codigo_Lote: "",
+    Id_Proyecto: 0,
+    Hectareas: 0,
+    Activo: true,
+    Variedad: "",
+
+  })
+  const [show, setShow] = useState(false);
+  const [showImport, setshowImport] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleCloseImport = () => setshowImport(false);
+  const handleShowImport = () => setshowImport(true);
+  const handleClose = () => {
+    setShow(false);
+    ResetForm();
+  };
+
+  const ResetForm = () => setLote({
+    id: 0,
+    Nombre: "",
+    Codigo_Lote: "",
+    Id_Proyecto: 0,
+    Hectareas: 0,
+    Activo: true,
+    Variedad: "",
+
+  });
   const {
     data,
     fetchData,
@@ -32,6 +67,24 @@ export const Lotes: React.FC = () => {
     setConfirmData({ id, text: html });
     setOpen(true)
     console.log('confirm', id, text)
+  }
+  const RenderToEdit = (id: number) => {
+    console.log("Loadata")
+    resetEditingItem();
+
+    let Current = GetItemById(id);
+    console.log(Current)
+    setLote({
+      id: Current?.id ?? 0,
+      Nombre: Current?.Nombre ?? "",
+      Codigo_Lote: Current?.Codigo_Lote ?? "",
+      Id_Proyecto: Current?.Id_Proyecto ?? 0,
+      Variedad: Current?.Variedad ?? "",
+      Hectareas: Current?.Hectareas ?? 0,
+      Num_Plantas: Current?.Num_Plantas ?? 0,
+    });
+    setEditMode(true)
+    handleShow();
   }
   const columns: HeaderProp[] = [
     {
@@ -66,43 +119,10 @@ export const Lotes: React.FC = () => {
       text: 'Acciones',
       isActions: true,
       dataField: 'Codigo_Lote',
-      actionsComponent: <ButomsGroup onDelete={Confirm} onEdit={Confirm} />
+      actionsComponent: <ButomsGroup onDelete={Confirm} onEdit={RenderToEdit} />
     },
   ];
-  const { postFileRequest } = useRequest();
-  const { GetProyectos } = Selects();
-  const [file, setFile] = useState<File | null>(null)
-  const [ProyectoSelect, setProyectoSelect] = useState<ISelectListItem[]>();
-  const [Lote, setLote] = useState<ILote>({
-    id: 0,
-    Nombre: "",
-    Codigo_Lote: "",
-    Id_Proyecto: 0,
-    Hectareas: 0,
-    Activo: true,
-    Variedad: "",
 
-  })
-  const [show, setShow] = useState(false);
-  const [showImport, setshowImport] = useState(false);
-  const handleShow = () => setShow(true);
-  const handleCloseImport = () => setshowImport(false);
-  const handleShowImport = () => setshowImport(true);
-  const handleClose = () => {
-    setShow(false);
-    ResetForm();
-  };
-
-  const ResetForm = () => setLote({
-    id: 0,
-    Nombre: "",
-    Codigo_Lote: "",
-    Id_Proyecto: 0,
-    Hectareas: 0,
-    Activo: true,
-    Variedad: "",
-
-  });
   const handleInputChange = (name: string, value: string) => {
     setLote({
       ...Lote,
@@ -110,7 +130,7 @@ export const Lotes: React.FC = () => {
     });
   };
   const SaveLote = () => {
-    createItem(Lote);
+    EditMode? updateItem(Lote.id, Lote): createItem(Lote);
     handleClose();
   };
   const ImporLotes = () => {
@@ -224,7 +244,7 @@ export const Lotes: React.FC = () => {
                     onChange: (value) => handleInputChange("Hectareas", value), // Maneja los cambios en el password
                   },
                   {
-                    name: "lng",
+                    name: "Num_Plantas",
                     inputType: "number",
                     label: "Plantas",
                     bclass: "form-control",

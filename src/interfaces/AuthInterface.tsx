@@ -49,7 +49,7 @@ export interface ILote {
   Hectareas: number | null;
   Variedad: string;
   Id_Proyecto: number;
-  Activo: boolean;
+  Activo?: boolean;
   FechaSiembra?: Date;
   Edad?: number;
   Num_Plantas?: number;

@@ -36,6 +36,7 @@ export const Proyectos: React.FC = () => {
     Activo: true,
   });
   const [open, setOpen] = useState(false);
+  const [EditMode, setEditMode] = useState(false);
   const [ConfirmData, setConfirmData] = useState({ id: 0, text: '' });
   const Confirm = (id: number, text: string) => {
     let html = "Esta seguro de eliminar el proyecto " + text + "?";
@@ -54,6 +55,7 @@ export const Proyectos: React.FC = () => {
       Codigo_Proyecto: Current?.Codigo_Proyecto ?? "",
       Id_Hacienda: Current?.Id_Hacienda ?? 0,
     });
+    setEditMode(true)
     handleShow();
   }
   const {
@@ -84,7 +86,6 @@ export const Proyectos: React.FC = () => {
 
   const { UserData } = useAuth();
   const { GetHaciendas } = Selects();
-  const { GetProyectos } = Selects();
   const [HaciendasSelect, setHaciendasSelect] = useState<ISelectListItem[]>([]);
 
 
@@ -95,7 +96,8 @@ export const Proyectos: React.FC = () => {
     });
   };
   const SaveProyect = () => {
-    createItem(Proyecto);
+    EditMode? updateItem(parseInt(Proyecto.id) , Proyecto):createItem(Proyecto);
+    setEditMode(false);
     handleClose();
   };
 

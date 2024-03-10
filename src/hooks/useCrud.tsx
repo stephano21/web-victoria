@@ -27,7 +27,7 @@ export const useCrud = <T,>(apiUrl: string, params?: object) => {
 
   const updateItem = async (id: number, formData: object) => {
     try {
-      await putRequest(`${apiUrl}/${id}`, formData);
+      await putRequest(`${apiUrl}${id}/`, formData);
       fetchData();
     } catch (error) {
       console.error('Error updating data:', error);
