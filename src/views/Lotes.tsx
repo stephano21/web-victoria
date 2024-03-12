@@ -132,7 +132,6 @@ export const Lotes: React.FC = () => {
   };
   const SaveLote = () => {
     EditMode? updateItem(Lote.id, Lote): createItem(Lote);
-    setEditMode(false);
     handleClose();
   };
   const ImporLotes = () => {

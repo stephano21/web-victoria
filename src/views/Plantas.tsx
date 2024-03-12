@@ -127,7 +127,6 @@ export const Plantas = () => {
   };
   const SavePlanta = () => {
     EditMode? updateItem(Planta.id, Planta): createItem(Planta)
-    setEditMode(false);
     handleClose();
   };
   //call api

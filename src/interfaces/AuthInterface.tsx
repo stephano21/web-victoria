@@ -24,7 +24,7 @@ export interface IHacienda {
   Usuario?: string;
 }
 export interface IProyecto {
-  id?: number;
+  id: number;
   Codigo_Proyecto: string;
   Nombre: string;
   Densidad?: number | null;

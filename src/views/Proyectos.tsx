@@ -25,6 +25,7 @@ export const Proyectos: React.FC = () => {
   const handleShow = () => setShow(true);
   const handleClose = () => {
     setShow(false);
+    setEditMode(false);
     ResetForm();
   };
   const ResetForm = () => setProyecto({
@@ -96,8 +97,7 @@ export const Proyectos: React.FC = () => {
     });
   };
   const SaveProyect = () => {
-    EditMode? updateItem(parseInt(Proyecto.id) , Proyecto):createItem(Proyecto);
-    setEditMode(false);
+    EditMode? updateItem(Proyecto.id , Proyecto):createItem(Proyecto);
     handleClose();
   };
 
@@ -130,7 +130,7 @@ export const Proyectos: React.FC = () => {
           ></ConfirmModal>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Registar Proyecto</Modal.Title>
+              <Modal.Title>{EditMode ? "Actualizar proyecto": "Registar Proyecto"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <GenericForm
