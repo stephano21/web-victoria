@@ -33,7 +33,9 @@ export const SelectSearch = ({
       onChange(selectedOption);
     }
   };
-
+  console.log("value", value)
+  console.log("options", options)
+  console.log("value selected", options.find(x => x.value === value?.toString()))
   return (
     <>
       {label && <label className="form-label">{label}</label>}

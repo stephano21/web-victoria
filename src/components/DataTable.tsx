@@ -135,7 +135,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                 <div className='p-1'>
                     <div className="items-per-page">
                         <SelectSearch
-                            value={PAGES_TO_SHOW.toString()}
+                            value={itemsPerPage.toString()}
                             onChange={handleItemsPerPageChange}
                             options={itemsPerPageOptions.map((option) => {
                                 return {
@@ -243,6 +243,7 @@ export const DataTable: React.FC<DataTableProps> = ({
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     let currentItems: object[] = [];
     let totalPages = 0;
+    const PAGES_TO_SHOW = 5;
 
     if (itemsPerPage === -1) {
         // Si la opción "Mostrar todos" está seleccionada, mostramos todos los elementos
@@ -254,7 +255,6 @@ export const DataTable: React.FC<DataTableProps> = ({
         currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
         totalPages = Math.ceil(sortedData.length / itemsPerPage);
     }
-    const PAGES_TO_SHOW = 5;
     // Calcular el rango de páginas a mostrar
     const startPage = Math.max(1, currentPage - Math.floor(PAGES_TO_SHOW / 2));
     const endPage = Math.min(totalPages, startPage + PAGES_TO_SHOW - 1);
@@ -282,7 +282,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                 <div className='p-1'>
                     <div className="items-per-page">
                         <SelectSearch
-                            value={PAGES_TO_SHOW.toString()}
+                            value={itemsPerPage.toString()}
 
                             onChange={handleItemsPerPageChange}
                             options={itemsPerPageOptions.map((option) => {

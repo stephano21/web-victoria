@@ -37,7 +37,7 @@ export interface IPlantas {
   Disabled: boolean;
   Codigo_Planta: string;
   Nombre: string;
-  Activo: boolean;
+  Activo?: boolean;
   Id_Lote: number;
   lat: number;
   lng: number;

@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
-import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
 import { IPlantas, ISelectListItem } from '../interfaces/AuthInterface';
@@ -10,23 +9,16 @@ import { GenericForm } from '../components/Form';
 import { DataTable } from '../components/DataTable';
 import { Selects } from '../hooks/useSelect';
 import useCrud from '../hooks/useCrud';
-import { Input } from '../components/InputCustom';
 import { Download } from '../components/Download';
-const columns = [
+import { ButomsGroup } from '../components/ButomsGroup';
+import { ConfirmModal } from '../components/ConfirmModal';
 
-  {
-    dataField: 'Codigo_Planta',
-    text: 'Código',
-  },
-  {
-    dataField: 'Nombre',
-    text: 'Nombre',
-  },
-];
 export const Plantas = () => {
   const { getRequest, postFileRequest } = useRequest();
   const { GetLotes } = Selects();
-
+  const [open, setOpen] = useState(false);
+  const [EditMode, setEditMode] = useState(false);
+  const [ConfirmData, setConfirmData] = useState({ id: 0, text: '' });
   const [LotesSelect, setLotesSelect] = useState<ISelectListItem[]>([]);
   const [file, setFile] = useState<File | null>(null)
   const [Planta, setPLanta] = useState<IPlantas>({
@@ -43,6 +35,10 @@ export const Plantas = () => {
   const {
     data,
     createItem,
+    resetEditingItem,
+    GetItemById,
+    updateItem,
+    deleteItem,
   } = useCrud<IPlantas>(Endpoints.Plantas);
   const [show, setShow] = useState(false);
   const [showImport, setshowImport] = useState(false);
@@ -60,6 +56,7 @@ export const Plantas = () => {
   }
   const handleClose = () => {
     setShow(false);
+    setEditMode(false);
     ResetForm();
   };
   const handleShow = () => setShow(true);
@@ -77,6 +74,46 @@ export const Plantas = () => {
       setFile(archivo)
     }
   }
+  const Confirm = (id: number, text: string) => {
+    let html = "Esta seguro de eliminar la planta " + text + "?";
+    setConfirmData({ id, text: html });
+    setOpen(true)
+    console.log('confirm', id, text)
+  }
+  const RenderToEdit = (id: number) => {
+    resetEditingItem();
+
+    let Current = GetItemById(id);
+    console.log(Current)
+    setPLanta({
+      id: Current?.id ?? 0,
+      Nombre: Current?.Nombre ?? "",
+      Codigo_Planta: Current?.Codigo_Planta ?? "",
+      Id_Lote: Current?.Id_Lote ?? 0,
+      lat: Current?.lat ?? 0,
+      lng: Current?.lng ?? 0,
+      Disabled: Current?.Disabled ?? false,
+    });
+    setEditMode(true)
+    handleShow();
+  }
+  const columns = [
+
+    {
+      dataField: 'Codigo_Planta',
+      text: 'Código',
+    },
+    {
+      dataField: 'Nombre',
+      text: 'Nombre',
+    },
+    {
+      text: 'Acciones',
+      isActions: true,
+      dataField: 'Codigo_Planta',
+      actionsComponent: <ButomsGroup onDelete={Confirm} onEdit={RenderToEdit} />
+    },
+  ];
   const ImporPlantas = () => {
     const formData = new FormData()
     formData.append('plantas', file as any)
@@ -89,7 +126,9 @@ export const Plantas = () => {
     console.log(JSON.stringify(formData, null, 3))
   };
   const SavePlanta = () => {
-    createItem(Planta)
+    EditMode? updateItem(Planta.id, Planta): createItem(Planta)
+    setEditMode(false);
+    handleClose();
   };
   //call api
   const GetData = async () => {
@@ -109,9 +148,19 @@ export const Plantas = () => {
         </Button>
 
         <DataTable columnNames={columns} data={data}></DataTable>
+        <ConfirmModal
+            id={ConfirmData.id}
+            text={ConfirmData.text}
+            onConfirm={() => {
+              deleteItem(ConfirmData.id);
+              setOpen(false);
+            }}
+            visible={open}
+            setVisible={setOpen}
+          ></ConfirmModal>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Registar Planta</Modal.Title>
+            <Modal.Title>{EditMode?"Actualizar Planta":"Registar Planta"}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <GenericForm

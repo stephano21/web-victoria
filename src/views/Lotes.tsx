@@ -36,6 +36,7 @@ export const Lotes: React.FC = () => {
   const handleCloseImport = () => setshowImport(false);
   const handleShowImport = () => setshowImport(true);
   const handleClose = () => {
+    setEditMode(false);
     setShow(false);
     ResetForm();
   };
@@ -131,6 +132,7 @@ export const Lotes: React.FC = () => {
   };
   const SaveLote = () => {
     EditMode? updateItem(Lote.id, Lote): createItem(Lote);
+    setEditMode(false);
     handleClose();
   };
   const ImporLotes = () => {
@@ -204,7 +206,7 @@ export const Lotes: React.FC = () => {
           ></ConfirmModal>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Registar Lote</Modal.Title>
+              <Modal.Title>{EditMode?"Actualizar Lote":"Registar Lote"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <GenericForm
