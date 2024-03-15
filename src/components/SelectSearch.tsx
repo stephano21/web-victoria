@@ -45,7 +45,7 @@ export const SelectSearch = ({
         isMulti={multiOptions}
         options={options}
         onChange={handleChange}
-        defaultValue={options.find(x => x.value === value)}
+        defaultValue={options.find(x => x.value === value?.toString())}
       />
     </>
 
