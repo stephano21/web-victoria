@@ -14,6 +14,7 @@ export const Endpoints = {
   Poligonos: "/geolotes/",
   Produccion: "/produccion/",
   Predict: "/predict/",
+  PredictSync: "/predict/sync",
   Proyecto: "/proyectos/",
   register: "/auth/register/",
   Roles: '/auth/roles',

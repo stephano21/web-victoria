@@ -24,7 +24,7 @@ export const Home = () => {
     data.forEach((item) => {
       notify(
         item?.message,
-        item?.class == "danger" ? "error" : "info",
+        item?.class === "danger" ? "error" : "info",
         {
           notificationProps: {
             header: item?.area
@@ -34,7 +34,7 @@ export const Home = () => {
       )
     })
   }, []);
-  const HandeleButton = () => getRequest(Endpoints.Test);
+  const HandeleButton = () => getRequest(Endpoints.PredictSync);
   const data = [
     {
       class: 'primary',

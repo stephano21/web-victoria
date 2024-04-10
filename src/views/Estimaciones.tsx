@@ -1,17 +1,13 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BaseLayout } from '../components/BaseLayout';
-import { CustomTable } from '../components/CustomTable';
 import { Endpoints } from '../api/routes';
 import { useRequest } from '../api/UseRequest';
-import { IPlantas } from '../interfaces/AuthInterface';
-import { Card, Modal, Spinner, Toast } from 'react-bootstrap';
+import { Card, Modal, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { GenericForm } from '../components/Form';
-import { usePlantaState } from '../states/PlantaState';
-import { DataTable } from '../components/DataTable';
 import { Timeline, Grid, Row, Col } from 'rsuite';
 import CheckIcon from '@rsuite/icons/legacy/Check';
 import { IDatosPorMes } from '../interfaces/PredictInterface';
+import { useAuth } from '../context/AuthContext';
 
 const renderTimelineItems = (monthData: IDatosPorMes[]) => {
   return monthData.map(({ mes, data }) => (
@@ -31,7 +27,7 @@ const renderTimelineItems = (monthData: IDatosPorMes[]) => {
 
 export const Estimaciones = () => {
   const [show, setShow] = useState(false);
-
+  const { UserData } = useAuth();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { getRequest } = useRequest();
@@ -39,22 +35,29 @@ export const Estimaciones = () => {
     [{
       mes: "",
       data: [{
-        project: 0,
+        Project: 0,
         Pred: 0,
         "qq/has": 0,
       }]
     }]
   );
   const GetData = async () => {
-    const response = await getRequest<IDatosPorMes>(Endpoints.Predict);
+    const response = await getRequest<IDatosPorMes[]>(Endpoints.Predict);
     console.log(JSON.stringify(response, null, 3));
     setData(response);
   }
+  const HandeleButton = () => getRequest(Endpoints.PredictSync);
   useEffect(() => {
     GetData();
   }, [])
   return (
     <BaseLayout PageName='Estimaciones'>
+      <div className="container">
+        {UserData && UserData?.rol !== null && UserData.rol === "Root" && (
+          <button type="button" className="btn btn-success" onClick={HandeleButton}><i className='bi bi-arrow-repeat'></i>Sync </button>
+        )}
+
+      </div>
       <div className='container d-flex align-items-center justify-content-center'>
         <div className="row">
           <div className="col-md-12 text-center">
