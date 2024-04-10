@@ -324,7 +324,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                             {columnNames?.map((column) => (
                                 <>
                                     {column.isActions && column.dataField ? (
-                                        <td key={`${column.key}_1`}>
+                                        <td key={`${column.dataField}_1`}>
                                             {React.cloneElement(column.actionsComponent as React.ReactElement, { id: row['id'], Name: row[column.dataField] })}
                                         </td>
                                         // Renderiza el componente de acciones aquí
