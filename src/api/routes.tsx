@@ -25,5 +25,5 @@ export const Endpoints = {
   Users: '/auth/users',
   WeatherData: '/weather/data/',
   WeatherSync: '/weather/sync/',
-  WeatherUpload: '/weather/upload/',
+  WeatherUpload: '/weather/upload',
 };

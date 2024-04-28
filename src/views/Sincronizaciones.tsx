@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useEffect, useState, Fragment } from "react"
 import { BaseLayout } from "../components/BaseLayout"
 import { useRequest } from "../api/UseRequest";
 import { Endpoints } from "../api/routes";
@@ -6,6 +6,21 @@ import { DataTable } from "../components/DataTable";
 import { Button, Modal } from "react-bootstrap";
 import { GenericForm } from "../components/Form";
 import { Message } from "rsuite";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  BarChart,
+  Bar,
+  Tooltip,
+  RadialBarChart,
+  RadialBar,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+import { ISync } from "../interfaces/AnalytisInterfaces";
 
 const columns = [
 
@@ -15,33 +30,38 @@ const columns = [
   },
   {
     dataField: 'Date',
-    text: 'Nombre',
+    text: 'Fecha',
   },
   {
-    dataField: 'LocationID',
-    text: "Ubicacion ID",
+    dataField: 'Usuario',
+    text: "Usuario de sincronizacion",
   },
   {
     dataField: 'Temp_Air_Mean',
-    text: "Ubicacion ID",
+    text: "Temperatura Maxima",
   }
   // Agrega más columnas según sea necesario
 ];
 export const Sincronizaciones = () => {
   const { getRequest, postFileRequest } = useRequest();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ISync>({
+    data: [],
+    analytics: []
+  });
   const [file, setFile] = useState<File | null>(null)
   const [showImport, setshowImport] = useState(false);
   const handleCloseImport = () => setshowImport(false);
   const handleShowImport = () => setshowImport(true);
-  useEffect(() => {
-    // Realiza una solicitud a la API para obtener los datos
-    getRequest<any>(Endpoints.WeatherData)
+  const GetData =() =>{
+    getRequest<ISync>(Endpoints.WeatherData)
       .then((e) => {
         setData(e)
         console.log(e);
       })
       .catch((error) => console.log(error));
+  }
+  useEffect(() => {
+    GetData()
   }, []);
   const SetWeatherCSV = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e[0]
@@ -53,8 +73,10 @@ export const Sincronizaciones = () => {
     const formData = new FormData()
     formData.append('weather', file as any)
 
-    postFileRequest(Endpoints.WeatherUpload + Endpoints.Upload, formData)
+    postFileRequest(Endpoints.WeatherUpload, formData)
       .then((e) => {
+        GetData()
+        handleCloseImport()
         console.log(e, formData);
       })
       .catch((error) => console.log(error.response.data));
@@ -66,7 +88,24 @@ export const Sincronizaciones = () => {
         <Button variant="primary" onClick={handleShowImport}>
           <i className="bi bi-upload"></i>&nbsp; Importar
         </Button>
-        <DataTable columnNames={columns} data={data}></DataTable>
+        <div className="col-md-12 text-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <Fragment>
+                <LineChart width={600} height={300} data={data?.analytics} >
+                  <Line type="monotone"  dataKey="Ndvi" stroke="#49942D" />
+                  <Line type="monotone" label="Temperatura Minima" dataKey="Temp_Air_Min" stroke="#64942D" />
+                  <Line type="monotone" dataKey="Dew_Temp_Max" stroke="#BCBA35" />
+                  <Line type="monotone" dataKey="Temp_Air_Max" stroke="#F18E16" />
+                  <Line type="monotone" dataKey="Evapotranspiration_Crop" stroke="#000000" />
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="Date" />
+                  
+                  <Tooltip />
+                </LineChart>
+              </Fragment>
+            </ResponsiveContainer>
+          </div>
+        <DataTable columnNames={columns} data={data?.data}></DataTable>
       </div>
       <Modal show={showImport} onHide={handleCloseImport}>
         <Modal.Header closeButton>

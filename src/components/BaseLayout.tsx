@@ -32,6 +32,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Accordion>
+            {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
               <Accordion.Item eventKey="0">
                 <Accordion.Header><i className="bi bi-cloud-lightning-rain"></i> &nbsp; Clima</Accordion.Header>
                 <Accordion.Body>
@@ -43,29 +44,36 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   </ListGroup>
                 </Accordion.Body>
               </Accordion.Item>
+            )}
+              
               <Accordion.Item eventKey="1">
                 <Accordion.Header><i className="bi bi-signpost-2"></i> &nbsp;Parametrizaciones</Accordion.Header>
                 <Accordion.Body>
                   <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Nav.Link href="/crop/proyects"><i className="bi bi-boxes"></i>&nbsp;&nbsp;Proyectos</Nav.Link>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <Nav.Link href="/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
-                    </ListGroup.Item>
+                    {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
+                      <>
+                        <ListGroup.Item>
+                          <Nav.Link href="/crop/proyects"><i className="bi bi-boxes"></i>&nbsp;&nbsp;Proyectos</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Nav.Link href="/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
+                        </ListGroup.Item>
+                      </>
+                    )}
                     <ListGroup.Item>
                       <Nav.Link href="/crop/readings"><i className="bi bi-list-check"></i>&nbsp;&nbsp;Lecturas</Nav.Link>
                     </ListGroup.Item>
                   </ListGroup>
                 </Accordion.Body>
               </Accordion.Item>
-              <Accordion.Item eventKey="2">
+              {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
+                <Accordion.Item eventKey="2">
                 <Accordion.Header><i className="bi bi-graph-up-arrow"></i> &nbsp;Estimaciones</Accordion.Header>
                 <Accordion.Body>
                   <ListGroup variant="flush">
@@ -78,19 +86,24 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   </ListGroup>
                 </Accordion.Body>
               </Accordion.Item>
-              <Accordion.Item eventKey="3">
-                <Accordion.Header><i className="bi bi-person-gear"></i> &nbsp;Administrador</Accordion.Header>
-                <Accordion.Body>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <Nav.Link href="/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
-                    </ListGroup.Item>
-                    {/* <ListGroup.Item>
+              )}
+              
+              {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
+                <Accordion.Item eventKey="3">
+                  <Accordion.Header><i className="bi bi-person-gear"></i> &nbsp;Administrador</Accordion.Header>
+                  <Accordion.Body>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item>
+                        <Nav.Link href="/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
+                      </ListGroup.Item>
+                      {/* <ListGroup.Item>
                       <Nav.Link href="/auth/role"><i className="bi bi-person-fill-lock"></i>&nbsp;&nbsp;Roles</Nav.Link>
                     </ListGroup.Item> */}
-                  </ListGroup>
-                </Accordion.Body>
-              </Accordion.Item>
+                    </ListGroup>
+                  </Accordion.Body>
+                </Accordion.Item>
+              )}
+
             </Accordion>
           </Offcanvas.Body>
         </Offcanvas>
@@ -133,7 +146,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               </Nav.Link>
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/auth/porfile">Perfil</NavDropdown.Item>
-                {UserData && (UserData?.rol == "Researcher" || UserData?.rol == "Root") && (
+                {UserData && (UserData?.rol === "Researcher" || UserData?.rol === "Root") && (
                   <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Api + Endpoints.Root} target="_blank">
                     Admin
                   </NavDropdown.Item>)

@@ -55,7 +55,7 @@ export const CardLogin = ({ onLogin }: CardLoginProps) => {
         ]}
         onSubmit={handleLogin}
       />
-      <a href="/auth/register" >Registrase</a>
+      {/* <a href="/auth/register" >Registrase</a> */}
     </Card>
   );
 };
