@@ -105,7 +105,7 @@ export const Lotes: React.FC = () => {
       text: 'Variedad',
     },
     {
-      dataField: 'Edad',
+      dataField: 'edad_real',
       text: 'Edad',
     },
     {

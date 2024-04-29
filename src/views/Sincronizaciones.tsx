@@ -88,15 +88,15 @@ export const Sincronizaciones = () => {
         <Button variant="primary" onClick={handleShowImport}>
           <i className="bi bi-upload"></i>&nbsp; Importar
         </Button>
-        <div className="col-md-12 text-center">
+        <div className="d-flex justify-content-center">
             <ResponsiveContainer width="100%" height="100%">
               <Fragment>
-                <LineChart width={600} height={300} data={data?.analytics} >
-                  <Line type="monotone"  dataKey="Ndvi" stroke="#49942D" />
-                  <Line type="monotone" label="Temperatura Minima" dataKey="Temp_Air_Min" stroke="#64942D" />
-                  <Line type="monotone" dataKey="Dew_Temp_Max" stroke="#BCBA35" />
-                  <Line type="monotone" dataKey="Temp_Air_Max" stroke="#F18E16" />
-                  <Line type="monotone" dataKey="Evapotranspiration_Crop" stroke="#000000" />
+                <LineChart width={900} height={300} data={data?.analytics} >
+                  <Line type="monotone"  dataKey="Ndvi" stroke="#09CB00" />
+                  <Line type="monotone" name="Temperatura Minima" unit={" C°"} dataKey="Temp_Air_Min" stroke="#0031FA" />
+                  <Line type="monotone" dataKey="Dew_Temp_Max" unit={" C°"} stroke="#FF8000" />
+                  <Line type="monotone" dataKey="Temperatura Máxima" unit={" C°"} stroke="#FA0000" />
+                  <Line type="monotone" dataKey="Evapotranspiration_Crop" unit={" mm"} stroke="#000000" />
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="Date" />
                   

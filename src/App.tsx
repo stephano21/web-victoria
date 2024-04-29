@@ -26,6 +26,7 @@ import { Lecturas } from "./views/Lecturas";
 import { Produccion } from "./views/Produccion";
 import { Roles } from "./views/Roles";
 import { Proyectos } from "./views/Proyectos";
+import { NotFoundPage } from "./views/NotFoundPage";
 
 const App: React.FC = () => {
   const { isAuthenticated, UserData } = useAuth();
@@ -47,7 +48,7 @@ const App: React.FC = () => {
             <>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home" element={<Home />} />
-              <Route path="*" element={<Navigate to="/home" />} />
+              <Route path="*" element={<NotFoundPage/>} />
               <Route path="/auth/porfile" element={<Porfile />} />
               {UserData && UserData.rol !== null && (
                 <Fragment>
@@ -74,7 +75,7 @@ const App: React.FC = () => {
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/register" element={<Register />} />
               <Route path="/uae/likes" element={<Likes />} />
-              <Route path="*" element={<Navigate to="/auth/login" />} />
+              <Route path="*" element={<NotFoundPage/>} />
 
             </>
           )}

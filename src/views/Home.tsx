@@ -52,6 +52,7 @@ export const Home = () => {
       )
     })
   }, []);
+  
   const HandeleButton = () => getRequest(Endpoints.PredictSync);
   const data = [
     {

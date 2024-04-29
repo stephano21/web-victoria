@@ -50,7 +50,7 @@ export const DataTable: React.FC<DataTableProps> = ({
     const [sortDirection, setSortDirection] = useState('asc');
     //paginacion
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     // Genera las columnas con keys basadas en los nombres
     const columns = columnNames?.map((row) => ({
@@ -276,9 +276,9 @@ export const DataTable: React.FC<DataTableProps> = ({
                 <div className="p-1">
                     <button onClick={exportToExcel} className="btn btn-success"><i className="bi bi-file-excel"></i></button>
                 </div>
-                <div className="p-1">
+                {/* <div className="p-1">
                     <button onClick={generatePDF} className="btn btn-danger"><i className="bi bi-filetype-pdf"></i></button>
-                </div>
+                </div> */}
                 <div className='p-1'>
                     <div className="items-per-page">
                         <SelectSearch
