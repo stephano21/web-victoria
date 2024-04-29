@@ -9,6 +9,7 @@ export const useAnalytics = () => {
     const GetEstadisticas = async (params?: object): Promise<IAnalytics> => {
         try {
             const Response = await getRequest<IAnalytics>(Endpoints.Analitics,params);
+            console.log(Response);
             setEstadisticas(Response);
             return Response; // Devuelve el arreglo transformado
         } catch (error) {

@@ -92,11 +92,11 @@ export const Sincronizaciones = () => {
             <ResponsiveContainer width="100%" height="100%">
               <Fragment>
                 <LineChart width={900} height={300} data={data?.analytics} >
-                  <Line type="monotone"  dataKey="Ndvi" stroke="#09CB00" />
-                  <Line type="monotone" name="Temperatura Minima" unit={" C°"} dataKey="Temp_Air_Min" stroke="#0031FA" />
-                  <Line type="monotone" dataKey="Dew_Temp_Max" unit={" C°"} stroke="#FF8000" />
-                  <Line type="monotone" dataKey="Temperatura Máxima" unit={" C°"} stroke="#FA0000" />
-                  <Line type="monotone" dataKey="Evapotranspiration_Crop" unit={" mm"} stroke="#000000" />
+                  <Line type="monotone" name="NDVI" dataKey="Ndvi" stroke="#09CB00" />
+                  <Line type="monotone" name="Temperatura Mínima" unit={" C°"} dataKey="Temp_Air_Min" stroke="#0031FA" />
+                  <Line type="monotone" name="Temperatura de Rocio Máxima" dataKey="Dew_Temp_Max" unit={" C°"} stroke="#FF8000" />
+                  <Line type="monotone" name="Temperatura Máxima" unit={" C°"} dataKey="Temp_Air_Max" stroke="#FA0000" />
+                  <Line type="monotone" name="Evapotranspiration del cultivo" dataKey="Evapotranspiration_Crop" unit={" mm"} stroke="#000000" />
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="Date" />
                   

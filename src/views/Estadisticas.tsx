@@ -25,6 +25,7 @@ import { DateToString } from '../helpers/FormatDate';
 import { convertChartToImage } from '../helpers/ChartToImage';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { DateRangePicker } from 'rsuite';
+import { useLocation } from 'react-router-dom';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 const style = {
   top: '50%',
@@ -46,6 +47,17 @@ export const Estadisticas = () => {
   });
   const barChartRef = useRef(null);
   const lineChartRef = useRef(null);
+  //Generate file name
+  const location = useLocation();
+  // Obtener el nombre de la ruta actual
+  const pathname = location.pathname;
+  const screenName = pathname.substring(1); // Eliminar el primer caracter ("/")
+  const currentDateTime = new Date();
+  const year = currentDateTime.getFullYear();
+  const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDateTime.getDate()).padStart(2, '0');
+  const hours = String(currentDateTime.getHours()).padStart(2, '0');
+  const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
   //call api
   const GetData = async () => {
     setData(await GetEstadisticas(DateFilter));
@@ -75,11 +87,16 @@ export const Estadisticas = () => {
     const worksheetProduccion = XLSX.utils.json_to_sheet(data?.Produccion || []);
     XLSX.utils.book_append_sheet(workbook, worksheetProduccion, 'Produccion');
 
+    // Agregar hoja de cálculo para los datos de enfermedades
+    const worksheetEnfermedades = XLSX.utils.json_to_sheet(data?.Enfermedades || []);
+    XLSX.utils.book_append_sheet(workbook, worksheetEnfermedades, 'Enfermedades');
+
     // Guardar el archivo Excel
-    XLSX.writeFile(workbook, 'reporte.xlsx');
+    
+    XLSX.writeFile(workbook, `${screenName}` + `_${year}${month}${day}_${hours}${minutes}.xlsx`);
   };
   const generatePDF = async () => {
-    if(1==1) return;
+    if (1 == 1) return;
     const barChartImage = await convertChartToImage(barChartRef);
     const lineChartImage = await convertChartToImage(lineChartRef);
 
@@ -131,11 +148,11 @@ export const Estadisticas = () => {
               <i className="bi bi-file-excel"></i>
             </button>
           </div>
-          <div className="p-2">
+          {/* <div className="p-2">
             <button className="btn btn-danger" onClick={generatePDF}>
               <i className="bi bi-file-pdf"></i>
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="row text-center">
           <h5>{DateFilter.from !== '' && DateFilter.to ?
@@ -147,37 +164,45 @@ export const Estadisticas = () => {
           <div className="col-md-12 text-center">
             {/*<h1>Pantalla en espera...<Spinner animation="border" variant='success' /></h1>*/}
           </div>
+          {/* ESTADIOS */}
           <div className="col-md-6 text-center">
             <ResponsiveContainer width="100%" height="100%" ref={lineChartRef}>
               <Fragment>
                 <h5>Mazorcas promedio por estadio</h5>
                 <LineChart width={600} height={300} data={data?.Lecturas} >
-                  <Line type="monotone" dataKey="E1" stroke="#49942D" />
-                  <Line type="monotone" dataKey="E2" stroke="#64942D" />
-                  <Line type="monotone" dataKey="E3" stroke="#BCBA35" />
-                  <Line type="monotone" dataKey="E4" stroke="#F18E16" />
-                  <Line type="monotone" dataKey="E5" stroke="#F15516" />
+                  <Line type="monotone" name='Estadio 1' unit={' qq'} dataKey="E1" stroke="#49942D" />
+                  <Line type="monotone" name='Estadio 2' unit={' qq'} dataKey="E2" stroke="#64942D" />
+                  <Line type="monotone" name='Estadio 3' unit={' qq'} dataKey="E3" stroke="#BCBA35" />
+                  <Line type="monotone" name='Estadio 4' unit={' qq'} dataKey="E4" stroke="#F18E16" />
+                  <Line type="monotone" name='Estadio 5' unit={' qq'} dataKey="E5" stroke="#F15516" />
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="Victoria" />
-                  <YAxis label={{ value: '# de Mazorcas', angle: -90, position: 'center', }} />
+                  <YAxis unit={" Σ Mz"} />
                   <Tooltip />
                 </LineChart>
               </Fragment>
             </ResponsiveContainer>
           </div>
+          {/* ENFERMEDADES */}
           <div className="col-md-6 text-center">
             <ResponsiveContainer width="100%" height="100%" ref={barChartRef}>
               <Fragment>
-                <h5>Plantas por Victoria</h5>
-                <BarChart width={600} height={300} data={data?.Trees}>
-                  <XAxis dataKey="Victoria" />
-                  <YAxis />
-                  <Bar dataKey="Plantas" barSize={30} fill="#8884d8" />
+                <h5>Enfermedades por Victoria</h5>
+                <LineChart width={600} height={300} data={data?.Enfermedades}>
+                  <XAxis dataKey="Victoria"  />
+                  <Line type="monotone" dataKey="GR1" name='Grado 1' stroke="#198754" />
+                  <Line type="monotone" dataKey="GR2" name='Grado 2' stroke="#C6FF03" />
+                  <Line type="monotone" dataKey="GR3" name='Grado 3' stroke="#FFAF03" />
+                  <Line type="monotone" dataKey="GR4" name='Grado 4' stroke="#FF5703" />
+                  <Line type="monotone" dataKey="GR5" name='Grado 5' stroke="#FF0303" />
+                  <Line type="monotone" dataKey="Cherelles" stroke="#000000" />
                   <Tooltip />
-                </BarChart>
+                  <YAxis unit={" Σ Mz"} name='Test' />
+                </LineChart>
               </Fragment>
             </ResponsiveContainer>
           </div>
+          {/* PRODUCCION */}
           <div className="col-md-6 text-center ">
             <ResponsiveContainer width={"100%"} height="100%">
               <Fragment>
@@ -186,8 +211,8 @@ export const Estadisticas = () => {
                   <Line type="monotone" dataKey="qq" stroke="#8884d8" />
                   <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                   <XAxis dataKey="Victoria" />
-                  <YAxis label={{ value: 'Quintales', angle: -90, position: 'center', }} />
-                  <YAxis  />
+                  <YAxis unit={" qq"} />
+                  <YAxis />
                   <Tooltip />
                 </LineChart>
               </Fragment>

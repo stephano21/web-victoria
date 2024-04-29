@@ -4,6 +4,7 @@ export interface IAnalytics {
   Trees: IProyectoPlantas[];
   Lecturas: IProyectoLecturas[];
   Produccion: IProduccionProyecto[];
+  Enfermedades: IProyectoEnfermedades[];
 }
 export interface IProyectoPlantas {
   Victoria: string;
@@ -16,6 +17,15 @@ export interface IProyectoLecturas {
   E3: number;
   E4: number;
   E5: number;
+}
+export interface IProyectoEnfermedades {
+  Victoria: string;
+  GR1: number;
+  GR2: number;
+  GR3: number;
+  GR4: number;
+  GR5: number;
+  Cherelles: number;
 }
 export interface IProduccionProyecto {
   Victoria: string;
