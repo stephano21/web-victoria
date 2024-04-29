@@ -187,7 +187,7 @@ export const Estadisticas = () => {
           <div className="col-md-6 text-center">
             <ResponsiveContainer width="100%" height="100%" ref={barChartRef}>
               <Fragment>
-                <h5>Enfermedades por Victoria</h5>
+                <h5>Promedio de Mazorcas Enfermas</h5>
                 <LineChart width={600} height={300} data={data?.Enfermedades}>
                   <XAxis dataKey="Victoria"  />
                   <Line type="monotone" dataKey="GR1" name='Grado 1' stroke="#198754" />
@@ -218,7 +218,8 @@ export const Estadisticas = () => {
               </Fragment>
             </ResponsiveContainer>
           </div>
-          <div className="col-md-6">
+          {/* NO SE QUE PONER AQUI */}
+          {/* <div className="col-md-6">
             <ResponsiveContainer width="100%" height="100%">
               <RadialBarChart cx="50%" cy="50%" innerRadius="10%" outerRadius="80%" barSize={10} data={data?.Trees}>
                 <RadialBar
@@ -229,7 +230,7 @@ export const Estadisticas = () => {
                 <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
               </RadialBarChart>
             </ResponsiveContainer>
-          </div>
+          </div> */}
         </div>
       </div>
     </BaseLayout>
