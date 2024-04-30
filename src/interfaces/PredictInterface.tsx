@@ -6,5 +6,12 @@ export interface IProyectoPred {
 
 export interface IDatosPorMes {
     mes: string;
-    data:IProyectoPred[];
+    data: IProyectoPred[];
 }
+
+export interface IPredict {
+    Id: string;
+    FechaRegistro: Date,
+    Hacienda: string
+}
+
