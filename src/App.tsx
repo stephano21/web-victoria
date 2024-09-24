@@ -42,7 +42,7 @@ const App: React.FC = () => {
   console.log(isAuthenticated)
   return (
     <>
-      <Router>
+      <Router basename="/planttrace">
         <Routes>
           {isAuthenticated ? (
             <>
@@ -79,7 +79,7 @@ const App: React.FC = () => {
 
             </>
           )}
-          <Route path="*" element={<p>La ruta no existe</p>} />
+          <Route path="*" element={<NotFoundPage/>} />
         </Routes>
       </Router>
     </>

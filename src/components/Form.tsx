@@ -37,6 +37,7 @@ export const GenericForm = ({ fields, onSubmit, showSubmit = true, accept='*' }:
             field.inputType === "password" ||
             field.inputType === "number" ||
             field.inputType === "date" ||
+            field.inputType === "checkbox"||
             field.inputType === "file"
             ? 
             ( 

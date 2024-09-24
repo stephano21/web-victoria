@@ -82,7 +82,7 @@ export function Input<T>({
         <>
           {label && <label className="form-label">{label}</label>}
           {type === "password" ? (
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }} className="input-container">
               <input
                 className={bclass || ""}
                 type={showPassword ? "text" : "password"}

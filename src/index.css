@@ -51,3 +51,20 @@
 .filter{
   width: 25%;
 }
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+input {
+  padding-right: 2.5rem; /* Espacio suficiente para el ícono */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.5rem; /* Ajusta la posición según sea necesario */
+  cursor: pointer;
+  z-index: 1; /* Asegura que el ícono esté por encima del input */
+  font-size: 1.5rem;
+}
