@@ -38,7 +38,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 <Accordion.Body>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      <Nav.Link href="weather/sync"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
+                      <Nav.Link href="/planttrace/weather/sync"><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
                     </ListGroup.Item>
 
                   </ListGroup>
@@ -53,21 +53,21 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
                       <>
                         <ListGroup.Item>
-                          <Nav.Link href="crop/proyects"><i className="bi bi-boxes"></i>&nbsp;&nbsp;Proyectos</Nav.Link>
+                          <Nav.Link href="/planttrace/crop/proyects"><i className="bi bi-boxes"></i>&nbsp;&nbsp;Proyectos</Nav.Link>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          <Nav.Link href="crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
+                          <Nav.Link href="/planttrace/crop/lots"><i className="bi bi-map-fill"></i>&nbsp;&nbsp;Lotes</Nav.Link>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          <Nav.Link href="crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
+                          <Nav.Link href="/planttrace/crop/trees"><i className="bi bi-tree-fill"></i>&nbsp;&nbsp;Plantas</Nav.Link>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          <Nav.Link href="crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
+                          <Nav.Link href="/planttrace/crop/production"><i className="bi bi-lightning-charge-fill"></i>&nbsp;&nbsp;Produccion</Nav.Link>
                         </ListGroup.Item>
                       </>
                     )}
                     <ListGroup.Item>
-                      <Nav.Link href="crop/readings"><i className="bi bi-list-check"></i>&nbsp;&nbsp;Lecturas</Nav.Link>
+                      <Nav.Link href="/planttrace/crop/readings"><i className="bi bi-list-check"></i>&nbsp;&nbsp;Lecturas</Nav.Link>
                     </ListGroup.Item>
                   </ListGroup>
                 </Accordion.Body>
@@ -78,10 +78,10 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 <Accordion.Body>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      <Nav.Link href="pred/analytics"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
+                      <Nav.Link href="/planttrace/pred/analytics"><i className="bi bi-bar-chart-fill"></i>&nbsp;&nbsp;Estadisticas</Nav.Link>
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      <Nav.Link href="pred/averange"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
+                      <Nav.Link href="/planttrace/pred/averange"><i className="bi bi-graph-up"></i>&nbsp;&nbsp;Estimaciones</Nav.Link>
                     </ListGroup.Item>
                   </ListGroup>
                 </Accordion.Body>
@@ -94,7 +94,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   <Accordion.Body>
                     <ListGroup variant="flush">
                       <ListGroup.Item>
-                        <Nav.Link href="auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
+                        <Nav.Link href="/planttrace/auth/users"><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
                       </ListGroup.Item>
                       {/* <ListGroup.Item>
                       <Nav.Link href="/auth/role"><i className="bi bi-person-fill-lock"></i>&nbsp;&nbsp;Roles</Nav.Link>
@@ -119,7 +119,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/planttrace/">
               {!PageName ? <img
                 src={banner}
                 width="100"
@@ -145,7 +145,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 {<> <i className="bi bi-person-lock"></i> {UserData?.rol}</>}
               </Nav.Link>
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
-                <NavDropdown.Item href="auth/porfile">Perfil</NavDropdown.Item>
+                <NavDropdown.Item href="/planttrace/auth/porfile">Perfil</NavDropdown.Item>
                 {UserData && (UserData?.rol === "Researcher" || UserData?.rol === "Root") && (
                   <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Api + Endpoints.Root} target="_blank">
                     Admin
