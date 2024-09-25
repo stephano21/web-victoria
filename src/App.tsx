@@ -46,25 +46,25 @@ const App: React.FC = () => {
         <Routes>
           {isAuthenticated ? (
             <>
-              <Route path="/planttrace" element={<Navigate to="/home" />} />
+              <Route path="/" element={<Navigate to="home" />} />
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<NotFoundPage/>} />
               <Route path="/auth/porfile" element={<Porfile />} />
               {UserData && UserData.rol !== null && (
                 <Fragment>
                   {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
-                    <> <Route path="/crop/lots" element={<Lotes />} />
-                      <Route path="/crop/trees" element={<Plantas />} />
-                      <Route path="/crop/production" element={<Produccion />} />
-                      <Route path="/crop/proyects" element={<Proyectos />} />
-                      <Route path="/weather/sync" element={<Sincronizaciones />} />
-                      <Route path="/auth/users" element={<Usuarios />} />
-                      <Route path="/auth/role" element={<Roles />} />
-                      <Route path="/pred/averange" element={<Estimaciones />} />
-                      <Route path="/pred/analytics" element={<Estadisticas />} />
+                    <> <Route path="crop/lots" element={<Lotes />} />
+                      <Route path="crop/trees" element={<Plantas />} />
+                      <Route path="crop/production" element={<Produccion />} />
+                      <Route path="crop/proyects" element={<Proyectos />} />
+                      <Route path="weather/sync" element={<Sincronizaciones />} />
+                      <Route path="auth/users" element={<Usuarios />} />
+                      <Route path="auth/role" element={<Roles />} />
+                      <Route path="pred/averange" element={<Estimaciones />} />
+                      <Route path="pred/analytics" element={<Estadisticas />} />
                     </>
                   )}
-                  <Route path="/crop/readings" element={<Lecturas />} />
+                  <Route path="crop/readings" element={<Lecturas />} />
                 </Fragment>
               )}
 
