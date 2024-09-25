@@ -46,35 +46,35 @@ const App: React.FC = () => {
         <Routes>
           {isAuthenticated ? (
             <>
-              <Route path="/" element={<Navigate to="/home" />} />
+              <Route path="/planttrace/" element={<Navigate to="/planttrace/home" />} />
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<NotFoundPage/>} />
-              <Route path="/auth/porfile" element={<Porfile />} />
+              <Route path="/planttrace/auth/porfile" element={<Porfile />} />
               {UserData && UserData.rol !== null && (
                 <Fragment>
                   {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
-                    <> <Route path="/crop/lots" element={<Lotes />} />
-                      <Route path="/crop/trees" element={<Plantas />} />
-                      <Route path="/crop/production" element={<Produccion />} />
-                      <Route path="/crop/proyects" element={<Proyectos />} />
-                      <Route path="/weather/sync" element={<Sincronizaciones />} />
-                      <Route path="/auth/users" element={<Usuarios />} />
-                      <Route path="/auth/role" element={<Roles />} />
-                      <Route path="/pred/averange" element={<Estimaciones />} />
-                      <Route path="/pred/analytics" element={<Estadisticas />} />
+                    <> <Route path="/planttrace/crop/lots" element={<Lotes />} />
+                      <Route path="/planttrace/crop/trees" element={<Plantas />} />
+                      <Route path="/planttrace/crop/production" element={<Produccion />} />
+                      <Route path="/planttrace/crop/proyects" element={<Proyectos />} />
+                      <Route path="/planttrace/weather/sync" element={<Sincronizaciones />} />
+                      <Route path="/planttrace/auth/users" element={<Usuarios />} />
+                      <Route path="/planttrace/auth/role" element={<Roles />} />
+                      <Route path="/planttrace/pred/averange" element={<Estimaciones />} />
+                      <Route path="/planttrace/pred/analytics" element={<Estadisticas />} />
                     </>
                   )}
-                  <Route path="/crop/readings" element={<Lecturas />} />
+                  <Route path="/planttrace/crop/readings" element={<Lecturas />} />
                 </Fragment>
               )}
 
             </>
           ) : (
             <>
-              <Route path="/" element={<Navigate to="/auth/login" />} />
-              <Route path="/auth/login" element={<Login />} />
-              <Route path="/auth/register" element={<Register />} />
-              <Route path="/uae/likes" element={<Likes />} />
+              <Route path="/planttrace" element={<Navigate to="/auth/login" />} />
+              <Route path="/planttrace/auth/login" element={<Login />} />
+              <Route path="/planttrace/auth/register" element={<Register />} />
+              <Route path="/planttrace/uae/likes" element={<Likes />} />
               <Route path="*" element={<NotFoundPage/>} />
 
             </>
