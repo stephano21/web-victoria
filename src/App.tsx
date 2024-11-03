@@ -79,7 +79,6 @@ const App: React.FC = () => {
               <Route path="/auth/register" element={<Register />} />
               <Route path="/uae/likes" element={<Likes />} />
               <Route path="*" element={<NotFoundPage/>} />
-
             </>
           )}
           <Route path="*" element={<p>La ruta no existe</p>} />
