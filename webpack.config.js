@@ -7,6 +7,9 @@ module.exports = {
     fallback: {
       path: require.resolve('path-browserify'),
     },
+    output: {
+      publicPath: './cacao/', // adjust to your desired subpath
+    } 
   },
   // ...
 };
