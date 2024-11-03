@@ -50,6 +50,7 @@ const App: React.FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="*" element={<NotFoundPage/>} />
               <Route path="/auth/porfile" element={<Porfile />} />
+              <Route path="/auth/login" element={<Navigate to="/home" />} />
               {UserData && UserData.rol !== null && (
                 <Fragment>
                   {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
@@ -73,6 +74,7 @@ const App: React.FC = () => {
           ) : (
             <>
               <Route path="/" element={<Navigate to="/auth/login" />} />
+              <Route path="/home" element={<Navigate to="/auth/login" />} />
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/register" element={<Register />} />
               <Route path="/uae/likes" element={<Likes />} />
