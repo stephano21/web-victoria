@@ -53,7 +53,8 @@ const App: React.FC = () => {
               {UserData && UserData.rol !== null && (
                 <Fragment>
                   {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
-                    <> <Route path="/crop/lots" element={<Lotes />} />
+                    <>
+                      <Route path="/crop/lots" element={<Lotes />} />
                       <Route path="/crop/trees" element={<Plantas />} />
                       <Route path="/crop/production" element={<Produccion />} />
                       <Route path="/crop/proyects" element={<Proyectos />} />
