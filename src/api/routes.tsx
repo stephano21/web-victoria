@@ -1,6 +1,5 @@
 export const Endpoints = {
   Analitics: "/analytics/",
-  Api: "/api",
   BaseURL: process.env.REACT_APP_API,
   Home :'analytics/home',
   Hacienda: "/hacienda/",

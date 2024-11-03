@@ -23,7 +23,7 @@ export const useRequest = () => {
   const { login, UserData, isAuthenticated } = useAuth();
   // Create an axios instance for the UserData endpoint
   const ApiTokenRequest = axios.create({
-    baseURL: Endpoints.BaseURL + Endpoints.Api + Endpoints.login,
+    baseURL: Endpoints.BaseURL + Endpoints.login,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -32,7 +32,7 @@ export const useRequest = () => {
 
   // Create an axios instance for the other endpoints
   const ApiRequest = axios.create({
-    baseURL: Endpoints.BaseURL + Endpoints.Api,
+    baseURL: Endpoints.BaseURL,
     headers: {
       "Content-Type": "application/json",
       ...(UserData?.access_token !== "" && UserData?.access_token !== undefined ? { Authorization: `Bearer ${UserData?.access_token}` } : {}),
@@ -41,7 +41,7 @@ export const useRequest = () => {
 
 
   const ApiPostFileRequest = axios.create({
-    baseURL: Endpoints.BaseURL + Endpoints.Api,
+    baseURL: Endpoints.BaseURL,
     headers: {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${UserData?.access_token}`,
