@@ -40,44 +40,47 @@ const App: React.FC = () => {
     return null;
   }
   console.log(isAuthenticated)
+
+  const publicUrl = process.env.PUBLIC_URL || ""
+
   return (
     <>
       <Router>
         <Routes>
           {isAuthenticated ? (
             <>
-              <Route path="/" element={<Navigate to="/home" />} />
-              <Route path="/home" element={<Home />} />
+              <Route path={`${publicUrl}/`} element={<Navigate to={`${publicUrl}/home`} />} />
+              <Route path={`${publicUrl}/home`} element={<Home />} />
               <Route path="*" element={<NotFoundPage/>} />
-              <Route path="/auth/porfile" element={<Porfile />} />
-              <Route path="/auth/login" element={<Navigate to="/home" />} />
+              <Route path={`${publicUrl}/auth/porfile`} element={<Porfile />} />
+              <Route path={`${publicUrl}/auth/login`} element={<Navigate to={`${publicUrl}/home`} />} />
               {UserData && UserData.rol !== null && (
                 <Fragment>
                   {UserData?.rol !== null && UserData?.rol !== "Estudiante" && UserData?.rol !== "Tecnico" && (
                     <>
-                      <Route path="/crop/lots" element={<Lotes />} />
-                      <Route path="/crop/trees" element={<Plantas />} />
-                      <Route path="/crop/production" element={<Produccion />} />
-                      <Route path="/crop/proyects" element={<Proyectos />} />
-                      <Route path="/weather/sync" element={<Sincronizaciones />} />
-                      <Route path="/auth/users" element={<Usuarios />} />
-                      <Route path="/auth/role" element={<Roles />} />
-                      <Route path="/pred/averange" element={<Estimaciones />} />
-                      <Route path="/pred/analytics" element={<Estadisticas />} />
+                      <Route path={`${publicUrl}/crop/lots`} element={<Lotes />} />
+                      <Route path={`${publicUrl}/crop/trees`} element={<Plantas />} />
+                      <Route path={`${publicUrl}/crop/production`} element={<Produccion />} />
+                      <Route path={`${publicUrl}/crop/proyects`} element={<Proyectos />} />
+                      <Route path={`${publicUrl}/weather/sync`} element={<Sincronizaciones />} />
+                      <Route path={`${publicUrl}/auth/users`} element={<Usuarios />} />
+                      <Route path={`${publicUrl}/auth/role`} element={<Roles />} />
+                      <Route path={`${publicUrl}/pred/averange`} element={<Estimaciones />} />
+                      <Route path={`${publicUrl}/pred/analytics`} element={<Estadisticas />} />
                     </>
                   )}
-                  <Route path="/crop/readings" element={<Lecturas />} />
+                  <Route path={`${publicUrl}/crop/readings`} element={<Lecturas />} />
                 </Fragment>
               )}
 
             </>
           ) : (
             <>
-              <Route path="/" element={<Navigate to="/auth/login" />} />
-              <Route path="/home" element={<Navigate to="/auth/login" />} />
-              <Route path="/auth/login" element={<Login />} />
-              <Route path="/auth/register" element={<Register />} />
-              <Route path="/uae/likes" element={<Likes />} />
+              <Route path={`${publicUrl}/`} element={<Navigate to={`${publicUrl}/auth/login`} />} />
+              <Route path={`${publicUrl}/home`} element={<Navigate to={`${publicUrl}/auth/login`} />} />
+              <Route path={`${publicUrl}/auth/login`} element={<Login />} />
+              <Route path={`${publicUrl}/auth/register`} element={<Register />} />
+              <Route path={`${publicUrl}/uae/likes`} element={<Likes />} />
               <Route path="*" element={<NotFoundPage/>} />
             </>
           )}
