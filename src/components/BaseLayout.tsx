@@ -43,7 +43,6 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                     <ListGroup.Item>
                       <Nav.Link href={`${publicUrl}/weather/sync`}><i className="bi bi-arrow-repeat"></i>&nbsp;&nbsp;Sincronizaciones</Nav.Link>
                     </ListGroup.Item>
-
                   </ListGroup>
                 </Accordion.Body>
               </Accordion.Item>
@@ -99,9 +98,6 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                       <ListGroup.Item>
                         <Nav.Link href={`${publicUrl}/auth/users`}><i className="bi bi-people-fill"></i>&nbsp;&nbsp;Usuarios</Nav.Link>
                       </ListGroup.Item>
-                      {/* <ListGroup.Item>
-                      <Nav.Link href="/auth/role"><i className="bi bi-person-fill-lock"></i>&nbsp;&nbsp;Roles</Nav.Link>
-                    </ListGroup.Item> */}
                     </ListGroup>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -130,13 +126,8 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                 className="d-inline-block align-top"
                 alt="React Bootstrap logo"
               /> : <h5>{PageName}</h5>}
-
-
             </Navbar.Brand>
             <Nav className="me-auto">
-              {/*  <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link> */}
-
             </Nav>
             <Nav>
               <Nav.Link disabled>
@@ -153,8 +144,6 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
                   <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Root} target="_blank">
                     Admin
                   </NavDropdown.Item>)
-
-
                 }
                 <NavDropdown.Divider />
                 <NavDropdown.Item
