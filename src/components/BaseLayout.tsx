@@ -141,7 +141,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (
               <NavDropdown title={<><i className="bi bi-person-circle text-dark icon-username"></i> {UserData?.user} </>} id="navbarScrollingDropdown">
                 <NavDropdown.Item href={`${publicUrl}/auth/porfile`}>Perfil</NavDropdown.Item>
                 {UserData && (UserData?.rol === "Researcher" || UserData?.rol === "Root") && (
-                  <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Root} target="_blank">
+                  <NavDropdown.Item href={Endpoints.BaseURL + Endpoints.Admin} target="_blank">
                     Admin
                   </NavDropdown.Item>)
                 }

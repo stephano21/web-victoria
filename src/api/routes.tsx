@@ -17,7 +17,7 @@ export const Endpoints = {
   Proyecto: "/proyectos/",
   register: "/auth/register/",
   Roles: '/auth/roles',
-  Root: '/auth/admin/',
+  Admin: '/admin/',
   Test: "/xd/",
   Token: "/auth/refresh/",
   Upload: "upload",
