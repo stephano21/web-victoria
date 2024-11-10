@@ -20,7 +20,6 @@ RUN groupadd -g ${UID} httpd
 RUN useradd httpd -m -u ${UID} -g ${GID}
 RUN a2enmod rewrite
 
-COPY --from=build /App/build /var/www/html/cacao
-COPY .htaccess /var/www/html/cacao
+COPY --from=build /App/build /var/www/html
 COPY .htaccess /var/www/html
 USER httpd
